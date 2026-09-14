@@ -1,0 +1,72 @@
+{
+  "_arms_are_measured_with_user_embedding_on": true,
+  "_caveat": "⛔ on−off 는 **하한**이다 — 지각이 콘텐츠 채널과 같은 원천을 성기게 본 값이라 새 정보가 없다. 실제 OS 비전·OS LLM 은 우리 인코더가 못 읽는 것(이미지·UI 라벨)을 읽는다. 반대로 이 값이 크면 순환을 의심하라. 그리고 패널은 여전히 합성 페르소나 대역이다.",
+  "_gate": "gates/tier1_optional_gate.py (TIER1_RANKING_CHANNEL = true 면 이 파일을 요구한다)",
+  "_percept_source": "이 사람이 **본 글**(seen_texts)을 배포 Tier 0 경로로 분류해 카테고리 id + 확신도(1·2위 마진/0.10)로 강등한 값. 정답(leaf)을 쓰지 않는다.",
+  "_reproduce": {
+    "cmd": "UE_TIER1=1 UE_CONTENT=device cargo run --release -p plataid-fl-client --example user_vector_gap -- <data> <out_dir> --no-head",
+    "content_variant": "device_ema (ContentSketch α=0.35 · 쓴글/본글 분리)",
+    "data": "experiments/event-intent/behavior_leaf_persona24k_v2.json"
+  },
+  "_what": "C13 두 팔 — 2·3층 지각 채널을 열기 위한 측정",
+  "alpha": 1.0,
+  "artifact_bytes": 91896,
+  "artifact_path": "experiments/user-vector-gap/out_tier1/user_embedding_v2.bin",
+  "baseline": {
+    "acc": 0.9509591326105088,
+    "leaf": 0.4717264386989158
+  },
+  "baseline_from": "<home>/hyojunguy/ai-strategy-private/plataid-ondevice-slm/crates/fl-client/../../artifacts/user_embedding.bin",
+  "n": 5995,
+  "n_panel": 6000,
+  "n_with_percept": 5995,
+  "off": {
+    "acc": 0.9531276063386155,
+    "ci": [
+      0.9477898248540451,
+      0.958465387823186
+    ],
+    "leaf": 0.47389491242702253
+  },
+  "off_vs_baseline": {
+    "ci": [
+      -0.03336113427856547,
+      0.48373644703919927
+    ],
+    "delta_pp": 0.21684737281067556
+  },
+  "off_vs_baseline_leaf": {
+    "ci": [
+      -0.3002502085070892,
+      0.7339449541284404
+    ],
+    "delta_pp": 0.21684737281067556
+  },
+  "on": {
+    "acc": 0.9547956630525438,
+    "ci": [
+      0.9496246872393661,
+      0.9601334445371142
+    ],
+    "leaf": 0.4555462885738115
+  },
+  "on_minus_off": {
+    "ci": [
+      -0.13344453711426188,
+      0.46705587989991665
+    ],
+    "delta_pp": 0.16680567139282734
+  },
+  "on_minus_off_leaf": {
+    "ci": [
+      -2.452043369474562,
+      -1.201000834028357
+    ],
+    "delta_pp": -1.834862385321101
+  },
+  "percept_dropout": 0.30000001192092896,
+  "percept_margin_scale": 0.10000000149011612,
+  "resident_bytes": 356352,
+  "surface": "l2_top5",
+  "w_params": 89088
+}

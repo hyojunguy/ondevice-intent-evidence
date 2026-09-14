@@ -1,0 +1,47 @@
+{
+  "_provenance": {
+    "affinity_note": "SYNTHETIC — 손으로 적은 인구통계·시간대 가정",
+    "catalog_entries": 6020,
+    "catalog_note": "SYNTHETIC — 택소노미 결속 소재",
+    "dim": 128,
+    "note": "합성 placeholder 아님. 품질은 experiments/distill-ko/klue_sts_results.json 참조.",
+    "source_model": "experiments/distill-ko/out/potion-ko-128d-stage6cov985_e10",
+    "taxonomy_leaves": 6020,
+    "taxonomy_note": "SYNTHETIC — data/taxonomy_ko.py",
+    "vocab_size": 31497,
+    "weights": "REAL — distilled from jhgan/ko-sroberta-multitask via Model2Vec"
+  },
+  "_rederivations": {
+    "embedding.bin": [
+      {
+        "note": "⚠️ 2026-09-07 (50) 정정 — **디스크의 embedding.bin 은 원본 배포 가중치(sha256=cc26a760cb…)다.** (48) 재도출 실험 뒤 MANIFEST 에 재도출본 sha(b6f06571ab…)가 기록돼 파일과 기록이 어긋나 있었고, build_artifacts.py 가 그걸 '내용이 기록과 다르다'로 잡아 아티팩트 생성을 막았다. 기록을 디스크 실물로 되돌린다. (48) 재도출 결론은 그대로 유효하다: 재도출본은 원본과 **바이트 동일이 아니다**(tokenlearn 1단계에 시드가 없고 C4-ko 스트리밍·교사 인코딩이 결정론으로 검증된 적 없다. 학습 입력도 드리프트 — jp 4,101→4,093 · en 1,396→1,398 · 학습 리프 2,933→2,945). 재도출본 sha256=b6f06571abc2e73c1d0ed897c1acb40a5b3c944b0670a6a5284d55101adb2958 (model.safetensors sha256=8dc6b971cee23ece3d35ffc861d911bfa6291c73302456116a41069c81dce44b, bytes 16,126,552 — 원본 weights_bytes 와 일치, sha 는 원본 f3482f25… 와 불일치). 체인: tokenlearn_stage.py --pca-dims 512 → make_ship_model.py --dim 128 → esci_c5_prep.py --en-cap 2000 --suffix _cap2k → stage3_contrastive.py --seed 20260829. vocab.txt·projection.bin 은 바이트 동일.",
+        "round": 48,
+        "sha256": "b6f06571abc2e73c1d0ed897c1acb40a5b3c944b0670a6a5284d55101adb2958"
+      }
+    ]
+  },
+  "affinity.bin": {
+    "bytes": 1708,
+    "sha256": "15bfb2fc3a55c255bcd1845ec4ff5a3365bd97504f0d0d5fab1cf5f775dee4e0"
+  },
+  "catalog.bin": {
+    "bytes": 1151413,
+    "sha256": "1a8556e5fda2538121ea9d73842f5ab007fd019028de73142a8a5047f0d03788"
+  },
+  "embedding.bin": {
+    "bytes": 2141820,
+    "sha256": "92f456de82b24af003b30987602e2b07f106fa447e3b5da971e33a36d0e92e33"
+  },
+  "projection.bin": {
+    "bytes": 4116,
+    "sha256": "b4450326b2a1bd22d3fd7041d3f52da99c8531188dbf924edecad3be00484f62"
+  },
+  "taxonomy.bin": {
+    "bytes": 872671,
+    "sha256": "357d1fd02d814614cc38b117bcac0aeffd67d4429d1e25c78ecd4f4e56f3b8fc"
+  },
+  "vocab.txt": {
+    "bytes": 242568,
+    "sha256": "905aed172b20d141429a4a1747d1aa9ff6c79f31338053fc5c39aa936126fc86"
+  }
+}

@@ -1,0 +1,28 @@
+{
+ "n_rows": 21912,
+ "n_prior_fit_users": 85096,
+ "n_eval_users": 85097,
+ "excluded_category": "construction.tools.light",
+ "time_span_days": 21,
+ "learned_categories": 114,
+ "windows": {
+  "w3d": {
+   "pos_rate": 0.7664293537787513,
+   "uninformed": 0.5,
+   "rfm": 0.5513643407973865,
+   "mpg_boot": 0.5350324051794118,
+   "mpg_learned_real_prior": 0.570740637659582,
+   "lgbm_no_category": 0.5701616515983412,
+   "lgbm_with_category": 0.5851050306442596
+  },
+  "w7d": {
+   "pos_rate": 0.903386272362176,
+   "uninformed": 0.5,
+   "rfm": 0.533003281271197,
+   "mpg_boot": 0.563056663822604,
+   "mpg_learned_real_prior": 0.5609716767390075,
+   "lgbm_no_category": 0.5621641581699823,
+   "lgbm_with_category": 0.5772684324376876
+  }
+ }
+}

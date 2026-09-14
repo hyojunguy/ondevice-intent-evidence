@@ -1,0 +1,36 @@
+{
+  "caveat": "번역 질의는 한국 사용자 분포가 아니라 아마존 사용자 분포의 한국어판이다",
+  "task": "실질의(ja→ko) → 택소노미 리프 2,960 검색",
+  "pairs_file": "esci_holdout.jsonl",
+  "deployed_model": "experiments/distill-ko/out/potion-ko-128d-stage5cap2k_e10",
+  "rows": [
+    {
+      "model": "우리 128d@4bit",
+      "n": 1465,
+      "top1": 0.2369,
+      "top3": 0.3372,
+      "top5": 0.3823,
+      "top10": 0.4369,
+      "surface_l2_top5": 0.529,
+      "median_rank": 18
+    },
+    {
+      "model": "교사 ko-sroberta 421MB",
+      "n": 1465,
+      "top1": 0.1741,
+      "top3": 0.2648,
+      "top5": 0.3119,
+      "top10": 0.3666,
+      "surface_l2_top5": 0.473,
+      "median_rank": 65
+    }
+  ],
+  "bootstrap": {
+    "top1_diff_ours_minus_teacher": 0.0628,
+    "ci95": [
+      0.0457,
+      0.0799
+    ]
+  },
+  "label_note": "라벨은 Qwen 제품→리프 매핑(질의 미입력). 인간 라벨 아님 — 이중호출 일치율이 잡음 상한"
+}

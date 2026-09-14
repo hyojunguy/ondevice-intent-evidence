@@ -1,0 +1,25 @@
+{
+ "n": 6000,
+ "n_train": 4200,
+ "n_test": 1800,
+ "windows": {
+  "w7d": {
+   "pos_rate": 0.10944444444444444,
+   "uninformed": 0.5,
+   "rfm": 0.8464205756338844,
+   "mpg_boot": 0.917125567226425,
+   "lgbm_no_category": 0.9190176414147332,
+   "mpg_kind_oracle": 0.9280695143306807,
+   "lgbm_with_category": 0.930290920260552
+  },
+  "w30d": {
+   "pos_rate": 0.5211111111111111,
+   "uninformed": 0.5,
+   "rfm": 0.7580563374707503,
+   "mpg_boot": 0.8537528631288371,
+   "lgbm_no_category": 0.9106734722146642,
+   "mpg_kind_oracle": 0.9253768446465056,
+   "lgbm_with_category": 0.9248734781511732
+  }
+ }
+}

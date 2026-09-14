@@ -1,0 +1,64 @@
+{
+  "_what": "런타임 기본값(user_embedding_on) 을 켤 수 있는지 판정 — 신규 대형 측정 없이 기존 원장(ship_arch.json, combiner_ab.json, split_fusion_curve*.json)만 재분석",
+  "_date": "2026-08-31",
+  "verdict": "NO_DO_NOT_ENABLE",
+  "blocking_reason": "budget_and_code_ready_but_zero_real_labels",
+  "evidence_both_surfaces": {
+    "_source": "experiments/user-vector-gap/ship_arch.json (panel=6000, fed=6000, held=5997, person-disjoint)",
+    "B_deployed_plus_w": {"l2_top5_vs_a_pp": 6.186, "l2_top5_ci": [5.553, 6.803], "leaf_top1_vs_a_pp": 3.744},
+    "C_w_plus_fed": {"l2_top5_vs_a_pp": 7.921, "l2_top5_ci": [7.254, 8.638], "leaf_top1_vs_a_pp": 3.953},
+    "D_fed_no_w": {"l2_top5_vs_a_pp": 7.087, "l2_top5_ci": [6.437, 7.754], "leaf_top1_vs_a_pp": 2.618},
+    "note": "W/theta_u 자체는 두 표면 모두 양성 (부호 안 갈림)"
+  },
+  "known_sign_flip_precedent": {
+    "_source": "experiments/user-vector-gap/combiner_ab.json (다른 결합기, 리프-2960 공간 theta5, 3판)",
+    "comb_learn_minus_comb_dep_l2_top5_pp": {"delta": 0.80, "ci": [0.34, 1.31], "significant": true},
+    "comb_learn_minus_comb_dep_leaf_top1_pp": {"delta": -0.91, "ci": [-1.71, -0.11], "significant": true},
+    "why_it_matters": "같은 학습 결합기 계열에서 표면 간 부호가 실제로 뒤집힌 실측 사례가 있다 — 향후 어떤 팔이든 두 표면을 함께 판정해야 하는 근거"
+  },
+  "real_label_count": {
+    "current": 3,
+    "unit": "소재 탭 이벤트 (한 사람, 한 라운드)",
+    "source": "docs/spec/03-fl-protocol.md:157, docs/spec/16-user-vector-gap.md:587",
+    "required_for_training": 800,
+    "required_for_holdout": 1750,
+    "source_for_required": "experiments/user-vector-gap/combiner_ab.json theta_train_samples/n_heldout",
+    "shortfall_factor": "~250x (train) ~580x (holdout)"
+  },
+  "required_conditions_to_flip_default": [
+    {
+      "id": 1,
+      "condition": "실팬널 학습 규모 >= 6000명",
+      "basis": "split_fusion_curve.json: 콘텐츠 기여가 n=6000에서 이미 천장(500->17990 마지막 3배 증분 +0.18pp뿐)"
+    },
+    {
+      "id": 2,
+      "condition": "실팬널 홀드아웃 ~6000명, 학습 패널과 사람 단위 서로소",
+      "basis": "ship_arch.json 5판 disjoint 설계 (사후 추가 불가 — 처음부터 나눠야 함)"
+    },
+    {
+      "id": 3,
+      "condition": "실라벨(소재 탭) 학습 >=800건, 평가 >=1750건",
+      "basis": "combiner_ab.json 이 결합기 유의성을 판정한 실제 표본 규모. 현재 3건."
+    },
+    {
+      "id": 4,
+      "condition": "L2 top-5 AND 리프 top-1 둘 다 CI 하한 > 0",
+      "basis": "combiner_ab.json::leaf_top1 의 표면 간 부호 반전 실측 사례"
+    },
+    {
+      "id": 5,
+      "condition": "음성 대조군(남의 이력) 재현 — 실팬널에서 자기 이력이 남의 이력보다 유의하게 우수",
+      "basis": "split_fusion_curve_device.json 4판: 자기 +6.37pp vs 남 -0.85pp"
+    }
+  ],
+  "budget_status_not_blocking": {
+    "L1_pct": 62.7,
+    "L3_pct": 28.0,
+    "latency_ms_delta": 0.342,
+    "epsilon": 1.54,
+    "note": "코드/예산은 준비됨 (6판). 패널을 실데이터로 교체해도 파라미터 수·바이트 수는 불변이므로 재검증 불요."
+  },
+  "code_reference": "gates/behavior_gate.py:253-262 (ue_off 검사) — 이 판정과 동일 결론을 이미 소스 레벨에서 강제 중. 이번 조사는 그 게이트 근거를 원장으로 재확인했을 뿐, 게이트/기본값은 변경하지 않았다.",
+  "scope_note": "이 판정은 experiments/user-vector-gap/* 원장 재분석만 수행. 신규 대형 측정 없음. gates/behavior_gate.py, user_embedding_on 기본값, sdk-core 는 수정하지 않았다."
+}

@@ -1,0 +1,52 @@
+# Evidence for *Privacy-Preserving On-Device Commercial Intent Inference*
+
+This repository holds the measurement artifacts and verification gates cited by the paper, so
+that every number in it can be traced to the file that produced it. It is an evidence bundle,
+not the product: the SDK crates, the category taxonomy and the model weights are not here.
+
+## What is here
+
+| Path | What it is |
+|---|---|
+| `gates/` | The verification gates. Each one adjudicates one claim and prints PASS/FAIL; `run_all.py` runs the suite. These decide the numbers — the paper reports their output, it does not assert alongside them. |
+| `gates/budgets.json` | The declared budgets (size, latency, privacy) the gates check against. |
+| `artifacts/MANIFEST.json` | Provenance of the shipped artifacts: source model, vocabulary size, byte counts, sha256. |
+| `artifacts/ui-facts.json` | The generated fact sheet the demo UI reads, so screen and paper cannot drift apart. |
+| `experiments/distill-ko/` | Product-surface accuracy and the promotion-gate decision for the shipped build. |
+| `experiments/purchase-lift/` | The purchase-probability track: the degenerate-evaluation diagnosis, the second harness, the ablation, temporal generalization, the LightGBM comparison, and the λ_p sweep. |
+| `experiments/percept-vision*/`, `experiments/user-*/`, `experiments/real-ko-bench/`, `experiments/esci-ko/` | The remaining measured axes cited in the paper, including the negative results. |
+
+## Reading the purchase-probability files in order
+
+The paper reports a measurement mistake of ours, and these files are that sequence:
+
+1. `real-rees46-results-2026-09-04.json` — first pass on a real log. AUC 0.53–0.59.
+2. `diagnose_real.py` — why. 62.6% of evaluation rows had a single prior purchase; 90.4% positive
+   rate with 46.5% forced by window truncation; 79.8% of pairs dropped for being censored.
+3. `eval_real_v2.py` + `real-v2-ablation-2026-09-05.json` — the second harness. The same formula,
+   unchanged, scores 0.7425 / 0.6915.
+4. `real-v2-temporal-2026-09-05.json` — does it survive being fit in the past and used in the
+   future. Most of it does; browse/cart coefficients do not.
+5. `lgbm_benchmark-2026-09-04.json` — the ceiling. A gradient-boosted model on the same features
+   ties, which is the argument that information rather than capacity is the constraint.
+
+⛔ The two harnesses ask different questions. Do not read 0.53→0.74 as an improvement; it is a
+different task. That is the point of including both.
+
+## Caveats that travel with the data
+
+- The REES46 mirror and the original Kaggle dataset carry no stated license. These files are
+  measurements *over* that data, not the data itself, and nothing here redistributes it.
+- The observation window is 21 days, which is why the cold-start cycle prior is reported as
+  unbuilt rather than estimated.
+- Synthetic-sequence numbers are statements about mechanism direction only. Where a figure comes
+  from synthetic data the file says so, and the paper repeats it.
+- Some gates report UNMEASURED on a machine lacking the relevant toolchain (Android NDK, browser
+  runtime). That is the honest state of that machine, not a silent pass.
+- `attribution_gate.py` is FAIL at the time of writing: the declared 28-bucket attribution axis
+  and the 60-class shipped intent head have drifted apart. The paper reports this rather than
+  waiting for green.
+
+## License
+
+The measurement artifacts and gate scripts here are released under the MIT License.

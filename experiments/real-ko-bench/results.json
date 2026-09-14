@@ -1,0 +1,109 @@
+{
+  "REAL_DATA": true,
+  "train_n": 40000,
+  "eval_n": 9000,
+  "bootstrap": 2000,
+  "tasks": {
+    "klue-ynat": {
+      "kind": "실데이터 · 뉴스 헤드라인 · 7분류",
+      "n_classes": 7,
+      "n_train": 40000,
+      "n_eval": 9000
+    },
+    "nsmc": {
+      "kind": "실데이터 · 영화평 구어체 · 이진 감성(자연 부정어 포함)",
+      "n_classes": 2,
+      "n_train": 40000,
+      "n_eval": 9000
+    }
+  },
+  "arms": {
+    "ours-stage1": {
+      "source_model": "<repo>/plataid-ondevice-slm/experiments/distill-ko/out/potion-ko-64d",
+      "vocab": 31497,
+      "tasks": {
+        "klue-ynat": {
+          "accuracy": 0.524,
+          "macro_f1": 0.5156,
+          "ci95": [
+            0.5137,
+            0.5346
+          ]
+        },
+        "nsmc": {
+          "accuracy": 0.7283,
+          "macro_f1": 0.7283,
+          "ci95": [
+            0.7195,
+            0.7374
+          ]
+        }
+      }
+    },
+    "ours-stage2": {
+      "source_model": "<repo>/plataid-ondevice-slm/experiments/distill-ko/out/potion-ko-64d-tokenlearn",
+      "vocab": 31497,
+      "tasks": {
+        "klue-ynat": {
+          "accuracy": 0.6408,
+          "macro_f1": 0.6223,
+          "ci95": [
+            0.6309,
+            0.6506
+          ]
+        },
+        "nsmc": {
+          "accuracy": 0.7362,
+          "macro_f1": 0.7362,
+          "ci95": [
+            0.7272,
+            0.7454
+          ]
+        }
+      }
+    },
+    "public-kor-static-64": {
+      "source_model": "(공개 모델)",
+      "vocab": 32000,
+      "tasks": {
+        "klue-ynat": {
+          "accuracy": 0.3987,
+          "macro_f1": 0.3923,
+          "ci95": [
+            0.3889,
+            0.4089
+          ]
+        },
+        "nsmc": {
+          "accuracy": 0.6844,
+          "macro_f1": 0.6844,
+          "ci95": [
+            0.6758,
+            0.694
+          ]
+        }
+      }
+    },
+    "teacher-768d": {
+      "source_model": "jhgan/ko-sroberta-multitask",
+      "tasks": {
+        "klue-ynat": {
+          "accuracy": 0.8188,
+          "macro_f1": 0.8177,
+          "ci95": [
+            0.8107,
+            0.8263
+          ]
+        },
+        "nsmc": {
+          "accuracy": 0.8498,
+          "macro_f1": 0.8498,
+          "ci95": [
+            0.842,
+            0.857
+          ]
+        }
+      }
+    }
+  }
+}

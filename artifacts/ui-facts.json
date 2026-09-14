@@ -1,0 +1,425 @@
+{
+  "generatedBy": "gates/emit_ui_facts.py",
+  "size": {
+    "items": [
+      {
+        "path": "artifacts/embedding.bin",
+        "gzipBytes": 1785809,
+        "missing": false,
+        "placeholder": null
+      },
+      {
+        "path": "artifacts/vocab.txt",
+        "gzipBytes": 124540,
+        "missing": false,
+        "placeholder": null
+      },
+      {
+        "path": "artifacts/projection.bin",
+        "gzipBytes": 76,
+        "missing": false,
+        "placeholder": null
+      },
+      {
+        "path": "artifacts/head.bin",
+        "gzipBytes": 8157,
+        "missing": false,
+        "placeholder": null
+      },
+      {
+        "path": "artifacts/taxonomy.bin",
+        "gzipBytes": 623807,
+        "missing": false,
+        "placeholder": null
+      },
+      {
+        "path": "artifacts/affinity.bin",
+        "gzipBytes": 332,
+        "missing": false,
+        "placeholder": null
+      },
+      {
+        "path": "artifacts/catalog.bin",
+        "gzipBytes": 708331,
+        "missing": false,
+        "placeholder": null
+      },
+      {
+        "path": "artifacts/user_embedding.bin",
+        "gzipBytes": 51252,
+        "missing": false,
+        "placeholder": null
+      }
+    ],
+    "codeBytes": 49979,
+    "codeMeasured": true,
+    "promiseLimitBytes": 5242880,
+    "promiseTotalBytes": 3352283,
+    "promiseUsedPct": 63.9,
+    "totalGzipBytes": 3302304,
+    "budgetBytes": 4194304,
+    "usedPct": 78.7
+  },
+  "dp": {
+    "clipNorm": 1.0,
+    "noiseSigma": 0.1,
+    "delta": 1e-10,
+    "targetEpsilonPerRound": 5.0,
+    "assumedParticipants": 1000,
+    "epsilonAtAssumed": 2.196,
+    "requiredParticipants": 204,
+    "maxRounds": 50,
+    "curve": [
+      {
+        "n": 1,
+        "epsilon": 117.8614
+      },
+      {
+        "n": 10,
+        "epsilon": 26.4597
+      },
+      {
+        "n": 50,
+        "epsilon": 10.5971
+      },
+      {
+        "n": 100,
+        "epsilon": 7.2861
+      },
+      {
+        "n": 204,
+        "epsilon": 4.9963
+      },
+      {
+        "n": 500,
+        "epsilon": 3.1349
+      },
+      {
+        "n": 1000,
+        "epsilon": 2.196
+      },
+      {
+        "n": 5000,
+        "epsilon": 0.9697
+      },
+      {
+        "n": 10000,
+        "epsilon": 0.6836
+      }
+    ],
+    "campaign": {
+      "rounds": 50,
+      "devicePopulation": 10000,
+      "samplingRate": 0.1,
+      "epsilonNaive": 17.67,
+      "epsilonSubsampled": null,
+      "targetEpsilon": 2.0,
+      "requiredPopulation": null,
+      "conditions": "증폭 성립 조건: 참여 무작위 · SecAgg 성립 · Poisson 샘플링 가정. 못 지키면 증폭 없음 값을 씁니다.",
+      "reference": "Gboard 실배포 캠페인 전체 ε 0.99~13.7 (δ=1e-10)"
+    },
+    "caveat": "위 ε 는 라운드당입니다. 사람의 프라이버시에 해당하는 값은 캠페인 전체이고, 아래 캠페인 항목이 그 값입니다."
+  },
+  "fl": {
+    "minParticipants": 8,
+    "deadlineMs": 5000,
+    "maxRounds": 50
+  },
+  "escalation": {
+    "signal": "top1_minus_top2_logit_margin",
+    "marginThreshold": 0.1648,
+    "escalatedPct": 25.0,
+    "errorRecallPct": 49.2,
+    "liftVsRandom": 1.97,
+    "tier0Accuracy": 0.6312,
+    "tier0AccuracyScope": "옛 60-way 합성 의도헤드 — 현재 배포본의 리프 정확도가 아니다",
+    "verdict": "승격이 의미 있다 — 낮은 마진 구간에 오답이 실제로 몰려 있다",
+    "caveat": "합성 데이터 기준이다. 실사용 발화가 오면 가장 먼저 다시 잰다(근거공백 #7).",
+    "synthetic": true
+  },
+  "model": {
+    "deployed": "potion-ko-128d-stage6cov985_e10",
+    "productSurface": {
+      "surface": "중분류(L2) · top-5 (2026-08-29 결정)",
+      "level": "l2",
+      "k": 5,
+      "levels": {
+        "대분류": 28,
+        "중분류": 256,
+        "소분류": 6020
+      },
+      "note": "리프 순위는 배포 경로(밀집+어휘 겹침)가 낸 것. 중분류 순위는 그 중분류 리프의 최고 순위.",
+      "distributions": [
+        {
+          "name": "처음 보는 카테고리 · 구어체",
+          "n": 4600,
+          "surfaceTop1": {
+            "acc": 0.4361,
+            "ci": [
+              0.4217,
+              0.4511
+            ]
+          },
+          "surfaceTop5": {
+            "acc": 0.7885,
+            "ci": [
+              0.7774,
+              0.8007
+            ]
+          },
+          "leafTop1": {
+            "acc": 0.2278,
+            "ci": [
+              0.2161,
+              0.2396
+            ]
+          },
+          "leafTop5": {
+            "acc": 0.4915,
+            "ci": [
+              0.4765,
+              0.5054
+            ]
+          },
+          "l1Top1": {
+            "acc": 0.592,
+            "ci": [
+              0.5785,
+              0.6065
+            ]
+          }
+        },
+        {
+          "name": "전체 · 구어체",
+          "n": 35830,
+          "surfaceTop1": {
+            "acc": 0.4846,
+            "ci": [
+              0.4795,
+              0.49
+            ]
+          },
+          "surfaceTop5": {
+            "acc": 0.8441,
+            "ci": [
+              0.8404,
+              0.8481
+            ]
+          },
+          "leafTop1": {
+            "acc": 0.2455,
+            "ci": [
+              0.2411,
+              0.2502
+            ]
+          },
+          "leafTop5": {
+            "acc": 0.5606,
+            "ci": [
+              0.5555,
+              0.566
+            ]
+          },
+          "l1Top1": {
+            "acc": 0.6168,
+            "ci": [
+              0.6119,
+              0.6221
+            ]
+          }
+        },
+        {
+          "name": "이름을 그대로 친 질의",
+          "n": 6020,
+          "surfaceTop1": {
+            "acc": 0.9493,
+            "ci": [
+              0.9437,
+              0.9547
+            ]
+          },
+          "surfaceTop5": {
+            "acc": 0.9872,
+            "ci": [
+              0.9842,
+              0.9902
+            ]
+          },
+          "leafTop1": {
+            "acc": 0.9467,
+            "ci": [
+              0.9409,
+              0.952
+            ]
+          },
+          "leafTop5": {
+            "acc": 0.9841,
+            "ci": [
+              0.9807,
+              0.9872
+            ]
+          },
+          "l1Top1": {
+            "acc": 0.9545,
+            "ci": [
+              0.9492,
+              0.9598
+            ]
+          }
+        },
+        {
+          "name": "광고 소재 → 카테고리",
+          "n": 6020,
+          "surfaceTop1": {
+            "acc": 0.8141,
+            "ci": [
+              0.8041,
+              0.8239
+            ]
+          },
+          "surfaceTop5": {
+            "acc": 0.9522,
+            "ci": [
+              0.9468,
+              0.9573
+            ]
+          },
+          "leafTop1": {
+            "acc": 0.806,
+            "ci": [
+              0.7957,
+              0.8161
+            ]
+          },
+          "leafTop5": {
+            "acc": 0.943,
+            "ci": [
+              0.9372,
+              0.9488
+            ]
+          },
+          "l1Top1": {
+            "acc": 0.8198,
+            "ci": [
+              0.81,
+              0.8294
+            ]
+          }
+        }
+      ],
+      "leafNote": "소분류 top-1 은 제품 지표가 아니다 — 표면 결정 전의 값이고, 여기서는 하한으로만 남긴다."
+    },
+    "realQuery": null,
+    "gateBaseLabel": "stage5cap2k",
+    "gateCandidateLabel": "cov985_e10",
+    "stage": "distill → tokenlearn → 지도 대조학습 (3단계)",
+    "leaves": 2960,
+    "leavesWithUtterances": 5927,
+    "quantization": "128d @ 4bit 행별 스케일 (배포 정본)",
+    "leafRepresentation": null,
+    "holdoutLeaves": 818,
+    "denseOnly": {
+      "leafTop1": {
+        "deployed": 0.2235,
+        "base": 0.2104,
+        "deltaPp": 1.3,
+        "ci": [
+          0.63,
+          1.98
+        ],
+        "significant": true
+      },
+      "leafTop5": {
+        "deployed": 0.4965,
+        "base": 0.4715,
+        "deltaPp": 2.5,
+        "ci": [
+          1.7,
+          3.28
+        ],
+        "significant": true
+      },
+      "l1Top1": {
+        "deployed": 0.6063,
+        "base": 0.5739,
+        "deltaPp": 3.24,
+        "ci": [
+          2.46,
+          4.11
+        ],
+        "significant": true
+      },
+      "material": {
+        "deployed": 0.7404,
+        "base": 0.7081,
+        "deltaPp": 3.22,
+        "ci": [
+          2.41,
+          4.0
+        ],
+        "significant": true
+      },
+      "template": {
+        "deployed": 0.9188,
+        "base": 0.8709,
+        "deltaPp": 4.78,
+        "ci": [
+          4.15,
+          5.42
+        ],
+        "significant": true
+      }
+    },
+    "deploymentPath": null,
+    "teacherHoldoutTop1": 0.3312,
+    "sizeVsTeacher": {
+      "oursBytes": 2141820,
+      "teacherBytes": 421000000,
+      "teacherLabel": "ko-sroberta-multitask",
+      "ratio": 196.6,
+      "basis": "embedding.bin raw (on-disk) vs 교사 체크포인트 — 같은 축"
+    },
+    "realDataAxes": {
+      "klue_sts_rho": {
+        "deployed": 0.6661,
+        "base": 0.6844,
+        "deltaPp": -0.02,
+        "ci": [
+          -0.03,
+          -0.01
+        ],
+        "significant": true
+      },
+      "ynat_acc": {
+        "deployed": 0.675,
+        "base": 0.6871,
+        "deltaPp": -1.21,
+        "ci": [
+          -1.76,
+          -0.69
+        ],
+        "significant": true
+      },
+      "nsmc_acc": {
+        "deployed": 0.7548,
+        "base": 0.7573,
+        "deltaPp": -0.25,
+        "ci": [
+          -0.73,
+          0.25
+        ],
+        "significant": false
+      }
+    },
+    "gateDecision": "PROMOTE",
+    "caveats": [
+      "학습·평가가 같은 생성기의 합성 발화다. 실사용 질의로 재검증 전에는 제품 성능이 아니다.",
+      "밀집 코사인만 잰 값과 배포 경로(밀집+어휘 겹침) 값은 다르다 — 섞어 쓰지 마라.",
+      "리프명이 질의에 든 발화는 평가에서 설계상 배제된다. 그래서 이 top-1 은 하한이다."
+    ]
+  },
+  "egress": {
+    "measured": false
+  },
+  "latencyBudgetMs": 50.0
+}

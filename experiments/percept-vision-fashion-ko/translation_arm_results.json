@@ -1,0 +1,58 @@
+{
+ "_what": "영문 패션 제목을 Qwen 한국어 번역 후 같은 InfoNCE 투영 파이프라인 재실행 — 언어축/도메인축 분리 (사용자 제안 2026-08-31)",
+ "_date": "2026-08-31",
+ "_scored_by": "plataid_sdk_core::Taxonomy::scores (배포 함수, tax_agreement.rs)",
+ "translation": {
+  "n": 12000,
+  "engine": "local-27b-instruct",
+  "no_hangul_kept_original": 5,
+  "residue_cleanup": "키릴/한자 잔존 133건 → 개별 재번역 57 + 결정론 치환(卡西欧→카시오 등) → 최종 잔존 0"
+ },
+ "title_arm_ceiling": {
+  "en": {
+   "purity": 0.3439635535307517,
+   "distinct_l2": 102,
+   "entropy": 0.6567780771317382
+  },
+  "ko_translated": {
+   "purity": 0.5156605922551253,
+   "distinct_l2": 137,
+   "entropy": 0.6458068996660693
+  },
+  "collapse_check": "순도 상승 + distinct_l2 102→137 확대 = 붕괴 아님"
+ },
+ "image_arm": {
+  "en": {
+   "purity": 0.12329157175398633,
+   "distinct_l2": 255
+  },
+  "ko_translated": {
+   "purity": 0.3015375854214123,
+   "distinct_l2": 254
+  },
+  "note": "이미지 팔 순도 0.302 가 옛 제목 천장 0.344 에 근접 — 목표 천장이 곧 투영 상한이라는 진단과 정합"
+ },
+ "agreement": {
+  "l2_agree_top1": {
+   "en": 0.0425,
+   "ko_translated": 0.19444444444444445
+  },
+  "l2_agree_top5": {
+   "en": 0.14,
+   "ko_translated": 0.42138888888888887
+  },
+  "leaf_agree_top1": {
+   "en": 0.02361111111111111,
+   "ko_translated": 0.10527777777777778
+  }
+ },
+ "retrieval_1000way_top1": 0.2605,
+ "n_test": 3600,
+ "_caveats": [
+  "패션 단일 버티컬 — 전 커머스 택소노미로의 일반화는 미측정",
+  "agreement 지표는 제목 팔 대비 일치이지 정답 대비가 아니다. 외부 정답은 article_purity 뿐",
+  "macOS Vision 임베더 — 실기기 iOS/Android 아님",
+  "배포 게이트(직사각 투영 계약·wasm 배선)는 여전히 미통과 — 이건 레시피 판정이다"
+ ],
+ "_verdict": "언어가 천장의 주요 성분이었다. 블로커 완화: '한국어 도메인 이미지 필요' → '영문 커머스 카탈로그 + 번역으로 충분할 수 있다'. 다음: 사람 라벨 있는 대형 커머스 셋(다버티컬)로 재확인 후 배포 계약 논의"
+}

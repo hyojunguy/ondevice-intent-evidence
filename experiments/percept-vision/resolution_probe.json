@@ -1,0 +1,41 @@
+{
+  "_what": "OS 조밀 이미지 임베딩이 **블록 안에서** 세부 범주를 가르나",
+  "_why": "2026-08-31 범주형 지각 채널이 리프 -1.83pp 흩뜨렸다. 기전은 신호가 블록 단위라서다.",
+  "_labels": "사람 큐레이션 3단 계층(masterCategory/subCategory/articleType) — 외부 정답. 우리 모델 출력 아님",
+  "_scope": "⚠️ 패션 한 버티컬. OS 임베더의 **해상도** 증거지 우리 택소노미 위 제품 성능이 아니다",
+  "_split": "아이템 단위 70/30",
+  "embedder": {
+    "api": "macOS Vision VNGenerateImageFeaturePrintRequest",
+    "revision": 2,
+    "dim": 768,
+    "sdk_bytes": 0,
+    "throughput_ms_per_image": 3.55,
+    "note": "iOS 와 같은 프레임워크·같은 API. 실기기 확인은 아직 안 했다."
+  },
+  "dataset": "ashraq/fashion-product-images-small",
+  "n_total": 11592,
+  "n_test": 3478,
+  "n_master": 5,
+  "n_article": 61,
+  "arms": {
+    "block_prior": 0.31483611270845313,
+    "image_within": 0.8763657274295572,
+    "image_open": 0.8700402530189765,
+    "image_master": 0.9882116158711903
+  },
+  "image_within_minus_block": {
+    "delta_pp": 56.152961472110405,
+    "ci": [
+      54.2840713053479,
+      57.906843013225995
+    ]
+  },
+  "image_open_minus_block": {
+    "delta_pp": 55.52041403105233,
+    "ci": [
+      53.65152386428982,
+      57.331799884991376
+    ]
+  },
+  "_reproduce": "python3 experiments/percept-vision/export_images.py && swiftc -O experiments/percept-vision/featureprint.swift -o /tmp/fp && (cd experiments/percept-vision && /tmp/fp images list.txt featureprints.bin) && python3 experiments/percept-vision/resolution_probe.py"
+}

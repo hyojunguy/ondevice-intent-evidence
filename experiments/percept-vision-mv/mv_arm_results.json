@@ -1,0 +1,84 @@
+{
+  "_what": "OS 조밀 이미지 임베딩 + 직사각 투영(InfoNCE) 레시피 재판정 — 패션 단일 버티컬 → 다버티컬 커머스",
+  "_question": "percept-vision-fashion-ko(패션 단일 버티컬, 제목 한국어 번역) 판에서 천장이 크게 오른 레시피가 전 커머스(가구·신발·주얼리·홈데코·그로서리·뷰티·펫용품 등)에서도 서나?",
+  "dataset": {
+    "repo": "hyper3labs/amazon-berkeley-objects",
+    "config": "listings",
+    "license": "cc-by-4.0",
+    "why_this_mirror": "suvadityamuk/amazon-berkeley-objects 의 images_small config 는 원본 ABO image_id(예: 81iZlv3bjpL)가 아니라 패키저가 재부여한 해시 스텀(예: 00834536)을 image_id 로 담고 있어 listings.main_image_id 와 조인이 전혀 안 된다(실측 회수율 0%, 시행착오로 기록). hyper3labs 미러는 listings 각 행에 main_image_url(공개 S3, 인증 불요)을 직접 담고 있어 조인 불요.",
+    "n": 12000,
+    "n_source_filtered": 38833,
+    "countries": {"US": 7434, "GB": 1993, "CA": 1761, "AU": 812},
+    "countries_note": "US/GB/AU/CA 로 제한 — node_paths/title 이 영문임을 보장. IN(76,442건, 전체의 52%)·기타 유럽/일본 마켓은 제외(다국어 node_paths 혼입 방지).",
+    "n_distinct_verticals_leaf": 456,
+    "n_distinct_verticals_master": 159,
+    "cap_per_article": 200,
+    "cap_note": "product_type(리프) 당 최대 200건으로 캡 — 상위종(그로서리·신발)의 지배를 막아 다버티컬 폭 확보. 캡 없으면 GROCERY(5,718)+SHOES(4,352)가 표본의 26%를 차지.",
+    "sample_verticals": ["HEADBOARD", "TABLE", "ABIS_ELECTRONICS(DVD 지갑/게임 케이스)", "FINEEARRING/FINENECKLACEBRACELETANKLET(주얼리)", "GROCERY(커피 등 식품)", "BEAUTY(스킨케어)", "SHOES/BOOT/SANDAL", "SOFA/OTTOMAN/CHAIR(가구)", "PET_SUPPLIES", "LIGHT_FIXTURE/LAMP", "WALL_ART/RUG(홈데코)", "OFFICE_PRODUCTS"],
+    "category_hierarchy": {
+      "master_sub": "node_paths[0] 를 '/' 로 분할한 첫 두 세그먼트 — 마켓플레이스별로 루트 이름이 다르다(/Categories, /Departments, /Home & Garden, /Products 등)",
+      "article_leaf": "product_type — Amazon 자체 576종 표준 enum, 전 마켓 공통·항상 영문. tax_agreement.rs 가 실제 채점에 쓰는 유일한 외부 라벨 필드(purity/entropy 그룹핑 키). master/sub 는 스키마 정합용 부기 — 다운스트림 스코어링에 쓰이지 않음(train_projection_contrastive.py 도 article/master 만 읽고 sub 는 미사용, rust 는 article 만 읽음).",
+      "single_tier_fallback": {"n": 1242, "pct": 0.103, "note": "node_paths 가 없거나 1세그먼트뿐인 항목 — master=sub=article=product_type 로 강등(과제 지시대로 명시)"}
+    }
+  },
+  "translation": {
+    "engine": "local-27b-instruct",
+    "domain_prompt": "ecommerce (신설 --domain 플래그, 기존 --domain fashion 기본값·바이트동일 재현 보존)",
+    "n": 12000,
+    "no_hangul_kept_original_initial": 58,
+    "no_hangul_rate": 0.0048,
+    "gate": "PASS (임계 5%)",
+    "residual_script_contamination": {
+      "found": 53,
+      "pattern": "일본어 가나 잔존(카타카나 외래어 표기, 예: '인스타ックス', '시ーム리스') — 패션-ko 판이 겪은 중국어 음차(卡西欧=CASIO)와 같은 계열의 오염, 이번엔 일본어 축",
+      "remediation": "개별 재번역 18건 성공 + 결정론 문자 삭제(정규식 치환) 35건 → 잔존 0건",
+      "final_residual": 0
+    }
+  },
+  "embedding": {
+    "os_dense": {"api": "macOS Vision VNGenerateImageFeaturePrintRequest", "dim": 768, "revision": 2, "n": 12000, "failed": 0, "elapsed_s": 50.2},
+    "title": {"encoder": "배포 인코더(plataid-fl-client embed_titles)", "dim": 128, "n": 12000, "empty": 0}
+  },
+  "projection": {
+    "recipe": "InfoNCE (bidirectional, in-batch negatives) — 릿지/MSE 는 붕괴함이 이미 확인됨(§19 문서)",
+    "epochs": 40, "batch": 512, "lr": 0.001,
+    "cosine_to_title": 0.3104,
+    "retrieval_1000way_top1": 0.3505,
+    "retrieval_1000way_top10": 0.7330
+  },
+  "scored_by": "plataid_sdk_core::Taxonomy::scores (기기가 부르는 그 함수, tax_agreement.rs — 파이썬 재구현 아님)",
+  "comparison": {
+    "_columns": ["metric", "fashion_ko_translation_arm (baseline, n=3600)", "mv_multivertical (이번 판, n=3600)", "delta"],
+    "leaf_agree_top1": [0.10528, 0.07417, -0.03111],
+    "l2_agree_top1": [0.19444, 0.12194, -0.07250],
+    "l2_agree_top5": [0.42139, 0.26806, -0.15333],
+    "article_purity_image": [0.30154, 0.27103, -0.03051],
+    "article_purity_title": [0.51566, 0.39429, -0.12137],
+    "distinct_l2_image": [254, 254, 0],
+    "entropy_image": [0.85789, 0.93987, 0.08198],
+    "distinct_l2_title": [137, 201, 64],
+    "entropy_title": [0.64581, 0.80472, 0.15891],
+    "purity_ratio_image_over_title": [0.58467, 0.68727, 0.10260]
+  },
+  "collapse_diagnosis": {
+    "image_purity_below_title_purity": true,
+    "note": "이미지 순도(0.271)가 제목 순도(0.394)보다 낮게 유지됨 — §2.5/§3 에서 경고한 '제목보다 높게 나오는 붕괴' 재현되지 않음. entropy_image 가 오히려 상승(0.858→0.940)했고 distinct_l2_image 는 254 로 동일(택소노미 L2 256종 거의 전부 사용) — 한 곳으로 몰리는 붕괴가 아니라 반대로 고르게 퍼져 있다.",
+    "purity_ratio_read": "절대 순도는 양쪽 다 하락했지만(다버티컬 폭이 넓어져 천장 자체가 낮아짐), 이미지/제목 순도 비율은 0.585→0.687 로 오히려 상승 — 이미지 채널이 낮아진 천장 대비 차지하는 몫은 줄지 않았다(오히려 늘었다)."
+  },
+  "verdict": {
+    "does_it_generalize_beyond_fashion": "부분적으로 — 붕괴는 없다(image_purity < title_purity 유지, entropy 상승, 리프 다양성 254 유지). 그러나 절대 성능(리프 top-1 일치 0.074, 중분류 top-5 포함 0.268)은 패션 단일 버티컬 대비 뚜렷이 낮다(각각 -0.031, -0.153) — 다버티컬 폭이 넓어지면 사람 라벨 공간과 우리 택소노미 공간 사이의 정렬 과제 자체가 더 어려워진다(카테고리 수 456종 vs 패션 143종, 마켓플레이스 4종 혼합 번역).",
+    "reads_as": "레시피(InfoNCE 직사각 투영 + 한국어 번역)는 패션에 국한된 우연이 아니라 전 커머스에서도 '붕괴 없이 작동'한다. 다만 '잘 작동'과 '천장에 근접'은 다르다 — 폭이 넓어질수록 제목 팔 자체의 상한(article_purity_title 0.516→0.394)이 낮아지고, 이미지 채널은 그 낮아진 상한을 이전과 비슷하거나 약간 더 잘 따라간다(비율 기준). 배포 게이트(런타임 wasm 배선)를 통과시키기엔 절대 수치가 여전히 낮다 — §19 문서의 남은 블로커(사용자 실측 재현·리비전 태그)는 그대로 유효."
+  },
+  "reproduce": {
+    "export": "~/.venvs/plataid-export/bin/python experiments/percept-vision/export_images_abo.py --dir experiments/percept-vision-mv --limit 12000 --cap-per-article 200 --workers 32",
+    "translate": "~/.venvs/plataid-export/bin/python experiments/percept-vision/translate_titles.py --src experiments/percept-vision-mv/labels_en.jsonl --dir experiments/percept-vision-mv --domain ecommerce --max-seconds 5400",
+    "embed_os": "swiftc -O experiments/percept-vision/featureprint.swift -o /tmp/fp-mv && (cd experiments/percept-vision-mv && python3 -c \"import json,pathlib;pathlib.Path('list.txt').write_text('\\n'.join(json.loads(l)['file'] for l in open('labels.jsonl')))\" && /tmp/fp-mv images list.txt featureprints.bin)",
+    "embed_title": "cargo run --release -q -p plataid-fl-client --example embed_titles -- experiments/percept-vision-mv/labels.jsonl experiments/percept-vision-mv/title_vectors.bin",
+    "train_projection": "PERCEPT_DIR=experiments/percept-vision-mv ~/.venvs/plataid-export/bin/python experiments/percept-vision/train_projection_contrastive.py",
+    "score": "PERCEPT_DIR=experiments/percept-vision-mv cargo run --release -q -p plataid-fl-client --example tax_agreement"
+  },
+  "code_changes": {
+    "new_file": "experiments/percept-vision/export_images_abo.py (신규 — ABO 다버티컬 조인·캡·샘플 전용, percept-vision/-ko/-fashion-ko 산출물 무변경)",
+    "modified_file": "experiments/percept-vision/translate_titles.py (--domain {fashion(기본,기존동작불변)|ecommerce} 옵셔널 인자 추가, PROMPT 를 PROMPT_TMPL+LABEL 로 파라미터화)"
+  }
+}
