@@ -84,4 +84,16 @@ It is reported in the paper rather than waited out.
 
 ## License
 
-The measurement artifacts and gate scripts here are released under the MIT License.
+The measurement artifacts and gate scripts here are released under the
+[PolyForm Noncommercial License 1.0.0](LICENSE) (SPDX: `PolyForm-Noncommercial-1.0.0`):
+any noncommercial purpose is permitted, commercial use is not. This matches the paper,
+which is published on arXiv under CC BY-NC-ND 4.0 — it would be incoherent to lock the
+prose against commercial reuse while granting the harness that produced the numbers
+under the widest possible terms.
+
+Reproduction, auditing, teaching and research are all noncommercial purposes and are
+therefore permitted. If you want this for commercial use, ask.
+
+⚠️ This repository was first published under the MIT License on 2026-09-14 and relicensed
+on 2026-09-15. A permissive grant already made cannot be withdrawn, so anyone who obtained
+a copy under MIT keeps MIT terms **for that copy**. This notice governs the current tree.
