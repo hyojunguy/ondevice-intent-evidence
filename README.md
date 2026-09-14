@@ -35,7 +35,7 @@ replaced. The working tree uses internal names; nothing about the measurements c
 | `artifacts/ui-facts.json` | The generated fact sheet the demo UI reads, so screen and paper cannot drift apart. |
 | `experiments/distill-ko/` | Product-surface accuracy and the promotion-gate decision for the shipped build. |
 | `experiments/purchase-lift/` | The purchase-probability track: the degenerate-evaluation diagnosis, the second harness, the ablation, temporal generalization, the LightGBM comparison, and the λ_p sweep. |
-| `experiments/real-ko-commerce/` | The product surface measured against real Korean commerce text (AI-Hub datasets 71603, 102, 98): the category mapping we wrote, the harnesses, and aggregate results. Each accuracy sits beside a permutation baseline under the identical mapping, because a broad mapping makes a top-5 hit easy. Dataset 98 carries no per-utterance category, so it appears as lexical coverage only. |
+| `experiments/real-ko-commerce/` | The product surface measured against real Korean commerce text (AI-Hub 71603, 102, 98). Holds the crosswalk, the harnesses, and aggregate results: the 2x2 lexical-reach x surface-form breakdown, the crosswalk sensitivity arms (`map_sensitivity.json`), the IR baselines (`ir_baselines.json`), and the harness validity checks (`verify_harness.json` -- truncation, negative control, repeated permutation null). Taxonomy labels in the crosswalk are deterministic opaque IDs. |
 | `experiments/percept-vision*/`, `experiments/user-*/`, `experiments/real-ko-bench/`, `experiments/esci-ko/` | The remaining measured axes cited in the paper, including the negative results. |
 
 ## Reading the purchase-probability files in order

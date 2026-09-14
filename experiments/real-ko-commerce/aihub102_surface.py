@@ -13,7 +13,7 @@ import argparse, json, pathlib, random, sys
 
 HERE = pathlib.Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE))
-from aihub_surface import run_deploy, ROOT, BOOT
+from aihub_surface import run_deploy, ROOT, BOOT, perm_baseline, lexical_hook_flags
 
 
 def main() -> int:
@@ -74,14 +74,25 @@ def main() -> int:
 
         res = {"대분류_top1": hit(labels, 1), "대분류_top3": hit(labels, 3),
                "대분류_top5": hit(labels, 5)}
-        perm = list(labels); rnd.shuffle(perm)
         n = len(qs); ix = rng.integers(0, n, (BOOT, n)); rec = {"n": n}
         for k2, v in res.items():
             b = v[ix].mean(1)
             rec[k2] = {"acc": round(float(v.mean()), 4),
                        "ci": [round(float(np.percentile(b, 2.5)), 4),
                               round(float(np.percentile(b, 97.5)), 4)],
-                       "순열기준선": round(float(hit(perm, int(k2[-1])).mean()), 4)}
+                       # ⛔ 1회 추출은 잡음 — 반복해서 평균·CI 를 낸다
+                       "순열기준선": perm_baseline(
+                           lambda p, kk=int(k2[-1]): hit(p, kk), labels)}
+        # 절단 검사 — top-32 가 대분류 5개를 못 만들면 top-5 가 아니다
+        dist = np.array([len(r) for r in rl])
+        rec["절단검사"] = {"대분류수_중앙값": int(np.median(dist)),
+                       "5개미만_비율": round(float((dist < 5).mean()), 4)}
+        # 기전 축 — 질의가 리프 이름과 형태소를 공유하는가
+        hook = lexical_hook_flags([q for q, _ in qs], names)
+        rec["어휘후크"] = {("있음" if hv else "없음"): {
+            "n": int((hook == hv).sum()),
+            **{k2: round(float(v[hook == hv].mean()), 4) for k2, v in res.items()}}
+            for hv in (True, False) if (hook == hv).sum() >= 30}
         lab = np.array(labels)
         rec["라벨별_대분류_top5"] = {l: {"n": int((lab == l).sum()),
                                     "acc": round(float(res["대분류_top5"][lab == l].mean()), 4)}
@@ -91,7 +102,8 @@ def main() -> int:
         for k2 in ("대분류_top1", "대분류_top3", "대분류_top5"):
             c = rec[k2]
             print(f"   {k2:<12} {c['acc']:.4f} CI[{c['ci'][0]:.4f},{c['ci'][1]:.4f}]"
-                  f"  · 순열기준선 {c['순열기준선']:.4f}", flush=True)
+                  f"  · 순열기준선 {c['순열기준선']['평균']:.4f}"
+                  f"[{c['순열기준선']['CI'][0]:.4f},{c['순열기준선']['CI'][1]:.4f}]", flush=True)
 
     (HERE / "aihub102_surface.json").write_text(json.dumps(out, ensure_ascii=False, indent=2),
                                                 encoding="utf-8")
