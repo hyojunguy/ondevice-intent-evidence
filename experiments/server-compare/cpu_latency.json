@@ -1,0 +1,51 @@
+{
+  "_measured_at": "2026-09-14T20:13:59",
+  "_what": "배포 바이너리 Tier-0 지연을 서버 CPU 에서. 맥과 같은 코드·같은 프로토콜.",
+  "_protocol": "512자 · 200회 · 워밍업 20 · release 빌드 · latency_probe::run",
+  "_caveat": "공유 클러스터 노드다. 다른 테넌트 부하가 섞일 수 있어 하한이 아니라 관측값이다.",
+  "budget_p95_ms": 20.0,
+  "environments": [
+    {
+      "env": "b200",
+      "status": "measured",
+      "node": "bm-b200-jz00wp9d",
+      "cpu": "INTEL(R) XEON(R) PLATINUM 8592V",
+      "cores": "256",
+      "runs": 7,
+      "p50_ms": 3.334,
+      "p95_ms": 3.3662,
+      "p95_min": 3.3541,
+      "p95_max": 3.5492,
+      "catalog_size": 6020,
+      "taxonomy_leaves": 6020
+    },
+    {
+      "env": "h200",
+      "status": "measured",
+      "node": "tk-ai-wkld-wk-gpu-003",
+      "cpu": "AMD EPYC 9355 32-Core Processor",
+      "cores": "64",
+      "runs": 7,
+      "p50_ms": 1.9846,
+      "p95_ms": 1.9999,
+      "p95_min": 1.9891,
+      "p95_max": 3.0846,
+      "catalog_size": 6020,
+      "taxonomy_leaves": 6020
+    },
+    {
+      "env": "aio5070",
+      "status": "measured",
+      "node": "tkai-server-1",
+      "cpu": "AMD Ryzen 7 7800X3D 8-Core Processor",
+      "cores": "16",
+      "runs": 7,
+      "p50_ms": 2.5519,
+      "p95_ms": 3.1326,
+      "p95_min": 2.929,
+      "p95_max": 3.3679,
+      "catalog_size": 6020,
+      "taxonomy_leaves": 6020
+    }
+  ]
+}
