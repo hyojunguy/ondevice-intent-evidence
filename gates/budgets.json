@@ -1,162 +1,163 @@
 {
- "_comment": "정본. docs/spec/02-budgets.md 와 어긋나면 이 파일이 이긴다. head.bin 은 학습된 의도 헤드 — 배포되므로 반드시 센다. ⛔ 2026-08-27: taxonomy.bin·affinity.bin 이 추가됐는데 이 목록에 없어서 206KB 가 안 세어지고 있었다 — 크기 예산에서 **우리에게 유리한 방향**의 누락이라 특히 위험하다. 기기가 내려받는 것은 예외 없이 여기 적는다.",
- "model": {
-  "vocab_size": 31497,
-  "dim": 64,
-  "table_bytes": 2015808,
-  "embedding_dim": 128
- },
- "size": {
-  "_comment": "L1 = 다운로드 데이터. ⛔ 2026-08-28: 상한을 5 MiB 에서 4 MiB 로 내렸다. 5 MiB 는 제품 약속(L1+L2)이고 이 라인 혼자의 예산이 아니다 — 라이브러리 코드(L2)가 같은 5 MiB 안에 들어가야 하는데 그 항목이 아예 없었다. 그리고 web/demo/dist 를 뺐다: 데모 번들이지 SDK 가 아니다(매체사는 그걸 내려받지 않는다).",
-  "limit_bytes": 4194304,
-  "measure": "gzip",
-  "artifacts": [
-   "artifacts/embedding.bin",
-   "artifacts/vocab.txt",
-   "artifacts/projection.bin",
-   "artifacts/head.bin",
-   "artifacts/taxonomy.bin",
-   "artifacts/affinity.bin",
-   "artifacts/catalog.bin",
-   "artifacts/user_embedding.bin"
-  ]
- },
- "code": {
-  "_comment": "L2 = 라이브러리 코드가 앱에 더하는 바이트. ⛔ 이 라인이 없어서 우리는 고객이 재는 숫자를 안 재고 있었다 — 매체사가 보는 건 APK/IPA 증가분(코드+데이터)이다. 측정은 gates/code_size_gate.py: 빈 실행파일 대비 sdk-core 를 실제로 호출하는 실행파일의 strip 후 차분(= 링커가 남긴 바이트). .a 크기를 쓰지 않는 이유는 링커가 안 쓰는 오브젝트를 버려 항상 과대평가이기 때문. ⚠️ 이벤트 링버퍼/버킷화는 코어 측이라 포함되지만 FFI 바인딩(JNI/Swift)·플랫폼 훅(터치 리스너·뷰 순회)·각 런타임은 미포함이라 하한선이다. 실측 2026-08-28: 이벤트 계층이 더한 몫은 48 B — Clarity 400KB 를 하한선으로 쓴 추론이 왜 틀렸는지의 증거다(그 400KB 는 세션 리플레이 값이다).",
-  "limit_bytes": 1048576,
-  "measure": "linker-kept-native-bytes",
-  "targets": [
-   "aarch64-apple-ios",
-   "aarch64-apple-darwin"
-  ],
-  "_unmeasured": [
-   "aarch64-linux-android — 2026-08-28 NDK 설치 완료(brew cask android-ndk r29, ~/.cargo/config.toml 에 aarch64-linux-android24-clang 링커). 이 머신에서는 code_size_gate.py 가 실측(실제 링크)에 성공해 measuredBytes 로 자동 승격된다(실측 60,315B, 대리치 56,633B 대비 -6.1%). NDK 가 없는 다른 머신에서는 여전히 이 문자열이 UNMEASURED 로 표시되고 proxy 로 조용히 강등된다 — 그건 버그가 아니라 그 머신의 실제 측정 가능 범위다. 이 목록에서 지우지 마라: 승격 로직이 자동 재시도하는 자리다."
-  ]
- },
- "total": {
-  "_comment": "제품 약속. L1 + L2 <= 5 MiB. ⛔ 외부에 'SDK 5MB 미만'을 말할 때 근거가 되는 유일한 숫자다. 두 라인 중 하나라도 UNMEASURED 면 이 약속을 말할 수 없다.",
-  "limit_bytes": 5242880,
-  "lines": [
-   "size",
-   "code"
-  ]
- },
- "latency": {
-  "p95_ms": 50.0,
-  "input_chars": 512,
-  "catalog_size": 1000,
-  "iterations": 200
- },
- "egress": {
-  "allowed_fields": [
-   "round_id",
-   "client_nonce",
-   "delta",
-   "epochs_completed",
-   "device_bucket",
-   "impression_buckets"
-  ],
-  "max_round_bytes": 307200
- },
- "space": {
-  "min_cosine": 0.8
- },
- "fl": {
-  "min_participants": 8,
-  "combiner_len": 5,
-  "_combiner_note": "학습 파라미터 5개짜리 결합기(RankCombiner)의 길이. 연합 벡터 layout 은 [P (dim*dim) | theta (combiner_len) | w (dim)] 이고, theta 는 **연합분**에 들어간다(개인 헤드 w 만 기기에 남는다). param_len 4160 -> 4165 (theta) -> 4254 (mlp, _mlp_note). sigma 는 좌표당 고정이지만 rho = clip^2/(2*sigma^2) 는 좌표 수와 무관하므로 epsilon 은 이 증가에 영향받지 않아야 한다 — gates/dp_gate.py 가 실측으로 확인한다.",
-  "combiner_phi_len": 8,
-  "combiner_mlp_hidden": 8,
-  "combiner_mlp_len": 89,
-  "combiner_user_len": 8,
-  "_combiner_user_note": "유저 임베딩 팔의 결합기 θu 길이 = φ8-user 폭. ⛔ φ8-user 는 features8(리프질량 c̃ 축)과 **슬롯 5~7 의 뜻이 다르다** — 여기는 유저항(⟨u_h,리프⟩ · ⟨u_c,리프⟩ · s̃·⟨u_h,리프⟩)이다. 같은 좌표에 겹치지 않고 서로소 블록을 새로 잡은 이유는 두 가지다: (1) MLP 89 는 리프질량 축 위에서 측정됐고 그 축이 딴 것을 담으면 사다리 수치가 그 팔에 대해 아무것도 말하지 않게 된다, (2) 파일럿은 여러 팔을 같은 라운드 스트림에서 비교하는데 좌표를 공유하면 한 라운드에 한 팔만 배운다. 연합 layout 은 [P | theta 5 | mlp 89 | theta_u 8 | w 64] — param_len 4254 -> 4262, federated 4190 -> 4198. epsilon 은 변하지 않는다(rho = clip^2/(2 sigma^2) 는 좌표 수와 무관, gates/dp_gate.py 실측). 기본 팔은 여전히 배포 상수이고 이 팔은 set_combiner_arm(\"usertheta\") + 유저 임베딩 아티팩트가 둘 다 있어야 켜진다(gates/behavior_gate.py 가 강제).",
-  "_mlp_note": "2026-08-30 용량 사다리가 채택한 파일럿 A/B 팔: phi8(=phi5+리프질량 c~ 3항) -> h=8 tanh MLP + 선형 스킵(warm-start). 평평한 89칸 = skip 8 + w1 64 + b1 8 + w2 8 + b2 1. 연합 layout 은 [P (dim*dim) | theta (combiner_len) | mlp (combiner_mlp_len) | w (dim)] 로 확장 — param_len 4165 -> 4254, federated 4101 -> 4190. theta 와 mlp 는 서로 다른 팔의 좌표라 합치지 않는다(파일럿 3팔: 배포상수/학습theta/학습MLP 을 같은 라운드에서 비교). epsilon 은 변하지 않는다 — rho = clip^2/(2 sigma^2) 는 좌표 수와 무관(gates/dp_gate.py 실측). 기본 팔은 배포 상수이고 MLP 는 set_combiner_arm(\"mlp\") 명시 호출로만 켜진다(gates/behavior_gate.py 가 강제).",
-  "clip_norm": 1.0,
-  "noise_sigma": 0.1,
-  "deadline_ms": 5000,
-  "round_period_ms": 86400000,
-  "_round_period_note": "실배포 라운드 주기(theta-pilot-design.md §7 미결#1) — round_id_for(now)=now/round_period_ms 로 서버·기기가 벽시계에서 같은 round_id 에 합의한다. deadline_ms 와는 다른 축이다: deadline_ms 는 '한 라운드가 열린 뒤 몇 ms 만에 강제로 닫히나'(업로드 창)이고 round_period_ms 는 '다음 라운드가 언제 시작하나'(주기)다. 데모/테스트는 여전히 client 가 round_id 를 직접 골라 부르므로(protocol_invariants.rs 등) 이 값의 영향을 받지 않는다 — 오직 신설 GET /v1/rounds/current 만 이 값을 읽는다. 값을 1일(86,400,000ms)로 바로 못박은 이유: 이 필드를 새로 읽는 호출자가 아직 이 엔드포인트 하나뿐이라 기존 동작을 깨지 않는다.",
-  "max_rounds": 50,
-  "delta": 1e-10,
-  "_dp_note": "sigma 는 dp_sweep 실측으로 정했다: z=0.1 이 z=0.01 보다 ε 10배 좋고 최종 BCE 도 더 낮다(노이즈의 정규화 효과). z>=1.0 은 발산. 회계는 zCDP(Bun-Steinke), 집계 관점 sigma_agg = sigma*sqrt(n). ⛔ assumed_participants 가 프라이버시 주장의 전제이므로 실제 채택이 그보다 적으면 주장도 약해진다.",
-  "target_epsilon_per_round": 5.0,
-  "assumed_participants": 1000,
-  "device_population": 10000,
-  "target_epsilon_campaign": 2.0,
-  "purchase_stats_l2": 252,
-  "purchase_stats_len": 504,
-  "purchase_stat_scale": 0.25,
-  "_purchase_note": "v2 P3 구매주기 통계 채널: 연합 layout [P | theta 5 | mlp 89 | theta_u 8 | pstats 504 | w 64] — federated 4198 -> 4702, param_len 4262 -> 4766. 학습 좌표가 아니라 측정값(L2별 정규화 구매율 rate_norm·s, 관측 플래그 has·s, s=purchase_stat_scale)이고 delta = s·측정 − 보유값이라 FedAvg 산술상 한 라운드에 모집단 평균으로 간다. epsilon 은 불변(rho = clip^2/(2 sigma^2) 는 좌표 수와 무관 — theta/mlp/theta_u 전례, dp_gate 실측). 대가는 SNR: 좌표당 신호(예: 30일 주기 rate 0.033·0.25 ≈ 0.008)가 집계 노이즈 sigma/sqrt(n) 에 얇게 잠기므로 기기 쪽이 하강 블록을 EMA(kappa 0.2)로 시간축 평균해 유효 노이즈를 ~1/3 로 줄인다. 커버리지 2% 미만 L2 와 주기 100일 초과(내구재)는 복호를 거부하고 부트스트랩(alpha=1, beta=30d)으로 남는다 — 장주기는 이 채널이 못 배우며 그 한계를 숨기지 않는다. 근거: P1 실측 (experiments/purchase-lift) — kind 매칭 사전이 naive 대비 +10~13일, 콜드스타트 k=1 에서 -182일.",
-  "rank_head_len": 4,
-  "_rank_head_note": "v2 P4 랭킹 융합 헤드의 연합 계수 길이 = [bias, w_cat, w_k, w_recency]. τ(최근성 시상수)는 학습하지 않는다 — 스케일 파라미터라 계수와 축퇴한다(같은 점수를 내는 (τ, w_recency) 쌍이 무수히 많아 평균이 의미를 잃는다). 2026-09-05 실측 근거는 experiments/purchase-lift/README.md. ⛔ 이 4칸을 늘리면 federated_len 이 바뀌고 라운드 호환이 깨진다 — Rust federated_len()·Go FederatedLen()·골든 픽스처를 함께 옮겨야 한다."
- },
- "attribution": {
-  "_comment": "어트리뷰션·과금 채널 (docs/spec/06-attribution-and-billing.md). ⛔ 2026-08-26 이전에는 이 채널에 아무 상한도 회계도 없었다 — impression_buckets 가 길이 무제한 raw 광고 ID 목록이었고, 캠페인 ε 1.54 는 delta 채널만의 값이었다. buckets 는 의도 헤드의 클래스 수와 같아야 한다. ⛔ 2026-08-27: 헤드가 택소노미 대분류(28)로 재학습되면서 60 → 28 로 내렸다. 리프 2,520 을 축으로 쓰면 안 된다 — 기기당 2,520 길이 히스토그램은 크기도 문제지만 k-익명(min_bucket_count)이 성립할 수 없을 만큼 희소해진다.",
-  "buckets": 28,
-  "max_active_buckets": 3,
-  "max_count_per_bucket": 1,
-  "noise_sigma": 0.3,
-  "min_bucket_count": 50,
-  "_sigma_note": "0.2~0.4 스윕 실측(2026-08-26)으로 0.3 채택. 0.2 는 캠페인 합성 ε 1.981 로 목표 2.0 에 붙어 있어 다음 사람이 목표치를 올려 통과시키게 된다. 0.3 = ε 1.730(여유 13.5%), 집계 노이즈 ±9.5 카운트/버킷/라운드 → 캠페인 누적(50라운드) 기준 버킷당 약 2,500 노출에 ±67 = 2.7% 청구 오차. ⚠️ 라운드 단위로 보면 오차가 19% 라 라운드별 정산은 못 한다."
- },
- "ram": {
-  "_comment": "L3 = 런타임 상태(unpacked resident bytes) — gzip 이 아니라 기기가 실제로 들고 있거나 mmap 해야 하는 raw 바이트. size(L1)·code(L2)와 별개 축이고 total(제품 5MiB 약속)에는 포함되지 않는다 — 다운로드되는 게 아니라서다. 왜 생겼나(2026-08-28): 임베딩 테이블이 곧 512차원 4bit(v2, 행별 f32 스케일)로 바뀌는데, gzip(전송)은 ~4.0MB로 작아 보여도 언팩 전 raw 는 8,189,220 B (docs/spec/11-dimension-decision.md) — 이 축에 상한도 측정도 없었다. 크기만 보고 '작다'고 하면 저사양 안드로이드에서 죽는다. artifacts = embedding.bin 하나뿐 — crates/sdk-core/src/format.rs 의 EmbeddingTable::resident_bytes()(table.len()+scales.len()*4)를 이 게이트가 그대로 미러링한다(v1: vocab*dim, bits=8 고정 / v2: vocab*row_bytes + vocab*4 스케일, row_bytes=ceil(dim*bits/8)). taxonomy.bin·affinity.bin·catalog.bin 은 넣지 않았다 — 얘들은 flat 배열이 아니라 파싱 후 Vec<String>/구조체(라벨·이름)로 부풀고, 크레이트에도 vocab.txt 처럼 resident_bytes() 등가물이 없어서 raw 파일 바이트를 상주 바이트의 대리값으로 쓰면 근거 없이 낙관하는 것이다(현재 크기도 KB 대라 embedding.bin 만큼 급한 축이 아니다). vocab.txt 도 같은 이유로 제외 — Vocab::from_str 이 Vec<String> + HashMap<String,u32> 로 파싱해 파일 바이트와 상주 바이트가 다른 모델이다. limit_bytes=8MiB 는 실측이 아니라 잠정값이다 — 계획된 512d@4bit 리비전2 산출물(8,189,220B)에 ≈199KB 여유만 주는 값으로, 저사양 안드로이드 실제 RSS 측정은 아직 하지 않았다. 이 게이트가 답하지 못하는 질문이 바로 그것이다.",
-  "limit_bytes": 8388608,
-  "measure": "unpacked-resident-bytes",
-  "artifacts": [
-   "artifacts/embedding.bin",
-   "artifacts/user_embedding.bin"
-  ],
-  "_user_embedding_note": "2026-08-31 추가. ⛔ 이 아티팩트는 **on-disk int8, 상주 f32** 라 L1(54,408 B)과 L3(210,944 B)가 4배 갈린다 — 파일 크기로 L3 를 대신하면 우리에게 유리한 방향으로 4배 틀린다. 산식은 crates/sdk-core/src/user_embedding.rs 의 UserEmbedding::resident_bytes()(= (hist_len*dim + dim*dim) * 4)를 ram_gate.py 가 미러링한다. 왜 f32 로 들고 있나: 하네스와 같은 추론 경로를 쓰고(ue_latency_probe 가 잰 지연이 그 경로다) 매 발화마다 역양자화하지 않기 위해서다."
- },
- "behavior": {
-  "_comment": "행동 축 게이트(gates/behavior_gate.py). ⛔ 하한은 감이 아니라 2026-08-29 실측이다. ⛔ 판정 데이터는 **리프 힌트** 판이다 — 제품 SDK 계약(`cat_hint` = 1-기반 리프)과 같은 세계이기 때문이다. 대분류 힌트 판(behavior.json)은 행동이 '영역'만 말하는 보수적 세계이고 reference 로 함께 잰다. 두 하한이 다른 이유가 그것이다. ⛔ 이 수치를 외부에 인용하지 마라 — 합성 데이터 하나이고, 게이트의 용도는 회귀 감지다.",
-  "dataset": "experiments/event-intent/behavior_leaf.json",
-  "reference_dataset": "experiments/event-intent/behavior.json",
-  "min_delta_pp": 10.0,
-  "_leaf_note": "리프는 **화면이 보여 주는 입도**다. 대분류 사전확률은 블록째 밀어서 블록 안에서는 못 고르므로 이득이 구조적으로 작다 — 리프 힌트 + 중분류 항으로 +3.83 → +5.94pp.",
-  "min_leaf_delta_pp": 3.0,
-  "min_moved_ratio": 0.1,
-  "max_leak_probe": 0.9,
-  "nu_train_optimality": 0.95
- },
- "rtb": {
-  "_comment": "OpenRTB 2.6 광고 호출 계약(I4). 정본 docs/plans/2026-09-01/openrtb-sdk-protocol.md. 요청 구조체는 폐쇄이므로 이 목록은 '무엇이 나가도 되나'가 아니라 '게이트가 무엇을 대조하나'다. 카나리아는 C3 와 별도 집합 — 임신 이 L2 라벨 임신출산 에 들어 있어 C3 집합을 재사용하면 정상 요청이 실패한다(ad-rtb 테스트가 라벨 충돌을 막는다).",
-  "version": "2.6",
-  "request_allowed_top": [
-   "id",
-   "imp",
-   "app",
-   "device",
-   "user",
-   "regs",
-   "at",
-   "tmax",
-   "cur",
-   "test"
-  ],
-  "user_allowed": [
-   "data",
-   "ext"
-  ],
-  "device_allowed": [
-   "devicetype",
-   "os",
-   "osv",
-   "language",
-   "lmt"
-  ],
-  "max_intent_k": 5,
-  "max_request_bytes": 8192,
-  "canaries": [
-   "비밀번호",
-   "divorce",
-   "salary",
-   "홍길동",
-   "010-1234",
-   "password",
-   "이혼"
-  ],
-  "iab_cattax": 7
- }
+  "_comment": "정본. docs/spec/02-budgets.md 와 어긋나면 이 파일이 이긴다. head.bin 은 학습된 의도 헤드 — 배포되므로 반드시 센다. ⛔ 2026-08-27: taxonomy.bin·affinity.bin 이 추가됐는데 이 목록에 없어서 206KB 가 안 세어지고 있었다 — 크기 예산에서 **우리에게 유리한 방향**의 누락이라 특히 위험하다. 기기가 내려받는 것은 예외 없이 여기 적는다.",
+  "model": {
+    "vocab_size": 31497,
+    "dim": 64,
+    "table_bytes": 2015808,
+    "embedding_dim": 128
+  },
+  "size": {
+    "_comment": "L1 = 다운로드 데이터. ⛔ 2026-08-28: 상한을 5 MiB 에서 4 MiB 로 내렸다. 5 MiB 는 제품 약속(L1+L2)이고 이 라인 혼자의 예산이 아니다 — 라이브러리 코드(L2)가 같은 5 MiB 안에 들어가야 하는데 그 항목이 아예 없었다. 그리고 web/demo/dist 를 뺐다: 데모 번들이지 SDK 가 아니다(매체사는 그걸 내려받지 않는다). ⛔ 2026-09-14: 제품 약속이 3 MiB 로 내려갔으므로 이 L1 상한(4 MiB)은 더 이상 구속하지 않는다 — 구속하는 것은 total 이다. 남겨 두는 이유는 L1 단독 추세를 계속 보기 위해서다.",
+    "limit_bytes": 4194304,
+    "measure": "gzip",
+    "artifacts": [
+      "artifacts/embedding.bin",
+      "artifacts/vocab.txt",
+      "artifacts/projection.bin",
+      "artifacts/head.bin",
+      "artifacts/taxonomy.bin",
+      "artifacts/affinity.bin",
+      "artifacts/catalog.bin",
+      "artifacts/user_embedding.bin"
+    ]
+  },
+  "code": {
+    "_comment": "L2 = 라이브러리 코드가 앱에 더하는 바이트. ⛔ 이 라인이 없어서 우리는 고객이 재는 숫자를 안 재고 있었다 — 매체사가 보는 건 APK/IPA 증가분(코드+데이터)이다. 측정은 gates/code_size_gate.py: 빈 실행파일 대비 sdk-core 를 실제로 호출하는 실행파일의 strip 후 차분(= 링커가 남긴 바이트). .a 크기를 쓰지 않는 이유는 링커가 안 쓰는 오브젝트를 버려 항상 과대평가이기 때문. ⚠️ 이벤트 링버퍼/버킷화는 코어 측이라 포함되지만 FFI 바인딩(JNI/Swift)·플랫폼 훅(터치 리스너·뷰 순회)·각 런타임은 미포함이라 하한선이다. 실측 2026-08-28: 이벤트 계층이 더한 몫은 48 B — Clarity 400KB 를 하한선으로 쓴 추론이 왜 틀렸는지의 증거다(그 400KB 는 세션 리플레이 값이다).",
+    "limit_bytes": 1048576,
+    "measure": "linker-kept-native-bytes",
+    "targets": [
+      "aarch64-apple-ios",
+      "aarch64-apple-darwin"
+    ],
+    "_unmeasured": [
+      "aarch64-linux-android — 2026-08-28 NDK 설치 완료(brew cask android-ndk r29, ~/.cargo/config.toml 에 aarch64-linux-android24-clang 링커). 이 머신에서는 code_size_gate.py 가 실측(실제 링크)에 성공해 measuredBytes 로 자동 승격된다(실측 60,315B, 대리치 56,633B 대비 -6.1%). NDK 가 없는 다른 머신에서는 여전히 이 문자열이 UNMEASURED 로 표시되고 proxy 로 조용히 강등된다 — 그건 버그가 아니라 그 머신의 실제 측정 가능 범위다. 이 목록에서 지우지 마라: 승격 로직이 자동 재시도하는 자리다."
+    ]
+  },
+  "total": {
+    "_comment": "제품 약속 = 기기가 실제로 내려받는 전부(L1 데이터 + L2 코드). ⛔ 2026-09-14: 5 MiB → 3 MiB 로 내렸다. 5 MiB 는 물려받은 값이고 아무도 그 크기를 요구한 적이 없다 — 모바일 SDK 로서 방어 가능한 상한이 무엇인지 다시 물었고, 3 MiB 를 답으로 정했다. 내리는 순간 당시 측정(3,352,283 B)이 FAIL 이 됐고, 그래서 리프 센트로이드와 카탈로그 벡터를 i8 → 4bit(행별 스케일)로 내려 2,926,804 B 로 통과시켰다. 대가는 제품 표면 −0.02pp · 광고 소재 리프 top-1 −1.00pp (experiments/distill-ko/quant4_surface.json). ⛔ 상한을 먼저 내리고 숫자를 맞춘 순서를 감추지 마라 — 그게 이 값의 이력이다.",
+    "limit_bytes": 3145728,
+    "lines": [
+      "size",
+      "code"
+    ]
+  },
+  "latency": {
+    "p95_ms": 20.0,
+    "input_chars": 512,
+    "catalog_size": 1000,
+    "iterations": 200,
+    "_comment": "⛔ 2026-09-14: p95 50ms → 20ms. 50ms 는 '한 프레임'에서 온 느슨한 값이라 실제로는 아무것도 구속하지 않았다(사용률 4.9%). ⚠️ 이 판정은 개발 맥 기준이다 — 보급형 Android 에서 20ms 를 지키는지는 아직 측정하지 않았고, 그 전까지 이 게이트의 PASS 는 '기준 장비에서'라는 수식어 없이 인용하면 안 된다."
+  },
+  "egress": {
+    "allowed_fields": [
+      "round_id",
+      "client_nonce",
+      "delta",
+      "epochs_completed",
+      "device_bucket",
+      "impression_buckets"
+    ],
+    "max_round_bytes": 307200
+  },
+  "space": {
+    "min_cosine": 0.8
+  },
+  "fl": {
+    "min_participants": 8,
+    "combiner_len": 5,
+    "_combiner_note": "학습 파라미터 5개짜리 결합기(RankCombiner)의 길이. 연합 벡터 layout 은 [P (dim*dim) | theta (combiner_len) | w (dim)] 이고, theta 는 **연합분**에 들어간다(개인 헤드 w 만 기기에 남는다). param_len 4160 -> 4165 (theta) -> 4254 (mlp, _mlp_note). sigma 는 좌표당 고정이지만 rho = clip^2/(2*sigma^2) 는 좌표 수와 무관하므로 epsilon 은 이 증가에 영향받지 않아야 한다 — gates/dp_gate.py 가 실측으로 확인한다.",
+    "combiner_phi_len": 8,
+    "combiner_mlp_hidden": 8,
+    "combiner_mlp_len": 89,
+    "combiner_user_len": 8,
+    "_combiner_user_note": "유저 임베딩 팔의 결합기 θu 길이 = φ8-user 폭. ⛔ φ8-user 는 features8(리프질량 c̃ 축)과 **슬롯 5~7 의 뜻이 다르다** — 여기는 유저항(⟨u_h,리프⟩ · ⟨u_c,리프⟩ · s̃·⟨u_h,리프⟩)이다. 같은 좌표에 겹치지 않고 서로소 블록을 새로 잡은 이유는 두 가지다: (1) MLP 89 는 리프질량 축 위에서 측정됐고 그 축이 딴 것을 담으면 사다리 수치가 그 팔에 대해 아무것도 말하지 않게 된다, (2) 파일럿은 여러 팔을 같은 라운드 스트림에서 비교하는데 좌표를 공유하면 한 라운드에 한 팔만 배운다. 연합 layout 은 [P | theta 5 | mlp 89 | theta_u 8 | w 64] — param_len 4254 -> 4262, federated 4190 -> 4198. epsilon 은 변하지 않는다(rho = clip^2/(2 sigma^2) 는 좌표 수와 무관, gates/dp_gate.py 실측). 기본 팔은 여전히 배포 상수이고 이 팔은 set_combiner_arm(\"usertheta\") + 유저 임베딩 아티팩트가 둘 다 있어야 켜진다(gates/behavior_gate.py 가 강제).",
+    "_mlp_note": "2026-08-30 용량 사다리가 채택한 파일럿 A/B 팔: phi8(=phi5+리프질량 c~ 3항) -> h=8 tanh MLP + 선형 스킵(warm-start). 평평한 89칸 = skip 8 + w1 64 + b1 8 + w2 8 + b2 1. 연합 layout 은 [P (dim*dim) | theta (combiner_len) | mlp (combiner_mlp_len) | w (dim)] 로 확장 — param_len 4165 -> 4254, federated 4101 -> 4190. theta 와 mlp 는 서로 다른 팔의 좌표라 합치지 않는다(파일럿 3팔: 배포상수/학습theta/학습MLP 을 같은 라운드에서 비교). epsilon 은 변하지 않는다 — rho = clip^2/(2 sigma^2) 는 좌표 수와 무관(gates/dp_gate.py 실측). 기본 팔은 배포 상수이고 MLP 는 set_combiner_arm(\"mlp\") 명시 호출로만 켜진다(gates/behavior_gate.py 가 강제).",
+    "clip_norm": 1.0,
+    "noise_sigma": 0.1,
+    "deadline_ms": 5000,
+    "round_period_ms": 86400000,
+    "_round_period_note": "실배포 라운드 주기(theta-pilot-design.md §7 미결#1) — round_id_for(now)=now/round_period_ms 로 서버·기기가 벽시계에서 같은 round_id 에 합의한다. deadline_ms 와는 다른 축이다: deadline_ms 는 '한 라운드가 열린 뒤 몇 ms 만에 강제로 닫히나'(업로드 창)이고 round_period_ms 는 '다음 라운드가 언제 시작하나'(주기)다. 데모/테스트는 여전히 client 가 round_id 를 직접 골라 부르므로(protocol_invariants.rs 등) 이 값의 영향을 받지 않는다 — 오직 신설 GET /v1/rounds/current 만 이 값을 읽는다. 값을 1일(86,400,000ms)로 바로 못박은 이유: 이 필드를 새로 읽는 호출자가 아직 이 엔드포인트 하나뿐이라 기존 동작을 깨지 않는다.",
+    "max_rounds": 50,
+    "delta": 1e-10,
+    "_dp_note": "sigma 는 dp_sweep 실측으로 정했다: z=0.1 이 z=0.01 보다 ε 10배 좋고 최종 BCE 도 더 낮다(노이즈의 정규화 효과). z>=1.0 은 발산. 회계는 zCDP(Bun-Steinke), 집계 관점 sigma_agg = sigma*sqrt(n). ⛔ assumed_participants 가 프라이버시 주장의 전제이므로 실제 채택이 그보다 적으면 주장도 약해진다.",
+    "target_epsilon_per_round": 5.0,
+    "assumed_participants": 1000,
+    "device_population": 10000,
+    "target_epsilon_campaign": 2.0,
+    "purchase_stats_l2": 252,
+    "purchase_stats_len": 504,
+    "purchase_stat_scale": 0.25,
+    "_purchase_note": "v2 P3 구매주기 통계 채널: 연합 layout [P | theta 5 | mlp 89 | theta_u 8 | pstats 504 | w 64] — federated 4198 -> 4702, param_len 4262 -> 4766. 학습 좌표가 아니라 측정값(L2별 정규화 구매율 rate_norm·s, 관측 플래그 has·s, s=purchase_stat_scale)이고 delta = s·측정 − 보유값이라 FedAvg 산술상 한 라운드에 모집단 평균으로 간다. epsilon 은 불변(rho = clip^2/(2 sigma^2) 는 좌표 수와 무관 — theta/mlp/theta_u 전례, dp_gate 실측). 대가는 SNR: 좌표당 신호(예: 30일 주기 rate 0.033·0.25 ≈ 0.008)가 집계 노이즈 sigma/sqrt(n) 에 얇게 잠기므로 기기 쪽이 하강 블록을 EMA(kappa 0.2)로 시간축 평균해 유효 노이즈를 ~1/3 로 줄인다. 커버리지 2% 미만 L2 와 주기 100일 초과(내구재)는 복호를 거부하고 부트스트랩(alpha=1, beta=30d)으로 남는다 — 장주기는 이 채널이 못 배우며 그 한계를 숨기지 않는다. 근거: P1 실측 (experiments/purchase-lift) — kind 매칭 사전이 naive 대비 +10~13일, 콜드스타트 k=1 에서 -182일.",
+    "rank_head_len": 4,
+    "_rank_head_note": "v2 P4 랭킹 융합 헤드의 연합 계수 길이 = [bias, w_cat, w_k, w_recency]. τ(최근성 시상수)는 학습하지 않는다 — 스케일 파라미터라 계수와 축퇴한다(같은 점수를 내는 (τ, w_recency) 쌍이 무수히 많아 평균이 의미를 잃는다). 2026-09-05 실측 근거는 experiments/purchase-lift/README.md. ⛔ 이 4칸을 늘리면 federated_len 이 바뀌고 라운드 호환이 깨진다 — Rust federated_len()·Go FederatedLen()·골든 픽스처를 함께 옮겨야 한다."
+  },
+  "attribution": {
+    "_comment": "어트리뷰션·과금 채널 (docs/spec/06-attribution-and-billing.md). ⛔ 2026-08-26 이전에는 이 채널에 아무 상한도 회계도 없었다 — impression_buckets 가 길이 무제한 raw 광고 ID 목록이었고, 캠페인 ε 1.54 는 delta 채널만의 값이었다. buckets 는 의도 헤드의 클래스 수와 같아야 한다. ⛔ 2026-08-27: 헤드가 택소노미 대분류(28)로 재학습되면서 60 → 28 로 내렸다. 리프 2,520 을 축으로 쓰면 안 된다 — 기기당 2,520 길이 히스토그램은 크기도 문제지만 k-익명(min_bucket_count)이 성립할 수 없을 만큼 희소해진다.",
+    "buckets": 28,
+    "max_active_buckets": 3,
+    "max_count_per_bucket": 1,
+    "noise_sigma": 0.3,
+    "min_bucket_count": 50,
+    "_sigma_note": "0.2~0.4 스윕 실측(2026-08-26)으로 0.3 채택. 0.2 는 캠페인 합성 ε 1.981 로 목표 2.0 에 붙어 있어 다음 사람이 목표치를 올려 통과시키게 된다. 0.3 = ε 1.730(여유 13.5%), 집계 노이즈 ±9.5 카운트/버킷/라운드 → 캠페인 누적(50라운드) 기준 버킷당 약 2,500 노출에 ±67 = 2.7% 청구 오차. ⚠️ 라운드 단위로 보면 오차가 19% 라 라운드별 정산은 못 한다."
+  },
+  "ram": {
+    "_comment": "L3 = 런타임 상태(unpacked resident bytes) — gzip 이 아니라 기기가 실제로 들고 있거나 mmap 해야 하는 raw 바이트. size(L1)·code(L2)와 별개 축이고 total(제품 5MiB 약속)에는 포함되지 않는다 — 다운로드되는 게 아니라서다. 왜 생겼나(2026-08-28): 임베딩 테이블이 곧 512차원 4bit(v2, 행별 f32 스케일)로 바뀌는데, gzip(전송)은 ~4.0MB로 작아 보여도 언팩 전 raw 는 8,189,220 B (docs/spec/11-dimension-decision.md) — 이 축에 상한도 측정도 없었다. 크기만 보고 '작다'고 하면 저사양 안드로이드에서 죽는다. artifacts = embedding.bin 하나뿐 — crates/sdk-core/src/format.rs 의 EmbeddingTable::resident_bytes()(table.len()+scales.len()*4)를 이 게이트가 그대로 미러링한다(v1: vocab*dim, bits=8 고정 / v2: vocab*row_bytes + vocab*4 스케일, row_bytes=ceil(dim*bits/8)). taxonomy.bin·affinity.bin·catalog.bin 은 넣지 않았다 — 얘들은 flat 배열이 아니라 파싱 후 Vec<String>/구조체(라벨·이름)로 부풀고, 크레이트에도 vocab.txt 처럼 resident_bytes() 등가물이 없어서 raw 파일 바이트를 상주 바이트의 대리값으로 쓰면 근거 없이 낙관하는 것이다(현재 크기도 KB 대라 embedding.bin 만큼 급한 축이 아니다). vocab.txt 도 같은 이유로 제외 — Vocab::from_str 이 Vec<String> + HashMap<String,u32> 로 파싱해 파일 바이트와 상주 바이트가 다른 모델이다. limit_bytes=8MiB 는 실측이 아니라 잠정값이다 — 계획된 512d@4bit 리비전2 산출물(8,189,220B)에 ≈199KB 여유만 주는 값으로, 저사양 안드로이드 실제 RSS 측정은 아직 하지 않았다. 이 게이트가 답하지 못하는 질문이 바로 그것이다.",
+    "limit_bytes": 8388608,
+    "measure": "unpacked-resident-bytes",
+    "artifacts": [
+      "artifacts/embedding.bin",
+      "artifacts/user_embedding.bin"
+    ],
+    "_user_embedding_note": "2026-08-31 추가. ⛔ 이 아티팩트는 **on-disk int8, 상주 f32** 라 L1(54,408 B)과 L3(210,944 B)가 4배 갈린다 — 파일 크기로 L3 를 대신하면 우리에게 유리한 방향으로 4배 틀린다. 산식은 crates/sdk-core/src/user_embedding.rs 의 UserEmbedding::resident_bytes()(= (hist_len*dim + dim*dim) * 4)를 ram_gate.py 가 미러링한다. 왜 f32 로 들고 있나: 하네스와 같은 추론 경로를 쓰고(ue_latency_probe 가 잰 지연이 그 경로다) 매 발화마다 역양자화하지 않기 위해서다."
+  },
+  "behavior": {
+    "_comment": "행동 축 게이트(gates/behavior_gate.py). ⛔ 하한은 감이 아니라 2026-08-29 실측이다. ⛔ 판정 데이터는 **리프 힌트** 판이다 — 제품 SDK 계약(`cat_hint` = 1-기반 리프)과 같은 세계이기 때문이다. 대분류 힌트 판(behavior.json)은 행동이 '영역'만 말하는 보수적 세계이고 reference 로 함께 잰다. 두 하한이 다른 이유가 그것이다. ⛔ 이 수치를 외부에 인용하지 마라 — 합성 데이터 하나이고, 게이트의 용도는 회귀 감지다.",
+    "dataset": "experiments/event-intent/behavior_leaf.json",
+    "reference_dataset": "experiments/event-intent/behavior.json",
+    "min_delta_pp": 10.0,
+    "_leaf_note": "리프는 **화면이 보여 주는 입도**다. 대분류 사전확률은 블록째 밀어서 블록 안에서는 못 고르므로 이득이 구조적으로 작다 — 리프 힌트 + 중분류 항으로 +3.83 → +5.94pp.",
+    "min_leaf_delta_pp": 3.0,
+    "min_moved_ratio": 0.1,
+    "max_leak_probe": 0.9,
+    "nu_train_optimality": 0.95
+  },
+  "rtb": {
+    "_comment": "OpenRTB 2.6 광고 호출 계약(I4). 정본 docs/plans/2026-09-01/openrtb-sdk-protocol.md. 요청 구조체는 폐쇄이므로 이 목록은 '무엇이 나가도 되나'가 아니라 '게이트가 무엇을 대조하나'다. 카나리아는 C3 와 별도 집합 — 임신 이 L2 라벨 임신출산 에 들어 있어 C3 집합을 재사용하면 정상 요청이 실패한다(ad-rtb 테스트가 라벨 충돌을 막는다).",
+    "version": "2.6",
+    "request_allowed_top": [
+      "id",
+      "imp",
+      "app",
+      "device",
+      "user",
+      "regs",
+      "at",
+      "tmax",
+      "cur",
+      "test"
+    ],
+    "user_allowed": [
+      "data",
+      "ext"
+    ],
+    "device_allowed": [
+      "devicetype",
+      "os",
+      "osv",
+      "language",
+      "lmt"
+    ],
+    "max_intent_k": 5,
+    "max_request_bytes": 8192,
+    "canaries": [
+      "비밀번호",
+      "divorce",
+      "salary",
+      "홍길동",
+      "010-1234",
+      "password",
+      "이혼"
+    ],
+    "iab_cattax": 7
+  }
 }

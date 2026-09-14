@@ -25,8 +25,8 @@
     "sha256": "15bfb2fc3a55c255bcd1845ec4ff5a3365bd97504f0d0d5fab1cf5f775dee4e0"
   },
   "catalog.bin": {
-    "bytes": 1151413,
-    "sha256": "1a8556e5fda2538121ea9d73842f5ab007fd019028de73142a8a5047f0d03788"
+    "bytes": 790213,
+    "sha256": "7dc701de64a8f5f4ec6a3751063fdb1b33d58cd2cc5d19819040c9d4a0614b0b"
   },
   "embedding.bin": {
     "bytes": 2141820,

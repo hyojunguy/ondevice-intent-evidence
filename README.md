@@ -47,6 +47,19 @@ different task. That is the point of including both.
   and the 60-class shipped intent head have drifted apart. The paper reports this rather than
   waiting for green.
 
+## Envelope this bundle corresponds to
+
+The paper's constraints are a 3 MiB deployment payload, 20 ms p95 Tier-0 latency, and zero raw
+egress. `gates/budgets.json` here is the file the gates read, so those limits are checkable
+rather than asserted: `total.limit_bytes = 3145728`, `latency.p95_ms = 20`.
+
+Shipping artifacts are 4-bit (taxonomy v2, catalog v3). `experiments/distill-ko/quant4_surface.json`
+is the A/B that measures what that cost — including the axis that pays most (ad creative to leaf
+top-1, −1.00 pp), not only the product surface (−0.02 pp).
+
+One gate is red: `attribution_gate.py` (a 28-bucket budget axis against a 60-class intent head).
+It is reported in the paper rather than waited out.
+
 ## License
 
 The measurement artifacts and gate scripts here are released under the MIT License.
