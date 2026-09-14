@@ -34,7 +34,21 @@ def run_gate() -> int:
     lines = [f"필터 {FILTER!r} · 실행 {ran}건 · 통과 {len(names)}건"] + names + evidence
     if r.returncode != 0:
         lines += out.strip().splitlines()[-6:]
-    return report("C5 fl-round", PASS if r.returncode == 0 else FAIL, lines)
+    # 수렴 근거 줄에서 BCE 시작·끝 값을 뽑아 원장에 박는다 — 논문이 "0.69 → 0.20" 을
+    # 인용하는데 그 값이 어느 파일에도 없었다(2026-09-14 감사).
+    # ⛔ `evidence` 는 필터에 걸린 **아무 테스트**의 줄을 앞에서 6개 자른다 — 그래서
+    #    C5 의 BCE 대신 랭킹헤드 AUC 가 담기고 있었다. BCE 는 따로 뽑는다.
+    bce = [(int(m.group(1)), float(m.group(2)))
+           for ln in out.splitlines()
+           if (m := re.search(r"round\s+(\d+): held-out BCE = ([\d.]+)", ln))]
+    losses = [float(x) for ln in evidence for x in re.findall(r"\d+\.\d+", ln)]
+    return report("C5 fl-round", PASS if r.returncode == 0 else FAIL, lines,
+                  facts={"tests_run": ran, "tests_passed": len(names),
+                         "evidence_lines": evidence,
+                         "heldout_bce_checkpoints": bce,
+                         "heldout_bce_initial": bce[0][1] if bce else None,
+                         "heldout_bce_final": bce[-1][1] if bce else None,
+                         "loss_values_seen": losses[:12]})
 
 
 # ⛔ 최상위에서 부르면 이 모듈을 **import 할 수 없다** — import 하는 순간 게이트가

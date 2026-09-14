@@ -4,7 +4,7 @@
  "_scored_by": "oicr_sdk_core::Taxonomy::scores (배포 함수, tax_agreement.rs)",
  "translation": {
   "n": 12000,
-  "engine": "local-27b-instruct",
+  "engine": "Qwen3.8-27B-NVFP4-GPTQ-txt-1m-cache",
   "no_hangul_kept_original": 5,
   "residue_cleanup": "키릴/한자 잔존 133건 → 개별 재번역 57 + 결정론 치환(卡西欧→카시오 등) → 최종 잔존 0"
  },

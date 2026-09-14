@@ -22,7 +22,7 @@
     }
   },
   "translation": {
-    "engine": "local-27b-instruct",
+    "engine": "Qwen3.8-27B-NVFP4-GPTQ-txt-1m-cache",
     "domain_prompt": "ecommerce (신설 --domain 플래그, 기존 --domain fashion 기본값·바이트동일 재현 보존)",
     "n": 12000,
     "no_hangul_kept_original_initial": 58,

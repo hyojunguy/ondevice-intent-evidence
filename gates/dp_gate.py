@@ -99,6 +99,10 @@ def run_gate() -> int:
 
     eps_naive = eps_from_rho(rho_gaussian(clip, sigma * math.sqrt(n_assumed)) * rounds, delta)
     eps_camp = campaign_epsilon(z_eff, q, rounds, delta)
+    # ⛔ 논문은 "q=1 에서 PLD 16.25 vs 손계산 zCDP 17.67" 을 교차검증으로 인용하는데
+    #    게이트가 그 PLD 값을 아예 계산하지 않고 있었다(2026-09-14 감사). 인용할 값은
+    #    게이트가 내야 한다 — 안 그러면 그 교차검증은 문서에만 있는 주장이다.
+    eps_camp_q1 = campaign_epsilon(z_eff, 1.0, rounds, delta)
 
     lines = [
         f"clip={clip} · sigma={sigma} · z={z:.3f} · delta={delta:g}",
@@ -107,7 +111,10 @@ def run_gate() -> int:
         f"목표를 만족하는 최소 참여자 수: {required_n:,}명" if required_n else "목표를 만족하는 n 이 100만 이하에 없다",
         "",
         f"── 캠페인 전체 ({rounds} 라운드) — 사람의 프라이버시에 해당하는 값 ──",
-        f"증폭 없음(q=1, zCDP): ε ≈ {eps_naive:.2f}   ⛔ 모든 기기가 매 라운드 참여한다는 비현실적 가정",
+        (f"증폭 없음(q=1): PLD ε ≈ {eps_camp_q1:.2f} · 손계산 zCDP ε ≈ {eps_naive:.2f}"
+         if eps_camp_q1 is not None else
+         f"증폭 없음(q=1, zCDP): ε ≈ {eps_naive:.2f}")
+        + "   ⛔ 모든 기기가 매 라운드 참여한다는 비현실적 가정",
         (f"서브샘플링(PLD, 인구 {population:,} → q={q:.4f}): ε ≈ {eps_camp:.2f}"
          f"  (목표 ≤ {target_campaign:.2f})" if eps_camp is not None
          else "⬜ 서브샘플링 회계 UNMEASURED — `uv pip install dp-accounting` 후 다시"),
@@ -137,7 +144,16 @@ def run_gate() -> int:
         lines.append(f"⛔ 캠페인 ε {eps_camp:.2f} > 목표 {target_campaign:.2f}"
                      f" — 인구를 늘리거나 라운드를 줄이거나 sigma 를 올려야 한다.")
         return report("C8 dp-budget", FAIL, lines)
-    return report("C8 dp-budget", PASS if eps_now <= target else FAIL, lines)
+    return report("C8 dp-budget", PASS if eps_now <= target else FAIL, lines,
+                  facts={"clip": clip, "sigma": sigma, "z_effective": round(z_eff, 4),
+                         "delta": delta, "rounds": rounds, "population": population, "q": q,
+                         "epsilon_round_aggregate": round(eps_now, 4),
+                         "epsilon_campaign_pld": None if eps_camp is None else round(eps_camp, 4),
+                         "epsilon_campaign_pld_q1": None if eps_camp_q1 is None else round(eps_camp_q1, 4),
+                         "epsilon_campaign_zcdp_q1": round(eps_naive, 4),
+                         "target_round": target, "target_campaign": target_campaign,
+                         "min_participants_for_target": required_n,
+                         "federated_len": federated_len, "param_len": param_len})
 
 
 # ⛔ 최상위에서 부르면 이 모듈을 **import 할 수 없다** — import 하는 순간 게이트가

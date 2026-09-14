@@ -1,0 +1,11 @@
+{
+  "_measured_at": "2026-09-15T07:36:56",
+  "_what": "C3 전송 게이트가 실제로 잰 값. 논문은 이 파일만 인용한다.",
+  "verdict": "PASS",
+  "round_payload_bytes": 79968,
+  "round_payload_limit_bytes": 307200,
+  "canaries_total": 7,
+  "canaries_leaked": 0,
+  "top_level_keys": 6,
+  "openrtb_request_bytes": 1721
+}

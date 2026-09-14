@@ -1,0 +1,123 @@
+{
+  "note": "배포 양자화(행별 스케일)로 평가. 코사인 경로(sts·taxo)와 학습 경로(ynat·nsmc)를 분리.",
+  "arms": {
+    "pca-trunc": "/home/user/hyojunguy/ai-strategy-private/oicr-sdk/experiments/distill-ko/out/potion-ko-512d-tokenlearn",
+    "sim-512only": "/home/user/hyojunguy/ai-strategy-private/oicr-sdk/experiments/mrl-vs-pca/out/sim-512only",
+    "mrl-nested": "/home/user/hyojunguy/ai-strategy-private/oicr-sdk/experiments/mrl-vs-pca/out/mrl-nested",
+    "native-64": "/home/user/hyojunguy/ai-strategy-private/oicr-sdk/experiments/distill-ko/out/potion-ko-64d-tokenlearn",
+    "native-128": "/home/user/hyojunguy/ai-strategy-private/oicr-sdk/experiments/distill-ko/out/potion-ko-128d-tokenlearn",
+    "mrl-t128": "/home/user/hyojunguy/ai-strategy-private/oicr-sdk/experiments/mrl-vs-pca/out/mrl-t128"
+  },
+  "rows": [
+    {
+      "arm": "pca-trunc",
+      "dim": 64,
+      "bits": 4,
+      "emb_gzip": 975821,
+      "klue_sts_rho": 0.6827,
+      "taxo_top1": 0.321,
+      "ynat_acc": 0.5345,
+      "nsmc_acc": 0.733
+    },
+    {
+      "arm": "pca-trunc",
+      "dim": 128,
+      "bits": 4,
+      "emb_gzip": 1778722,
+      "klue_sts_rho": 0.6965,
+      "taxo_top1": 0.5137,
+      "ynat_acc": 0.6542,
+      "nsmc_acc": 0.7585
+    },
+    {
+      "arm": "sim-512only",
+      "dim": 64,
+      "bits": 4,
+      "emb_gzip": 977724,
+      "klue_sts_rho": 0.6779,
+      "taxo_top1": 0.3127,
+      "ynat_acc": 0.5282,
+      "nsmc_acc": 0.736
+    },
+    {
+      "arm": "sim-512only",
+      "dim": 128,
+      "bits": 4,
+      "emb_gzip": 1782871,
+      "klue_sts_rho": 0.6977,
+      "taxo_top1": 0.52,
+      "ynat_acc": 0.6545,
+      "nsmc_acc": 0.7555
+    },
+    {
+      "arm": "mrl-nested",
+      "dim": 64,
+      "bits": 4,
+      "emb_gzip": 979516,
+      "klue_sts_rho": 0.6807,
+      "taxo_top1": 0.313,
+      "ynat_acc": 0.5635,
+      "nsmc_acc": 0.731
+    },
+    {
+      "arm": "mrl-nested",
+      "dim": 128,
+      "bits": 4,
+      "emb_gzip": 1786103,
+      "klue_sts_rho": 0.6999,
+      "taxo_top1": 0.5073,
+      "ynat_acc": 0.6737,
+      "nsmc_acc": 0.7558
+    },
+    {
+      "arm": "native-64",
+      "dim": 64,
+      "bits": 4,
+      "emb_gzip": 994734,
+      "klue_sts_rho": 0.6103,
+      "taxo_top1": 0.241,
+      "ynat_acc": 0.634,
+      "nsmc_acc": 0.7365
+    },
+    {
+      "arm": "native-128",
+      "dim": 64,
+      "bits": 4,
+      "emb_gzip": 972691,
+      "klue_sts_rho": 0.6727,
+      "taxo_top1": 0.2923,
+      "ynat_acc": 0.5563,
+      "nsmc_acc": 0.7305
+    },
+    {
+      "arm": "native-128",
+      "dim": 128,
+      "bits": 4,
+      "emb_gzip": 1767620,
+      "klue_sts_rho": 0.6881,
+      "taxo_top1": 0.4723,
+      "ynat_acc": 0.664,
+      "nsmc_acc": 0.7542
+    },
+    {
+      "arm": "mrl-t128",
+      "dim": 64,
+      "bits": 4,
+      "emb_gzip": 979659,
+      "klue_sts_rho": 0.6793,
+      "taxo_top1": 0.3117,
+      "ynat_acc": 0.569,
+      "nsmc_acc": 0.7355
+    },
+    {
+      "arm": "mrl-t128",
+      "dim": 128,
+      "bits": 4,
+      "emb_gzip": 1786390,
+      "klue_sts_rho": 0.6996,
+      "taxo_top1": 0.502,
+      "ynat_acc": 0.675,
+      "nsmc_acc": 0.756
+    }
+  ]
+}

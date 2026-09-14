@@ -93,15 +93,17 @@ def run_gate() -> int:
         )
 
     # 축이 의도 헤드와 어긋나면 노출이 엉뚱한 버킷에 기록된다.
+    axis_fail = ""
     head_classes = _head_class_count()
     if head_classes is None:
         lines.append("⚠️  head.bin 을 못 읽어 축 일치는 확인 못 했다")
     elif head_classes != buckets:
-        return report(
-            "C9 attribution-budget",
-            FAIL,
-            lines + [f"축 불일치: budgets.attribution.buckets={buckets} != head.bin 클래스 {head_classes}"],
-        )
+        # ⛔ 2026-09-14: 여기서 **early return** 하고 있었다. 축 검사와 ε 합성은 서로
+        #    독립인데, 축이 어긋나면 ε 을 아예 계산하지 않고 끝나 버려서 논문이 인용하는
+        #    합성 ε = 1.730 이 게이트 산출이 아니게 됐다(그 값은 문서에만 있었다).
+        #    ⇒ 실패는 실패대로 기록하고 **계산은 끝까지 간다.**
+        axis_fail = f"축 불일치: budgets.attribution.buckets={buckets} != head.bin 클래스 {head_classes}"
+        lines.append("⛔ " + axis_fail)
     else:
         lines.append(f"축 일치 확인: head.bin 클래스 {head_classes} == buckets")
 
@@ -150,15 +152,25 @@ def run_gate() -> int:
     if eps > target:
         lines.append("⛔ 예산 초과 — noise_sigma 를 올리거나 max_active_buckets 를 줄여라.")
         lines.append("   ⚠️ 목표치를 올려서 통과시키지 마라. 그건 보장을 낮추는 것이지 고치는 게 아니다.")
-        return report("C9 attribution-budget", FAIL, lines)
+        return report("C9 attribution-budget", FAIL, lines,
+                      facts={"l2_sensitivity": round(sens, 4), "epsilon": round(eps, 4),
+                             "target": target, "buckets": buckets,
+                             "max_active": max_active, "max_count": max_count})
 
+    if axis_fail:
+        lines.append("⛔ 축 불일치가 남아 있어 배포 금지 — ε 자체는 위에 계산돼 있다.")
     k_anon = attr.get("min_bucket_count")
     if k_anon:
         lines.append(f"서버측 k-익명 억제 임계 {k_anon} — DP 노이즈와 보완재(A2)")
     else:
         lines.append("⚠️  min_bucket_count 미선언 — 희소 버킷이 노이즈를 뚫을 수 있다(A2)")
 
-    return report("C9 attribution-budget", PASS, lines)
+    return report("C9 attribution-budget", FAIL if axis_fail else PASS, lines,
+                  facts={"l2_sensitivity": round(sens, 4), "epsilon_composed": round(eps, 4),
+                         "epsilon_delta_channel_only": None if delta_only is None else round(delta_only, 4),
+                         "target": target, "buckets": buckets,
+                         "max_active": max_active, "max_count": max_count,
+                         "head_classes": head_classes, "axis_mismatch": axis_fail})
 
 
 def _head_class_count() -> int | None:

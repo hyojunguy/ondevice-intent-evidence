@@ -1,0 +1,167 @@
+{
+  "note": "행별 f32 스케일 포함. 실측 gzip. 배포되는 것은 stage2 다.",
+  "rows": [
+    {
+      "arm": "stage1(ceiling/d1024 절단)",
+      "vocab": 31497,
+      "dim": 64,
+      "bits": 8,
+      "raw_bytes": 2141796,
+      "gzip_bytes": 1700505,
+      "gzip_ratio": 0.794
+    },
+    {
+      "arm": "stage1(ceiling/d1024 절단)",
+      "vocab": 31497,
+      "dim": 64,
+      "bits": 4,
+      "raw_bytes": 1133892,
+      "gzip_bytes": 762061,
+      "gzip_ratio": 0.6721
+    },
+    {
+      "arm": "stage1(ceiling/d1024 절단)",
+      "vocab": 31497,
+      "dim": 128,
+      "bits": 8,
+      "raw_bytes": 4157604,
+      "gzip_bytes": 3239515,
+      "gzip_ratio": 0.7792
+    },
+    {
+      "arm": "stage1(ceiling/d1024 절단)",
+      "vocab": 31497,
+      "dim": 128,
+      "bits": 4,
+      "raw_bytes": 2141796,
+      "gzip_bytes": 1378427,
+      "gzip_ratio": 0.6436
+    },
+    {
+      "arm": "stage1(ceiling/d1024 절단)",
+      "vocab": 31497,
+      "dim": 256,
+      "bits": 8,
+      "raw_bytes": 8189220,
+      "gzip_bytes": 5981670,
+      "gzip_ratio": 0.7304
+    },
+    {
+      "arm": "stage1(ceiling/d1024 절단)",
+      "vocab": 31497,
+      "dim": 256,
+      "bits": 4,
+      "raw_bytes": 4157604,
+      "gzip_bytes": 2315504,
+      "gzip_ratio": 0.5569
+    },
+    {
+      "arm": "stage1(ceiling/d1024 절단)",
+      "vocab": 31497,
+      "dim": 512,
+      "bits": 8,
+      "raw_bytes": 16252452,
+      "gzip_bytes": 10207139,
+      "gzip_ratio": 0.628
+    },
+    {
+      "arm": "stage1(ceiling/d1024 절단)",
+      "vocab": 31497,
+      "dim": 512,
+      "bits": 4,
+      "raw_bytes": 8189220,
+      "gzip_bytes": 3112000,
+      "gzip_ratio": 0.38
+    },
+    {
+      "arm": "stage2-d512(배포 후보)",
+      "vocab": 31497,
+      "dim": 64,
+      "bits": 8,
+      "raw_bytes": 2141796,
+      "gzip_bytes": 2012701,
+      "gzip_ratio": 0.9397
+    },
+    {
+      "arm": "stage2-d512(배포 후보)",
+      "vocab": 31497,
+      "dim": 64,
+      "bits": 4,
+      "raw_bytes": 1133892,
+      "gzip_bytes": 975821,
+      "gzip_ratio": 0.8606
+    },
+    {
+      "arm": "stage2-d512(배포 후보)",
+      "vocab": 31497,
+      "dim": 128,
+      "bits": 8,
+      "raw_bytes": 4157604,
+      "gzip_bytes": 3860062,
+      "gzip_ratio": 0.9284
+    },
+    {
+      "arm": "stage2-d512(배포 후보)",
+      "vocab": 31497,
+      "dim": 128,
+      "bits": 4,
+      "raw_bytes": 2141796,
+      "gzip_bytes": 1778722,
+      "gzip_ratio": 0.8305
+    },
+    {
+      "arm": "stage2-d512(배포 후보)",
+      "vocab": 31497,
+      "dim": 256,
+      "bits": 8,
+      "raw_bytes": 8189220,
+      "gzip_bytes": 7430488,
+      "gzip_ratio": 0.9073
+    },
+    {
+      "arm": "stage2-d512(배포 후보)",
+      "vocab": 31497,
+      "dim": 256,
+      "bits": 4,
+      "raw_bytes": 4157604,
+      "gzip_bytes": 3275686,
+      "gzip_ratio": 0.7879
+    },
+    {
+      "arm": "stage2-d512(배포 후보)",
+      "vocab": 31497,
+      "dim": 512,
+      "bits": 8,
+      "raw_bytes": 16252452,
+      "gzip_bytes": 14413347,
+      "gzip_ratio": 0.8868
+    },
+    {
+      "arm": "stage2-d512(배포 후보)",
+      "vocab": 31497,
+      "dim": 512,
+      "bits": 4,
+      "raw_bytes": 8189220,
+      "gzip_bytes": 6115038,
+      "gzip_ratio": 0.7467
+    },
+    {
+      "arm": "stage2-d64(현 배포본)",
+      "vocab": 31497,
+      "dim": 64,
+      "bits": 8,
+      "raw_bytes": 2141796,
+      "gzip_bytes": 2032602,
+      "gzip_ratio": 0.949
+    },
+    {
+      "arm": "stage2-d64(현 배포본)",
+      "vocab": 31497,
+      "dim": 64,
+      "bits": 4,
+      "raw_bytes": 1133892,
+      "gzip_bytes": 994734,
+      "gzip_ratio": 0.8773
+    }
+  ]
+}

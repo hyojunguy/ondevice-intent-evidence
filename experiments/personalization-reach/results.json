@@ -1,0 +1,42 @@
+{
+  "note": "헤드는 학습본이 아니라 난수다 — 정확도가 아니라 도달범위·울타리 구속력만 잰다",
+  "queries": 20,
+  "users": 64,
+  "head_mu": 0.35,
+  "candidates": 32,
+  "leaves": 2960,
+  "arms": [
+    {
+      "head_scale": 1,
+      "n": 1280,
+      "a_changed_top1": 0.0266,
+      "b_changed_top1": 0.0594,
+      "a_vs_b_disagree": 0.0352,
+      "b_reached_outside_top32": 0.0
+    },
+    {
+      "head_scale": 10,
+      "n": 1280,
+      "a_changed_top1": 0.1883,
+      "b_changed_top1": 0.6141,
+      "a_vs_b_disagree": 0.4813,
+      "b_reached_outside_top32": 0.0672
+    },
+    {
+      "head_scale": 100,
+      "n": 1280,
+      "a_changed_top1": 0.3461,
+      "b_changed_top1": 0.5062,
+      "a_vs_b_disagree": 0.1969,
+      "b_reached_outside_top32": 0.007
+    },
+    {
+      "head_scale": 1000,
+      "n": 1280,
+      "a_changed_top1": 0.3477,
+      "b_changed_top1": 0.4594,
+      "a_vs_b_disagree": 0.1156,
+      "b_reached_outside_top32": 0.0055
+    }
+  ]
+}

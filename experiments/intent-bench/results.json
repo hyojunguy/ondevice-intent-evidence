@@ -1,0 +1,385 @@
+{
+  "synthetic": true,
+  "seed": 20260824,
+  "bootstrap_resamples": 2500,
+  "n_buckets": 60,
+  "n_train": 1920,
+  "n_heldout": 480,
+  "main_task": {
+    "ours_zeroshot_python": {
+      "accuracy": {
+        "point": 0.1354,
+        "ci95": [
+          0.1062,
+          0.1688
+        ]
+      },
+      "macro_f1": {
+        "point": 0.1734,
+        "ci95": [
+          0.1289,
+          0.1976
+        ]
+      }
+    },
+    "ours_zeroshot_rust_SHIPS": {
+      "accuracy": {
+        "point": 0.2854,
+        "ci95": [
+          0.2427,
+          0.3271
+        ]
+      },
+      "macro_f1": {
+        "point": 0.284,
+        "ci95": [
+          0.232,
+          0.3088
+        ]
+      }
+    },
+    "teacher_zeroshot_python_upperbound": {
+      "accuracy": {
+        "point": 0.6333,
+        "ci95": [
+          0.5917,
+          0.6771
+        ]
+      },
+      "macro_f1": {
+        "point": 0.6232,
+        "ci95": [
+          0.5706,
+          0.6498
+        ]
+      }
+    },
+    "ours_head_python": {
+      "accuracy": {
+        "point": 0.5,
+        "ci95": [
+          0.4562,
+          0.5458
+        ]
+      },
+      "macro_f1": {
+        "point": 0.5276,
+        "ci95": [
+          0.468,
+          0.5544
+        ]
+      }
+    },
+    "ours_head_via_rust_embeddings": {
+      "accuracy": {
+        "point": 0.3104,
+        "ci95": [
+          0.2708,
+          0.3511
+        ]
+      },
+      "macro_f1": {
+        "point": 0.3205,
+        "ci95": [
+          0.2683,
+          0.3461
+        ]
+      },
+      "INVALID": "헤드는 파이썬 모델로 학습했는데 입력은 다른 모델의 Rust 임베딩이다 — 품질이 아니라 좌표계 전이를 잰 값이다. 배포 수치는 ours_head_rust_SHIPS 를 보라."
+    },
+    "ours_head_rust_SHIPS": {
+      "accuracy": {
+        "point": 0.6312,
+        "ci95": [
+          0.5875,
+          0.675
+        ]
+      },
+      "macro_f1": {
+        "point": 0.627,
+        "ci95": [
+          0.571,
+          0.6528
+        ]
+      }
+    },
+    "teacher_head_python_upperbound": {
+      "accuracy": {
+        "point": 0.8854,
+        "ci95": [
+          0.8562,
+          0.9125
+        ]
+      },
+      "macro_f1": {
+        "point": 0.8879,
+        "ci95": [
+          0.8496,
+          0.909
+        ]
+      }
+    }
+  },
+  "negation_subset": {
+    "ours_zeroshot_python": {
+      "point": 0.808,
+      "ci95": [
+        0.76,
+        0.856
+      ],
+      "n": 250,
+      "baseline_coin_flip": 0.5
+    },
+    "ours_zeroshot_rust_SHIPS": {
+      "point": 0.836,
+      "ci95": [
+        0.788,
+        0.88
+      ],
+      "n": 250,
+      "baseline_coin_flip": 0.5
+    },
+    "teacher_zeroshot_python_upperbound": {
+      "point": 0.98,
+      "ci95": [
+        0.96,
+        0.996
+      ],
+      "n": 250,
+      "baseline_coin_flip": 0.5
+    },
+    "ours_head_python": {
+      "point": 0.8857,
+      "ci95": [
+        0.8,
+        0.9571
+      ],
+      "n": 70,
+      "baseline_coin_flip": 0.5
+    },
+    "ours_head_via_rust_embeddings": {
+      "point": 0.9143,
+      "ci95": [
+        0.8429,
+        0.9714
+      ],
+      "n": 70,
+      "baseline_coin_flip": 0.5
+    },
+    "teacher_head_python_upperbound": {
+      "point": 1.0,
+      "ci95": [
+        1.0,
+        1.0
+      ],
+      "n": 70,
+      "baseline_coin_flip": 0.5
+    }
+  },
+  "confusion": {
+    "arm": "ours_zeroshot_rust_SHIPS",
+    "top_confused_pairs": [
+      {
+        "true": "교육_어학원",
+        "predicted": "교육_온라인강의",
+        "count": 4
+      },
+      {
+        "true": "헬스_병원의료",
+        "predicted": "금융_보험",
+        "count": 4
+      },
+      {
+        "true": "전자_생활가전",
+        "predicted": "생활_청소세제",
+        "count": 3
+      },
+      {
+        "true": "식품_밀키트간편식",
+        "predicted": "식품_신선식품",
+        "count": 3
+      },
+      {
+        "true": "패션_주얼리시계",
+        "predicted": "금융_투자",
+        "count": 3
+      },
+      {
+        "true": "여행_숙박",
+        "predicted": "금융_보험",
+        "count": 3
+      },
+      {
+        "true": "금융_투자",
+        "predicted": "금융_보험",
+        "count": 3
+      },
+      {
+        "true": "헬스_피트니스",
+        "predicted": "헬스_다이어트",
+        "count": 3
+      },
+      {
+        "true": "육아_유아용품",
+        "predicted": "생활_청소세제",
+        "count": 3
+      },
+      {
+        "true": "육아_유아의류",
+        "predicted": "육아_이유식분유",
+        "count": 3
+      },
+      {
+        "true": "게임_모바일게임",
+        "predicted": "게임_콘솔PC게임",
+        "count": 3
+      },
+      {
+        "true": "전자_카메라",
+        "predicted": "교육_취업자격증",
+        "count": 2
+      },
+      {
+        "true": "생활_청소세제",
+        "predicted": "생활_주방용품",
+        "count": 2
+      },
+      {
+        "true": "생활_수납정리",
+        "predicted": "금융_대출",
+        "count": 2
+      },
+      {
+        "true": "생활_수납정리",
+        "predicted": "육아_유아의류",
+        "count": 2
+      }
+    ],
+    "total_misclassified": 343
+  },
+  "pairwise": [
+    {
+      "a": "teacher_zeroshot_python_upperbound",
+      "b": "ours_zeroshot_rust_SHIPS",
+      "delta_a_minus_b": 0.3484,
+      "ci95": [
+        0.3021,
+        0.3958
+      ],
+      "significant": true
+    },
+    {
+      "a": "teacher_head_python_upperbound",
+      "b": "ours_head_python",
+      "delta_a_minus_b": 0.385,
+      "ci95": [
+        0.3354,
+        0.4333
+      ],
+      "significant": true
+    },
+    {
+      "a": "ours_head_python",
+      "b": "ours_zeroshot_rust_SHIPS",
+      "delta_a_minus_b": 0.2152,
+      "ci95": [
+        0.1635,
+        0.2667
+      ],
+      "significant": true
+    },
+    {
+      "a": "ours_zeroshot_python",
+      "b": "ours_zeroshot_rust_SHIPS",
+      "delta_a_minus_b": -0.1493,
+      "ci95": [
+        -0.1917,
+        -0.1083
+      ],
+      "significant": true
+    },
+    {
+      "a": "ours_head_python",
+      "b": "ours_head_via_rust_embeddings",
+      "delta_a_minus_b": 0.1902,
+      "ci95": [
+        0.1479,
+        0.2375
+      ],
+      "significant": true
+    },
+    {
+      "a": "ours_zeroshot_rust_SHIPS",
+      "b": "teacher_zeroshot_python_upperbound",
+      "delta_a_minus_b": -0.1441,
+      "ci95": [
+        -0.188,
+        -0.1
+      ],
+      "significant": true,
+      "subset": "negation"
+    },
+    {
+      "a": "ours_head_python",
+      "b": "teacher_head_python_upperbound",
+      "delta_a_minus_b": -0.1143,
+      "ci95": [
+        -0.2,
+        -0.0429
+      ],
+      "significant": true,
+      "subset": "negation"
+    },
+    {
+      "a": "ours_head_python",
+      "b": "ours_head_via_rust_embeddings",
+      "delta_a_minus_b": -0.0286,
+      "ci95": [
+        -0.1286,
+        0.0714
+      ],
+      "significant": false,
+      "subset": "negation"
+    }
+  ],
+  "rust_gap": {
+    "_valid": false,
+    "_why_invalid": "artifacts 와 OURS_MODEL_DIR 이 다른 모델이다 — 두 팔의 차이는 구현 격차가 아니다.",
+    "zeroshot_accuracy": 0.15,
+    "head_accuracy": -0.1896,
+    "negation_zeroshot_accuracy": 0.028,
+    "negation_head_accuracy": 0.0286
+  },
+  "negation_topics": {
+    "n_topics": 25,
+    "train_topics": [
+      "기프트카드",
+      "대출상담",
+      "렌트카",
+      "반려동물분양",
+      "보험",
+      "부동산매매",
+      "신용카드발급",
+      "여행패키지",
+      "유아용품",
+      "자동차구매",
+      "전자기기구매",
+      "정기구독",
+      "학원등록",
+      "할인쿠폰",
+      "항공권예약",
+      "헬스장등록",
+      "환불",
+      "회원가입"
+    ],
+    "heldout_topics": [
+      "결혼정보업체",
+      "뷰티시술",
+      "이사업체",
+      "인테리어시공",
+      "정수기렌탈",
+      "중고차거래",
+      "텔레마케팅수신"
+    ]
+  }
+}

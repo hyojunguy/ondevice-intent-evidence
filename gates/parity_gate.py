@@ -72,7 +72,9 @@ def run_gate() -> int:
              f"최대 절대차 {worst:.3e} (허용 {TOL:.0e})"]
     if worst_at:
         lines.append(f"최대차 위치: {worst_at[0][:36]!r} dim[{worst_at[1]}]")
-    return report("I1 parity", PASS if worst <= TOL else FAIL, lines)
+    return report("I1 parity", PASS if worst <= TOL else FAIL, lines,
+                  facts={"rows": len(a), "dim": dim, "elements": len(a) * (dim or 0),
+                         "max_abs_diff": float(worst), "tolerance": TOL})
 
 
 # ⛔ 최상위에서 부르면 이 모듈을 **import 할 수 없다** — import 하는 순간 게이트가

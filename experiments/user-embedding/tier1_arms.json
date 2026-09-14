@@ -16,7 +16,7 @@
     "acc": 0.9509591326105088,
     "leaf": 0.4717264386989158
   },
-  "baseline_from": "<home>/hyojunguy/ai-strategy-private/oicr-sdk/crates/fl-client/../../artifacts/user_embedding.bin",
+  "baseline_from": "/home/user/hyojunguy/ai-strategy-private/oicr-sdk/crates/fl-client/../../artifacts/user_embedding.bin",
   "n": 5995,
   "n_panel": 6000,
   "n_with_percept": 5995,

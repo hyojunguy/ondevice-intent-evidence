@@ -62,6 +62,26 @@ def run_gate() -> int:
     sup_code, sup_lines = check_purchase_suppression()
     code = max(code, sup_code) if sup_code != UNMEASURED else (sup_code if code == PASS else code)
     lines.extend(sup_lines)
+
+    # ⛔ 게이트가 **숫자를 파일로 남기지 않으면** 그 숫자는 인용될 수 없다. 2026-09-14 에
+    #    논문이 페이로드 69,482 바이트를 인용하고 있었는데 어느 원장에도 없었다(그 값은
+    #    산문 스펙 docs/spec/03-fl-protocol.md 에서 왔고, 실측은 79,968 이다).
+    #    p95 지연이 같은 방식으로 틀렸던 것과 같은 결함이라, 여기도 원장을 쓴다.
+    import datetime as _dt
+    (ROOT / "artifacts" / "egress_facts.json").write_text(
+        json.dumps({
+            "_measured_at": _dt.datetime.now().isoformat(timespec="seconds"),
+            "_what": "C3 전송 게이트가 실제로 잰 값. 논문은 이 파일만 인용한다.",
+            "verdict": {PASS: "PASS", FAIL: "FAIL", UNMEASURED: "UNMEASURED"}[code],
+            "round_payload_bytes": size,
+            "round_payload_limit_bytes": limit,
+            "canaries_total": len(CANARIES),
+            "canaries_leaked": len(leaked),
+            "top_level_keys": len(got),
+            "openrtb_request_bytes": next(
+                (int(m.group(1).replace(",", "")) for ln in rtb_lines
+                 if (m := __import__("re").search(r"요청 ([\d,]+) 바이트", ln))), None),
+        }, ensure_ascii=False, indent=2), encoding="utf-8")
     return report("C3 egress", code, lines)
 
 

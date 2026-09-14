@@ -1,0 +1,213 @@
+{
+  "task": "고정 홀드아웃 818리프 · 발화 → 2,960 리프 top-1 · 배포 4bit",
+  "holdout_leaves": 818,
+  "holdout_utterances": 4635,
+  "note": "각 점의 학습 리프 집합은 서로의 부분집합(같은 셔플의 앞부분)이다.",
+  "points": [
+    {
+      "axis": "baseline",
+      "train_leaves": 0,
+      "utts_per_leaf": 0,
+      "top1": 0.2117,
+      "top5": 0.4356
+    },
+    {
+      "axis": "leaves",
+      "train_leaves": 200,
+      "utts_per_leaf": -1,
+      "top1": 0.2037,
+      "top5": 0.4039,
+      "delta_vs_stage2_pp": -0.8
+    },
+    {
+      "axis": "leaves",
+      "train_leaves": 470,
+      "utts_per_leaf": -1,
+      "top1": 0.2162,
+      "top5": 0.4449,
+      "delta_vs_stage2_pp": 0.45
+    },
+    {
+      "axis": "leaves",
+      "train_leaves": 800,
+      "utts_per_leaf": -1,
+      "top1": 0.2293,
+      "top5": 0.4677,
+      "delta_vs_stage2_pp": 1.77
+    },
+    {
+      "axis": "leaves",
+      "train_leaves": 1200,
+      "utts_per_leaf": -1,
+      "top1": 0.2412,
+      "top5": 0.4857,
+      "delta_vs_stage2_pp": 2.96
+    },
+    {
+      "axis": "leaves",
+      "train_leaves": 1600,
+      "utts_per_leaf": -1,
+      "top1": 0.2488,
+      "top5": 0.5012,
+      "delta_vs_stage2_pp": 3.71
+    },
+    {
+      "axis": "leaves",
+      "train_leaves": 1910,
+      "utts_per_leaf": -1,
+      "top1": 0.2522,
+      "top5": 0.5146,
+      "delta_vs_stage2_pp": 4.06
+    },
+    {
+      "axis": "leaves",
+      "train_leaves": 0,
+      "utts_per_leaf": -1,
+      "top1": 0.2537,
+      "top5": 0.5236,
+      "delta_vs_stage2_pp": 4.21
+    },
+    {
+      "axis": "utts",
+      "train_leaves": -1,
+      "utts_per_leaf": 1,
+      "top1": 0.2274,
+      "top5": 0.457,
+      "delta_vs_stage2_pp": 1.57
+    },
+    {
+      "axis": "utts",
+      "train_leaves": -1,
+      "utts_per_leaf": 2,
+      "top1": 0.2332,
+      "top5": 0.4772,
+      "delta_vs_stage2_pp": 2.16
+    },
+    {
+      "axis": "utts",
+      "train_leaves": -1,
+      "utts_per_leaf": 3,
+      "top1": 0.2395,
+      "top5": 0.485,
+      "delta_vs_stage2_pp": 2.78
+    },
+    {
+      "axis": "utts",
+      "train_leaves": -1,
+      "utts_per_leaf": 4,
+      "top1": 0.2464,
+      "top5": 0.5012,
+      "delta_vs_stage2_pp": 3.47
+    },
+    {
+      "axis": "utts",
+      "train_leaves": -1,
+      "utts_per_leaf": 0,
+      "top1": 0.2537,
+      "top5": 0.5236,
+      "delta_vs_stage2_pp": 4.21
+    }
+  ],
+  "steps": [
+    {
+      "from": "leaves:200",
+      "to": "leaves:470",
+      "delta_pp": 1.25,
+      "ci_pp": [
+        0.71,
+        1.81
+      ],
+      "significant": true
+    },
+    {
+      "from": "leaves:470",
+      "to": "leaves:800",
+      "delta_pp": 1.32,
+      "ci_pp": [
+        0.76,
+        1.9
+      ],
+      "significant": true
+    },
+    {
+      "from": "leaves:800",
+      "to": "leaves:1200",
+      "delta_pp": 1.19,
+      "ci_pp": [
+        0.63,
+        1.75
+      ],
+      "significant": true
+    },
+    {
+      "from": "leaves:1200",
+      "to": "leaves:1600",
+      "delta_pp": 0.76,
+      "ci_pp": [
+        0.17,
+        1.32
+      ],
+      "significant": true
+    },
+    {
+      "from": "leaves:1600",
+      "to": "leaves:1910",
+      "delta_pp": 0.35,
+      "ci_pp": [
+        -0.15,
+        0.82
+      ],
+      "significant": false
+    },
+    {
+      "from": "leaves:1910",
+      "to": "leaves:0",
+      "delta_pp": 0.15,
+      "ci_pp": [
+        -0.35,
+        0.65
+      ],
+      "significant": false
+    },
+    {
+      "from": "utts:1",
+      "to": "utts:2",
+      "delta_pp": 0.58,
+      "ci_pp": [
+        0.04,
+        1.12
+      ],
+      "significant": true
+    },
+    {
+      "from": "utts:2",
+      "to": "utts:3",
+      "delta_pp": 0.63,
+      "ci_pp": [
+        0.15,
+        1.12
+      ],
+      "significant": true
+    },
+    {
+      "from": "utts:3",
+      "to": "utts:4",
+      "delta_pp": 0.69,
+      "ci_pp": [
+        0.17,
+        1.19
+      ],
+      "significant": true
+    },
+    {
+      "from": "utts:4",
+      "to": "utts:0",
+      "delta_pp": 0.73,
+      "ci_pp": [
+        0.17,
+        1.29
+      ],
+      "significant": true
+    }
+  ]
+}

@@ -1,0 +1,228 @@
+{
+  "note": "LLM 발화(리프명 제거) 위의 융합. 교사는 서버가 아니라 Tier 1(기기 안) 전제.",
+  "n_train": 1187,
+  "n_heldout": 388,
+  "rows": [
+    {
+      "arm": "tier0-text (우리 128d@4bit)",
+      "all": 0.6443,
+      "clear": 0.614,
+      "partial": 0.6396,
+      "ambiguous": 0.6687
+    },
+    {
+      "arm": "events-only",
+      "all": 0.4639,
+      "clear": 0.4474,
+      "partial": 0.4865,
+      "ambiguous": 0.4601
+    },
+    {
+      "arm": "tier0-text+events (5MB 안)",
+      "all": 0.8222,
+      "clear": 0.7719,
+      "partial": 0.8108,
+      "ambiguous": 0.865
+    },
+    {
+      "arm": "tier1-text (교사급, 기기 안)",
+      "all": 0.7577,
+      "clear": 0.7105,
+      "partial": 0.7477,
+      "ambiguous": 0.7975
+    },
+    {
+      "arm": "tier1-text+events (Tier1 천장)",
+      "all": 0.7629,
+      "clear": 0.7105,
+      "partial": 0.7568,
+      "ambiguous": 0.8037
+    },
+    {
+      "arm": "tier1-128d (차원 정합)",
+      "all": 0.732,
+      "clear": 0.6754,
+      "partial": 0.7207,
+      "ambiguous": 0.7791
+    },
+    {
+      "arm": "tier1-128d+events (차원 정합)",
+      "all": 0.7448,
+      "clear": 0.693,
+      "partial": 0.7297,
+      "ambiguous": 0.7914
+    }
+  ],
+  "gaps": [
+    {
+      "a": "tier0-text+events (5MB 안)",
+      "b": "tier0-text (우리 128d@4bit)",
+      "band": "all",
+      "n": 388,
+      "delta": 0.1778,
+      "ci": [
+        0.1289,
+        0.2242
+      ],
+      "significant": true
+    },
+    {
+      "a": "tier0-text+events (5MB 안)",
+      "b": "tier0-text (우리 128d@4bit)",
+      "band": "ambiguous",
+      "n": 163,
+      "delta": 0.1963,
+      "ci": [
+        0.1227,
+        0.2761
+      ],
+      "significant": true
+    },
+    {
+      "a": "tier0-text+events (5MB 안)",
+      "b": "tier1-text (교사급, 기기 안)",
+      "band": "all",
+      "n": 388,
+      "delta": 0.0644,
+      "ci": [
+        0.018,
+        0.1108
+      ],
+      "significant": true
+    },
+    {
+      "a": "tier0-text+events (5MB 안)",
+      "b": "tier1-text (교사급, 기기 안)",
+      "band": "ambiguous",
+      "n": 163,
+      "delta": 0.0675,
+      "ci": [
+        0.0,
+        0.135
+      ],
+      "significant": false
+    },
+    {
+      "a": "tier1-text+events (Tier1 천장)",
+      "b": "tier1-text (교사급, 기기 안)",
+      "band": "all",
+      "n": 388,
+      "delta": 0.0052,
+      "ci": [
+        0.0,
+        0.0129
+      ],
+      "significant": false
+    },
+    {
+      "a": "tier1-text+events (Tier1 천장)",
+      "b": "tier1-text (교사급, 기기 안)",
+      "band": "ambiguous",
+      "n": 163,
+      "delta": 0.0061,
+      "ci": [
+        0.0,
+        0.0184
+      ],
+      "significant": false
+    },
+    {
+      "a": "tier1-text+events (Tier1 천장)",
+      "b": "tier0-text+events (5MB 안)",
+      "band": "all",
+      "n": 388,
+      "delta": -0.0593,
+      "ci": [
+        -0.1057,
+        -0.0129
+      ],
+      "significant": true
+    },
+    {
+      "a": "tier1-text+events (Tier1 천장)",
+      "b": "tier0-text+events (5MB 안)",
+      "band": "ambiguous",
+      "n": 163,
+      "delta": -0.0613,
+      "ci": [
+        -0.1288,
+        0.0061
+      ],
+      "significant": false
+    },
+    {
+      "a": "tier1-128d+events (차원 정합)",
+      "b": "tier1-128d (차원 정합)",
+      "band": "all",
+      "n": 388,
+      "delta": 0.0129,
+      "ci": [
+        0.0026,
+        0.0258
+      ],
+      "significant": true
+    },
+    {
+      "a": "tier1-128d+events (차원 정합)",
+      "b": "tier1-128d (차원 정합)",
+      "band": "ambiguous",
+      "n": 163,
+      "delta": 0.0123,
+      "ci": [
+        0.0,
+        0.0307
+      ],
+      "significant": false
+    },
+    {
+      "a": "tier0-text+events (5MB 안)",
+      "b": "tier1-128d+events (차원 정합)",
+      "band": "all",
+      "n": 388,
+      "delta": 0.0773,
+      "ci": [
+        0.0284,
+        0.1263
+      ],
+      "significant": true
+    },
+    {
+      "a": "tier0-text+events (5MB 안)",
+      "b": "tier1-128d+events (차원 정합)",
+      "band": "ambiguous",
+      "n": 163,
+      "delta": 0.0736,
+      "ci": [
+        0.0061,
+        0.1472
+      ],
+      "significant": true
+    }
+  ],
+  "redundancy": {
+    "tier0-text (우리 128d@4bit)": {
+      "p_beh_ok_given_text_ok": 0.444,
+      "p_beh_ok_given_text_wrong": 0.5,
+      "lift": -0.056,
+      "text_acc": 0.6443
+    },
+    "events-only": {
+      "p_beh_ok_given_text_ok": 1.0,
+      "p_beh_ok_given_text_wrong": 0.0,
+      "lift": 1.0,
+      "text_acc": 0.4639
+    },
+    "tier1-text (교사급, 기기 안)": {
+      "p_beh_ok_given_text_ok": 0.4354,
+      "p_beh_ok_given_text_wrong": 0.5532,
+      "lift": -0.1178,
+      "text_acc": 0.7577
+    },
+    "tier1-128d (차원 정합)": {
+      "p_beh_ok_given_text_ok": 0.4296,
+      "p_beh_ok_given_text_wrong": 0.5577,
+      "lift": -0.1281,
+      "text_acc": 0.732
+    }
+  }
+}

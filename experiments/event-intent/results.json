@@ -1,0 +1,342 @@
+{
+  "task": "합성 사용자 대분류 28-way (사용자 단위 홀드아웃)",
+  "noise_rate": 0.35,
+  "rows": [
+    {
+      "arm": "ours-text",
+      "all": 0.4789,
+      "clear": 0.4332,
+      "partial": 0.7978,
+      "ambiguous": 0.258
+    },
+    {
+      "arm": "ours-events-only",
+      "all": 0.4137,
+      "clear": 0.4046,
+      "partial": 0.4176,
+      "ambiguous": 0.4183
+    },
+    {
+      "arm": "ours-text+events",
+      "all": 0.6377,
+      "clear": 0.615,
+      "partial": 0.7659,
+      "ambiguous": 0.5527
+    },
+    {
+      "arm": "ours-text+events+device",
+      "all": 0.6371,
+      "clear": 0.6096,
+      "partial": 0.7622,
+      "ambiguous": 0.5588
+    },
+    {
+      "arm": "ours-text+events+content",
+      "all": 0.636,
+      "clear": 0.6114,
+      "partial": 0.7566,
+      "ambiguous": 0.5588
+    },
+    {
+      "arm": "ours-ALL (텍스트+행동+콘텐츠+기기)",
+      "all": 0.6423,
+      "clear": 0.6132,
+      "partial": 0.7603,
+      "ambiguous": 0.571
+    },
+    {
+      "arm": "teacher-text (서버가 볼 수 있는 전부)",
+      "all": 0.6789,
+      "clear": 0.6399,
+      "partial": 0.9494,
+      "ambiguous": 0.4916
+    },
+    {
+      "arm": "teacher-text+events (참고: 서버는 못 봄)",
+      "all": 0.772,
+      "clear": 0.7504,
+      "partial": 0.9738,
+      "ambiguous": 0.626
+    }
+  ],
+  "gaps": [
+    {
+      "a": "ours-text+events",
+      "b": "ours-text",
+      "band": "all",
+      "n": 1750,
+      "delta": 0.1589,
+      "ci": [
+        0.1314,
+        0.1851
+      ],
+      "significant": true
+    },
+    {
+      "a": "ours-text+events",
+      "b": "ours-text",
+      "band": "ambiguous",
+      "n": 655,
+      "delta": 0.2947,
+      "ci": [
+        0.2519,
+        0.3374
+      ],
+      "significant": true
+    },
+    {
+      "a": "ours-text+events",
+      "b": "ours-text",
+      "band": "clear",
+      "n": 561,
+      "delta": 0.1818,
+      "ci": [
+        0.1337,
+        0.2282
+      ],
+      "significant": true
+    },
+    {
+      "a": "ours-text+events",
+      "b": "teacher-text (서버가 볼 수 있는 전부)",
+      "band": "all",
+      "n": 1750,
+      "delta": -0.0411,
+      "ci": [
+        -0.0692,
+        -0.0131
+      ],
+      "significant": true
+    },
+    {
+      "a": "ours-text+events",
+      "b": "teacher-text (서버가 볼 수 있는 전부)",
+      "band": "ambiguous",
+      "n": 655,
+      "delta": 0.0611,
+      "ci": [
+        0.0076,
+        0.1115
+      ],
+      "significant": true
+    },
+    {
+      "a": "ours-text+events",
+      "b": "teacher-text (서버가 볼 수 있는 전부)",
+      "band": "clear",
+      "n": 561,
+      "delta": -0.025,
+      "ci": [
+        -0.0802,
+        0.0285
+      ],
+      "significant": false
+    },
+    {
+      "a": "ours-text",
+      "b": "teacher-text (서버가 볼 수 있는 전부)",
+      "band": "all",
+      "n": 1750,
+      "delta": -0.2,
+      "ci": [
+        -0.2234,
+        -0.176
+      ],
+      "significant": true
+    },
+    {
+      "a": "ours-text",
+      "b": "teacher-text (서버가 볼 수 있는 전부)",
+      "band": "ambiguous",
+      "n": 655,
+      "delta": -0.2336,
+      "ci": [
+        -0.2748,
+        -0.1924
+      ],
+      "significant": true
+    },
+    {
+      "a": "ours-text",
+      "b": "teacher-text (서버가 볼 수 있는 전부)",
+      "band": "clear",
+      "n": 561,
+      "delta": -0.2068,
+      "ci": [
+        -0.2549,
+        -0.1604
+      ],
+      "significant": true
+    },
+    {
+      "a": "ours-text+events+content",
+      "b": "ours-text+events",
+      "band": "all",
+      "n": 1750,
+      "delta": -0.0017,
+      "ci": [
+        -0.012,
+        0.0091
+      ],
+      "significant": false
+    },
+    {
+      "a": "ours-text+events+content",
+      "b": "ours-text+events",
+      "band": "ambiguous",
+      "n": 655,
+      "delta": 0.0061,
+      "ci": [
+        -0.0122,
+        0.0244
+      ],
+      "significant": false
+    },
+    {
+      "a": "ours-text+events+content",
+      "b": "ours-text+events",
+      "band": "clear",
+      "n": 561,
+      "delta": -0.0036,
+      "ci": [
+        -0.0214,
+        0.016
+      ],
+      "significant": false
+    },
+    {
+      "a": "ours-text+events+device",
+      "b": "ours-text+events",
+      "band": "all",
+      "n": 1750,
+      "delta": -0.0006,
+      "ci": [
+        -0.0103,
+        0.0091
+      ],
+      "significant": false
+    },
+    {
+      "a": "ours-text+events+device",
+      "b": "ours-text+events",
+      "band": "ambiguous",
+      "n": 655,
+      "delta": 0.0061,
+      "ci": [
+        -0.0092,
+        0.0229
+      ],
+      "significant": false
+    },
+    {
+      "a": "ours-text+events+device",
+      "b": "ours-text+events",
+      "band": "clear",
+      "n": 561,
+      "delta": -0.0053,
+      "ci": [
+        -0.0214,
+        0.0107
+      ],
+      "significant": false
+    },
+    {
+      "a": "ours-ALL (텍스트+행동+콘텐츠+기기)",
+      "b": "ours-text+events",
+      "band": "all",
+      "n": 1750,
+      "delta": 0.0046,
+      "ci": [
+        -0.008,
+        0.0171
+      ],
+      "significant": false
+    },
+    {
+      "a": "ours-ALL (텍스트+행동+콘텐츠+기기)",
+      "b": "ours-text+events",
+      "band": "ambiguous",
+      "n": 655,
+      "delta": 0.0183,
+      "ci": [
+        -0.0031,
+        0.0412
+      ],
+      "significant": false
+    },
+    {
+      "a": "ours-ALL (텍스트+행동+콘텐츠+기기)",
+      "b": "ours-text+events",
+      "band": "clear",
+      "n": 561,
+      "delta": -0.0018,
+      "ci": [
+        -0.0214,
+        0.0178
+      ],
+      "significant": false
+    },
+    {
+      "a": "ours-ALL (텍스트+행동+콘텐츠+기기)",
+      "b": "teacher-text (서버가 볼 수 있는 전부)",
+      "band": "all",
+      "n": 1750,
+      "delta": -0.0366,
+      "ci": [
+        -0.0663,
+        -0.008
+      ],
+      "significant": true
+    },
+    {
+      "a": "ours-ALL (텍스트+행동+콘텐츠+기기)",
+      "b": "teacher-text (서버가 볼 수 있는 전부)",
+      "band": "ambiguous",
+      "n": 655,
+      "delta": 0.0794,
+      "ci": [
+        0.029,
+        0.1282
+      ],
+      "significant": true
+    },
+    {
+      "a": "ours-ALL (텍스트+행동+콘텐츠+기기)",
+      "b": "teacher-text (서버가 볼 수 있는 전부)",
+      "band": "clear",
+      "n": 561,
+      "delta": -0.0267,
+      "ci": [
+        -0.0802,
+        0.0267
+      ],
+      "significant": false
+    }
+  ],
+  "redundancy": {
+    "ours-text": {
+      "p_beh_ok_given_text_ok": 0.4177,
+      "p_beh_ok_given_text_wrong": 0.4101,
+      "lift": 0.0076,
+      "text_acc": 0.4789,
+      "contingency": [
+        350,
+        488,
+        374,
+        538
+      ]
+    },
+    "teacher-text (서버가 볼 수 있는 전부)": {
+      "p_beh_ok_given_text_ok": 0.4074,
+      "p_beh_ok_given_text_wrong": 0.427,
+      "lift": -0.0196,
+      "text_acc": 0.6789,
+      "contingency": [
+        484,
+        704,
+        240,
+        322
+      ]
+    }
+  }
+}

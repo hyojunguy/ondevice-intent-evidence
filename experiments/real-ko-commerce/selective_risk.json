@@ -1,0 +1,119 @@
+{
+  "_what": "선택적 위험 — 신호 내림차순으로 상위 X% 만 답했을 때의 정확도",
+  "n": 1174,
+  "전체정확도": 0.7504,
+  "곡선": {
+    "margin 단독": [
+      {
+        "coverage": 1.0,
+        "n": 1174,
+        "accuracy": 0.7504
+      },
+      {
+        "coverage": 0.9,
+        "n": 1057,
+        "accuracy": 0.7928
+      },
+      {
+        "coverage": 0.8,
+        "n": 939,
+        "accuracy": 0.8296
+      },
+      {
+        "coverage": 0.7,
+        "n": 822,
+        "accuracy": 0.8601
+      },
+      {
+        "coverage": 0.6,
+        "n": 704,
+        "accuracy": 0.8977
+      },
+      {
+        "coverage": 0.5,
+        "n": 587,
+        "accuracy": 0.9046
+      },
+      {
+        "coverage": 0.4,
+        "n": 470,
+        "accuracy": 0.9128
+      }
+    ],
+    "anchor 우선, 동률은 margin": [
+      {
+        "coverage": 1.0,
+        "n": 1174,
+        "accuracy": 0.7504
+      },
+      {
+        "coverage": 0.9,
+        "n": 1057,
+        "accuracy": 0.7938
+      },
+      {
+        "coverage": 0.8,
+        "n": 939,
+        "accuracy": 0.8328
+      },
+      {
+        "coverage": 0.7,
+        "n": 822,
+        "accuracy": 0.8723
+      },
+      {
+        "coverage": 0.6,
+        "n": 704,
+        "accuracy": 0.9048
+      },
+      {
+        "coverage": 0.5,
+        "n": 587,
+        "accuracy": 0.9148
+      },
+      {
+        "coverage": 0.4,
+        "n": 470,
+        "accuracy": 0.917
+      }
+    ],
+    "anchor + margin − code": [
+      {
+        "coverage": 1.0,
+        "n": 1174,
+        "accuracy": 0.7504
+      },
+      {
+        "coverage": 0.9,
+        "n": 1057,
+        "accuracy": 0.807
+      },
+      {
+        "coverage": 0.8,
+        "n": 939,
+        "accuracy": 0.8317
+      },
+      {
+        "coverage": 0.7,
+        "n": 822,
+        "accuracy": 0.8869
+      },
+      {
+        "coverage": 0.6,
+        "n": 704,
+        "accuracy": 0.8807
+      },
+      {
+        "coverage": 0.5,
+        "n": 587,
+        "accuracy": 0.8978
+      },
+      {
+        "coverage": 0.4,
+        "n": 470,
+        "accuracy": 0.9085
+      }
+    ]
+  },
+  "_읽는법": "커버리지 100% 행이 무조건 답할 때의 값이다. 신호가 쓸모 있으면 커버리지를 낮출수록 정확도가 오른다."
+}

@@ -1,0 +1,91 @@
+{
+  "question": "OS FeaturePrint 임베딩의 차원·revision·L2 노름 (원본 산출물에서 회수)",
+  "recovered_from": "2026-08-31 추출본 featureprints.bin (재측정 아님)",
+  "paper_claim": {
+    "norm": 1.0006,
+    "source": "docs/spec/19 → main.tex:644 / main_en.tex:1010"
+  },
+  "measured": {
+    "norm": 1.000223
+  },
+  "verdict": "1.0006 은 재현되지 않는다. ABO 세트의 노름 평균은 1.0002 다 (L2 정규화 주장 자체는 성립).",
+  "unrecoverable_here": {
+    "ms_per_image": 3.55,
+    "elapsed_s": 42.6,
+    "why": "featureprint.swift 가 elapsed 를 stderr 로만 출력하고 저장하지 않았다. 재측정하면 2026-08-31 이 아니라 오늘의 수가 된다 — 원장에 그 자리로 넣지 마라."
+  },
+  "sets": [
+    {
+      "file": "experiments/percept-vision/featureprints.bin",
+      "sha256": "6e4b2334d27a2a4de36166e93818c819fa7f35767e17fbf4b66bb26ec856db28",
+      "bytes": 36864024,
+      "version": 1,
+      "n": 12000,
+      "dim": 768,
+      "revision": 2,
+      "failed_rows": 0,
+      "l2_mean": 1.000223,
+      "l2_median": 1.000212,
+      "l2_min": 0.999322,
+      "l2_max": 1.0015,
+      "l2_p99": 1.000977,
+      "sq_norm_mean": 1.000445
+    },
+    {
+      "file": "experiments/percept-vision-fashion-ko/featureprints.bin",
+      "sha256": "6e4b2334d27a2a4de36166e93818c819fa7f35767e17fbf4b66bb26ec856db28",
+      "bytes": 36864024,
+      "version": 1,
+      "n": 12000,
+      "dim": 768,
+      "revision": 2,
+      "failed_rows": 0,
+      "l2_mean": 1.000223,
+      "l2_median": 1.000212,
+      "l2_min": 0.999322,
+      "l2_max": 1.0015,
+      "l2_p99": 1.000977,
+      "sq_norm_mean": 1.000445
+    },
+    {
+      "file": "experiments/percept-vision-ko/featureprints.bin",
+      "sha256": "2d79ff1e633f9b321e3bbbde29b85b1753bf45de91b97da805a64a8390f8330c",
+      "bytes": 36864024,
+      "version": 1,
+      "n": 12000,
+      "dim": 768,
+      "revision": 2,
+      "failed_rows": 0,
+      "l2_mean": 1.00021,
+      "l2_median": 1.00019,
+      "l2_min": 0.99919,
+      "l2_max": 1.001566,
+      "l2_p99": 1.001062,
+      "sq_norm_mean": 1.00042
+    },
+    {
+      "file": "experiments/percept-vision-mv/featureprints.bin",
+      "sha256": "842a7976c06dabffc503f8e685f32bc1fcf0da499bb03eecd4335d9b78c62a79",
+      "bytes": 36864024,
+      "version": 1,
+      "n": 12000,
+      "dim": 768,
+      "revision": 2,
+      "failed_rows": 0,
+      "l2_mean": 1.000202,
+      "l2_median": 1.000192,
+      "l2_min": 0.999143,
+      "l2_max": 1.001527,
+      "l2_p99": 1.001037,
+      "sq_norm_mean": 1.000404
+    }
+  ],
+  "distinct_files": 3,
+  "duplicate_paths": [
+    [
+      "experiments/percept-vision/featureprints.bin",
+      "experiments/percept-vision-fashion-ko/featureprints.bin"
+    ]
+  ],
+  "repro": "python3 experiments/percept-vision/featureprint_stats.py"
+}

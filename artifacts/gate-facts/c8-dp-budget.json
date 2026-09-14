@@ -1,0 +1,22 @@
+{
+  "_measured_at": "2026-09-15T07:37:00",
+  "_gate": "C8 dp-budget",
+  "_what": "이 게이트가 실제로 잰 값. 논문은 이 파일을 인용한다.",
+  "verdict": "PASS",
+  "clip": 1.0,
+  "sigma": 0.1,
+  "z_effective": 3.1623,
+  "delta": 1e-10,
+  "rounds": 50,
+  "population": 10000,
+  "q": 0.1,
+  "epsilon_round_aggregate": 2.196,
+  "epsilon_campaign_pld": 1.5422,
+  "epsilon_campaign_pld_q1": 16.2523,
+  "epsilon_campaign_zcdp_q1": 17.6743,
+  "target_round": 5.0,
+  "target_campaign": 2.0,
+  "min_participants_for_target": 204,
+  "federated_len": 4706,
+  "param_len": 4770
+}

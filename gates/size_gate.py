@@ -32,7 +32,9 @@ def run_gate() -> int:
              f"{total:>10,}  합계 (gzip)",
              f"{limit:>10,}  상한",
              f"{'':>10}  사용률 {pct:.1f}% · 여유 {limit - total:,} 바이트"]
-    return report("C1 size", PASS if total <= limit else FAIL, rows)
+    return report("C1 size", PASS if total <= limit else FAIL, rows,
+                  facts={"total_gzip_bytes": total, "limit_bytes": limit,
+                         "used_pct": round(pct, 1), "headroom_bytes": limit - total})
 
 
 # ⛔ 최상위에서 부르면 이 모듈을 **import 할 수 없다** — import 하는 순간 게이트가

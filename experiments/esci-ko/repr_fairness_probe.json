@@ -1,0 +1,24 @@
+{
+  "_what": "교사에게 준 리프 표현만 바꾼 대조 (ESCI 홀드아웃)",
+  "_why": "esci_eval.py 는 교사에게도 가중 센트로이드를 준다 — 그 구성이 교사에게 불리하다는 것이 AI-Hub 실측이다. 부호가 뒤집히는지 본다.",
+  "_caveat": "현재 택소노미 6,020 리프 — 논문의 2,960 리프 표와 절대값 비교 불가",
+  "n": 1465,
+  "taxonomy_leaves": 6020,
+  "arms": {
+    "teacher · deployment centroid": {
+      "top1": 0.1345,
+      "top5": 0.2485
+    },
+    "teacher · flat leaf string": {
+      "top1": 0.1263,
+      "top5": 0.2539
+    }
+  },
+  "paired_flat_minus_centroid_top1_pp": {
+    "delta": -0.82,
+    "ci": [
+      -2.12,
+      0.41
+    ]
+  }
+}

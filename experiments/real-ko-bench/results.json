@@ -19,7 +19,7 @@
   },
   "arms": {
     "ours-stage1": {
-      "source_model": "<repo>/oicr-sdk/experiments/distill-ko/out/potion-ko-64d",
+      "source_model": "/home/user/oicr-sdk/experiments/distill-ko/out/potion-ko-64d",
       "vocab": 31497,
       "tasks": {
         "klue-ynat": {
@@ -41,7 +41,7 @@
       }
     },
     "ours-stage2": {
-      "source_model": "<repo>/oicr-sdk/experiments/distill-ko/out/potion-ko-64d-tokenlearn",
+      "source_model": "/home/user/oicr-sdk/experiments/distill-ko/out/potion-ko-64d-tokenlearn",
       "vocab": 31497,
       "tasks": {
         "klue-ynat": {

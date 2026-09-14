@@ -1,0 +1,15 @@
+{
+  "_measured_at": "2026-09-15T07:37:01",
+  "_gate": "C9 attribution-budget",
+  "_what": "이 게이트가 실제로 잰 값. 논문은 이 파일을 인용한다.",
+  "verdict": "FAIL",
+  "l2_sensitivity": 1.7321,
+  "epsilon_composed": 1.7295,
+  "epsilon_delta_channel_only": 1.5422,
+  "target": 2.0,
+  "buckets": 28,
+  "max_active": 3,
+  "max_count": 1,
+  "head_classes": 60,
+  "axis_mismatch": "축 불일치: budgets.attribution.buckets=28 != head.bin 클래스 60"
+}

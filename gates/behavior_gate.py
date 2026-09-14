@@ -194,7 +194,12 @@ def run_gate() -> int:
     #    현실의 호스트 앱이 항상 리프를 알려 준다는 보장은 없다 — 두 세계를 다 낸다.
     ref = ROOT / cfg.get("reference_dataset", "")
     if ref.exists():
-        ref_out = ROOT / "experiments" / "event-intent" / "product_path_results.json"
+        # ⛔ 2026-09-14: 여기가 `product_path_results.json` 을 가리키고 있었다 — 정본 팔의
+        #    산출물을 **참조 팔이 덮어썼다.** 게이트 자신은 덮이기 전에 읽으므로 통과했고,
+        #    그래서 아무도 몰랐다. 디스크에 남는 원장만 조용히 보수 세계의 것이 되어,
+        #    그 파일을 인용하면 리프 이득이 +6.86pp 대신 +3.71pp 로 읽힌다.
+        #    두 팔은 서로 다른 파일에 쓴다.
+        ref_out = ROOT / "experiments" / "event-intent" / "product_path_results_reference.json"
         rp = run(
             ["cargo", "run", "--release", "-q", "-p", "oicr-sdk-core",
              "--example", "behavior_eval", "--", str(ref), str(ref_out)],

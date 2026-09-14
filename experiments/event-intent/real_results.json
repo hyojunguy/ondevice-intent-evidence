@@ -1,0 +1,201 @@
+{
+  "task": "실사용 Amazon 리뷰 카테고리 25-way (사용자 단위 홀드아웃)",
+  "source": "McAuley-Lab/Amazon-Reviews-2023 (raw/review_categories, 바이트 레인지 표집)",
+  "n_categories_fetched": 25,
+  "n_users_total": 6235,
+  "n_train": 4988,
+  "n_heldout": 1247,
+  "categories_kept": [
+    "All_Beauty",
+    "Arts_Crafts_and_Sewing",
+    "Automotive",
+    "Baby_Products",
+    "Beauty_and_Personal_Care",
+    "Books",
+    "CDs_and_Vinyl",
+    "Cell_Phones_and_Accessories",
+    "Clothing_Shoes_and_Jewelry",
+    "Electronics",
+    "Grocery_and_Gourmet_Food",
+    "Health_and_Household",
+    "Home_and_Kitchen",
+    "Industrial_and_Scientific",
+    "Kindle_Store",
+    "Movies_and_TV",
+    "Musical_Instruments",
+    "Office_Products",
+    "Patio_Lawn_and_Garden",
+    "Pet_Supplies",
+    "Software",
+    "Sports_and_Outdoors",
+    "Tools_and_Home_Improvement",
+    "Toys_and_Games",
+    "Video_Games"
+  ],
+  "leakage_probe": {
+    "argmax_hist_eq_label_rate": 0.4242,
+    "chance": 0.04
+  },
+  "rows": [
+    {
+      "arm": "ours-text",
+      "all": 0.4066,
+      "clear": 0.4406,
+      "n_clear": 901,
+      "partial": 0.3121,
+      "n_partial": 314,
+      "ambiguous": 0.375,
+      "n_ambiguous": 32
+    },
+    {
+      "arm": "ours-events-only",
+      "all": 0.4258,
+      "clear": 0.495,
+      "n_clear": 901,
+      "partial": 0.2484,
+      "n_partial": 314,
+      "ambiguous": 0.2188,
+      "n_ambiguous": 32
+    },
+    {
+      "arm": "ours-text+events",
+      "all": 0.5573,
+      "clear": 0.6016,
+      "n_clear": 901,
+      "partial": 0.4395,
+      "n_partial": 314,
+      "ambiguous": 0.4688,
+      "n_ambiguous": 32
+    },
+    {
+      "arm": "teacher-text (구조적 상한 근사)",
+      "all": 0.5437,
+      "clear": 0.566,
+      "n_clear": 901,
+      "partial": 0.4841,
+      "n_partial": 314,
+      "ambiguous": 0.5,
+      "n_ambiguous": 32
+    },
+    {
+      "arm": "teacher-text+events (참고)",
+      "all": 0.672,
+      "clear": 0.7103,
+      "n_clear": 901,
+      "partial": 0.5732,
+      "n_partial": 314,
+      "ambiguous": 0.5625,
+      "n_ambiguous": 32
+    }
+  ],
+  "gaps": [
+    {
+      "a": "ours-text+events",
+      "b": "ours-text",
+      "band": "all",
+      "n": 1247,
+      "delta": 0.1508,
+      "ci": [
+        0.1219,
+        0.1812
+      ],
+      "significant": true
+    },
+    {
+      "a": "ours-text+events",
+      "b": "ours-text",
+      "band": "ambiguous",
+      "n": 32,
+      "delta": 0.0938,
+      "ci": [
+        0.0,
+        0.1875
+      ],
+      "significant": false
+    },
+    {
+      "a": "ours-text+events",
+      "b": "ours-text",
+      "band": "clear",
+      "n": 901,
+      "delta": 0.1609,
+      "ci": [
+        0.1254,
+        0.1953
+      ],
+      "significant": true
+    },
+    {
+      "a": "ours-text+events",
+      "b": "teacher-text (구조적 상한 근사)",
+      "band": "all",
+      "n": 1247,
+      "delta": 0.0136,
+      "ci": [
+        -0.016,
+        0.0441
+      ],
+      "significant": false
+    },
+    {
+      "a": "ours-text+events",
+      "b": "teacher-text (구조적 상한 근사)",
+      "band": "ambiguous",
+      "n": 32,
+      "delta": -0.0312,
+      "ci": [
+        -0.2188,
+        0.1562
+      ],
+      "significant": false
+    },
+    {
+      "a": "ours-text+events",
+      "b": "teacher-text (구조적 상한 근사)",
+      "band": "clear",
+      "n": 901,
+      "delta": 0.0355,
+      "ci": [
+        -0.0022,
+        0.0744
+      ],
+      "significant": false
+    },
+    {
+      "a": "ours-text",
+      "b": "teacher-text (구조적 상한 근사)",
+      "band": "all",
+      "n": 1247,
+      "delta": -0.1371,
+      "ci": [
+        -0.162,
+        -0.1123
+      ],
+      "significant": true
+    },
+    {
+      "a": "ours-text",
+      "b": "teacher-text (구조적 상한 근사)",
+      "band": "ambiguous",
+      "n": 32,
+      "delta": -0.125,
+      "ci": [
+        -0.3125,
+        0.0312
+      ],
+      "significant": false
+    },
+    {
+      "a": "ours-text",
+      "b": "teacher-text (구조적 상한 근사)",
+      "band": "clear",
+      "n": 901,
+      "delta": -0.1254,
+      "ci": [
+        -0.1554,
+        -0.0943
+      ],
+      "significant": true
+    }
+  ]
+}

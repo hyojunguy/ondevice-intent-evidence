@@ -1,0 +1,11 @@
+{
+  "_measured_at": "2026-09-15T07:36:57",
+  "_gate": "I1 parity",
+  "_what": "이 게이트가 실제로 잰 값. 논문은 이 파일을 인용한다.",
+  "verdict": "PASS",
+  "rows": 11,
+  "dim": 128,
+  "elements": 1408,
+  "max_abs_diff": 0.0,
+  "tolerance": 1e-05
+}

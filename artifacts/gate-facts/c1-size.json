@@ -1,0 +1,10 @@
+{
+  "_measured_at": "2026-09-15T07:36:55",
+  "_gate": "C1 size",
+  "_what": "이 게이트가 실제로 잰 값. 논문은 이 파일을 인용한다.",
+  "verdict": "PASS",
+  "total_gzip_bytes": 2876825,
+  "limit_bytes": 4194304,
+  "used_pct": 68.6,
+  "headroom_bytes": 1317479
+}

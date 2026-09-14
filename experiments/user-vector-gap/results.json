@@ -1,0 +1,421 @@
+{
+  "surface": "중분류(L2) · top-5",
+  "deployed_model": "experiments/distill-ko/out/potion-ko-128d-stage3deep",
+  "harness": "crates/fl-client/examples/user_vector_gap.rs (배포 Rust 경로) + 이 파일",
+  "meta": {
+    "data": "experiments/event-intent/behavior_leaf.json",
+    "n_train": 5250,
+    "n_held": 1750,
+    "nu": 0.699999988079071,
+    "nu_l2": 0.5,
+    "head_mu": 0.3499999940395355,
+    "candidates": 32,
+    "local_epochs": 3,
+    "topk": 32,
+    "personalised_users": 1750,
+    "mean_moved_candidates": 31.99942857142857
+  },
+  "arms": {
+    "A0 deployed-text": {
+      "leaf_top1": 0.3206,
+      "leaf_top5": 0.4394,
+      "l2_top1": 0.5269,
+      "l2_top5": 0.7,
+      "l1_top1": 0.5714
+    },
+    "A1 deployed-prior": {
+      "leaf_top1": 0.3806,
+      "leaf_top5": 0.5411,
+      "l2_top1": 0.6497,
+      "l2_top5": 0.8143,
+      "l1_top1": 0.7309
+    },
+    "A2 deployed-head": {
+      "leaf_top1": 0.3206,
+      "leaf_top5": 0.4406,
+      "l2_top1": 0.5257,
+      "l2_top5": 0.6994,
+      "l1_top1": 0.5703
+    },
+    "A3 deployed-prior+head": {
+      "leaf_top1": 0.38,
+      "leaf_top5": 0.5423,
+      "l2_top1": 0.6491,
+      "l2_top5": 0.8143,
+      "l1_top1": 0.7314
+    },
+    "B0 learned-text": {
+      "l2_top1": 0.2994,
+      "l2_top5": 0.4789
+    },
+    "B1 learned-fusion": {
+      "l2_top1": 0.3846,
+      "l2_top5": 0.6451
+    },
+    "B2 learned-behavior": {
+      "l2_top1": 0.084,
+      "l2_top5": 0.3
+    },
+    "B3 learned-rerank": {
+      "l2_top1": 0.6589,
+      "l2_top5": 0.8343
+    }
+  },
+  "b3_theta": {
+    "features": [
+      "text_l2",
+      "l1_mass",
+      "l2_mass",
+      "text×l1",
+      "text×l2"
+    ],
+    "start": [
+      1.0,
+      0.7,
+      0.5,
+      0.0,
+      0.0
+    ],
+    "learned": [
+      6.2454,
+      2.9754,
+      2.2251,
+      1.1111,
+      0.5332
+    ],
+    "train_top1": 0.6674
+  },
+  "arm_fallbacks": {
+    "A0 deployed-text": 0,
+    "A1 deployed-prior": 0,
+    "A2 deployed-head": 0,
+    "A3 deployed-prior+head": 0
+  },
+  "gaps": [
+    {
+      "a": "A1 deployed-prior",
+      "b": "A0 deployed-text",
+      "axis": "l2_top5",
+      "n": 1750,
+      "a_acc": 0.8143,
+      "b_acc": 0.7,
+      "delta_pp": 11.43,
+      "ci": [
+        9.94,
+        12.97
+      ],
+      "significant": true
+    },
+    {
+      "a": "A3 deployed-prior+head",
+      "b": "A1 deployed-prior",
+      "axis": "l2_top5",
+      "n": 1750,
+      "a_acc": 0.8143,
+      "b_acc": 0.8143,
+      "delta_pp": 0.0,
+      "ci": [
+        -0.23,
+        0.23
+      ],
+      "significant": false
+    },
+    {
+      "a": "A2 deployed-head",
+      "b": "A0 deployed-text",
+      "axis": "l2_top5",
+      "n": 1750,
+      "a_acc": 0.6994,
+      "b_acc": 0.7,
+      "delta_pp": -0.06,
+      "ci": [
+        -0.17,
+        0.0
+      ],
+      "significant": false
+    },
+    {
+      "a": "B1 learned-fusion",
+      "b": "B0 learned-text",
+      "axis": "l2_top5",
+      "n": 1750,
+      "a_acc": 0.6451,
+      "b_acc": 0.4789,
+      "delta_pp": 16.63,
+      "ci": [
+        14.74,
+        18.51
+      ],
+      "significant": true
+    },
+    {
+      "a": "B0 learned-text",
+      "b": "A0 deployed-text",
+      "axis": "l2_top5",
+      "n": 1750,
+      "a_acc": 0.4789,
+      "b_acc": 0.7,
+      "delta_pp": -22.11,
+      "ci": [
+        -24.69,
+        -19.54
+      ],
+      "significant": true
+    },
+    {
+      "a": "B1 learned-fusion",
+      "b": "A1 deployed-prior",
+      "axis": "l2_top5",
+      "n": 1750,
+      "a_acc": 0.6451,
+      "b_acc": 0.8143,
+      "delta_pp": -16.91,
+      "ci": [
+        -19.43,
+        -14.29
+      ],
+      "significant": true
+    },
+    {
+      "a": "B3 learned-rerank",
+      "b": "A1 deployed-prior",
+      "axis": "l2_top5",
+      "n": 1750,
+      "a_acc": 0.8343,
+      "b_acc": 0.8143,
+      "delta_pp": 2.0,
+      "ci": [
+        1.31,
+        2.69
+      ],
+      "significant": true
+    },
+    {
+      "a": "B3 learned-rerank",
+      "b": "A0 deployed-text",
+      "axis": "l2_top5",
+      "n": 1750,
+      "a_acc": 0.8343,
+      "b_acc": 0.7,
+      "delta_pp": 13.43,
+      "ci": [
+        11.83,
+        15.09
+      ],
+      "significant": true
+    }
+  ],
+  "band_gaps": [
+    {
+      "a": "A1 deployed-prior",
+      "b": "A0 deployed-text",
+      "axis": "l2_top5",
+      "n": 545,
+      "a_acc": 0.9945,
+      "b_acc": 0.9908,
+      "delta_pp": 0.37,
+      "ci": [
+        0.0,
+        0.92
+      ],
+      "significant": false,
+      "band": "clear"
+    },
+    {
+      "a": "B3 learned-rerank",
+      "b": "A1 deployed-prior",
+      "axis": "l2_top5",
+      "n": 545,
+      "a_acc": 0.9963,
+      "b_acc": 0.9945,
+      "delta_pp": 0.18,
+      "ci": [
+        0.0,
+        0.55
+      ],
+      "significant": false,
+      "band": "clear"
+    },
+    {
+      "a": "A1 deployed-prior",
+      "b": "A0 deployed-text",
+      "axis": "l2_top5",
+      "n": 507,
+      "a_acc": 0.9783,
+      "b_acc": 0.9408,
+      "delta_pp": 3.75,
+      "ci": [
+        2.17,
+        5.52
+      ],
+      "significant": true,
+      "band": "partial"
+    },
+    {
+      "a": "B3 learned-rerank",
+      "b": "A1 deployed-prior",
+      "axis": "l2_top5",
+      "n": 507,
+      "a_acc": 0.9822,
+      "b_acc": 0.9783,
+      "delta_pp": 0.39,
+      "ci": [
+        -0.39,
+        1.18
+      ],
+      "significant": false,
+      "band": "partial"
+    },
+    {
+      "a": "A1 deployed-prior",
+      "b": "A0 deployed-text",
+      "axis": "l2_top5",
+      "n": 698,
+      "a_acc": 0.5544,
+      "b_acc": 0.298,
+      "delta_pp": 25.64,
+      "ci": [
+        22.35,
+        29.08
+      ],
+      "significant": true,
+      "band": "ambiguous"
+    },
+    {
+      "a": "B3 learned-rerank",
+      "b": "A1 deployed-prior",
+      "axis": "l2_top5",
+      "n": 698,
+      "a_acc": 0.6003,
+      "b_acc": 0.5544,
+      "delta_pp": 4.58,
+      "ci": [
+        3.01,
+        6.16
+      ],
+      "significant": true,
+      "band": "ambiguous"
+    }
+  ],
+  "other_granularity": [
+    {
+      "a": "A1 deployed-prior",
+      "b": "A0 deployed-text",
+      "axis": "leaf_top1",
+      "n": 1750,
+      "a_acc": 0.3806,
+      "b_acc": 0.3206,
+      "delta_pp": 6.0,
+      "ci": [
+        4.69,
+        7.31
+      ],
+      "significant": true
+    },
+    {
+      "a": "A3 deployed-prior+head",
+      "b": "A1 deployed-prior",
+      "axis": "leaf_top1",
+      "n": 1750,
+      "a_acc": 0.38,
+      "b_acc": 0.3806,
+      "delta_pp": -0.06,
+      "ci": [
+        -0.29,
+        0.11
+      ],
+      "significant": false
+    },
+    {
+      "a": "A1 deployed-prior",
+      "b": "A0 deployed-text",
+      "axis": "leaf_top5",
+      "n": 1750,
+      "a_acc": 0.5411,
+      "b_acc": 0.4394,
+      "delta_pp": 10.17,
+      "ci": [
+        8.63,
+        11.66
+      ],
+      "significant": true
+    },
+    {
+      "a": "A3 deployed-prior+head",
+      "b": "A1 deployed-prior",
+      "axis": "leaf_top5",
+      "n": 1750,
+      "a_acc": 0.5423,
+      "b_acc": 0.5411,
+      "delta_pp": 0.11,
+      "ci": [
+        -0.11,
+        0.34
+      ],
+      "significant": false
+    },
+    {
+      "a": "A1 deployed-prior",
+      "b": "A0 deployed-text",
+      "axis": "l2_top1",
+      "n": 1750,
+      "a_acc": 0.6497,
+      "b_acc": 0.5269,
+      "delta_pp": 12.29,
+      "ci": [
+        10.4,
+        14.11
+      ],
+      "significant": true
+    },
+    {
+      "a": "A3 deployed-prior+head",
+      "b": "A1 deployed-prior",
+      "axis": "l2_top1",
+      "n": 1750,
+      "a_acc": 0.6491,
+      "b_acc": 0.6497,
+      "delta_pp": -0.06,
+      "ci": [
+        -0.29,
+        0.11
+      ],
+      "significant": false
+    },
+    {
+      "a": "A1 deployed-prior",
+      "b": "A0 deployed-text",
+      "axis": "l1_top1",
+      "n": 1750,
+      "a_acc": 0.7309,
+      "b_acc": 0.5714,
+      "delta_pp": 15.94,
+      "ci": [
+        14.0,
+        17.89
+      ],
+      "significant": true
+    },
+    {
+      "a": "A3 deployed-prior+head",
+      "b": "A1 deployed-prior",
+      "axis": "l1_top1",
+      "n": 1750,
+      "a_acc": 0.7314,
+      "b_acc": 0.7309,
+      "delta_pp": 0.06,
+      "ci": [
+        -0.11,
+        0.29
+      ],
+      "significant": false
+    }
+  ],
+  "caveats": [
+    "합성 데이터 하나다(behavior_leaf.json). 실사용 로그로 재보기 전에 외부 인용 금지.",
+    "B 팔은 **상한**이다 — 중분류를 직접 예측하는 256-way 분류기이고, 제품의 A 팔은 2,960 리프 검색이다. 학습 팔에 유리한 판을 일부러 골랐다.",
+    "개인 헤드의 양성 표본은 생성기가 만든 seen/written 텍스트다. 음성은 관심 영역 밖에서 뽑았다 — 둘 다 합성이고, 실제 사용자 피드백이 아니다.",
+    "B3 은 배포 구조를 유지한 채 결합만 학습한다(파라미터 5개). 이것이 'FL/DP 제약 때문에 포기한 것'의 정직한 상한이다 — B1 은 설계 자체가 다른 팔이다.",
+    "A 팔은 파라미터 0개, B0/B1/B2 는 수만 개다. 격차의 일부는 '이벤트를 학습해서'가 아니라 '분류기를 가져서' 생긴다 — 그래서 B0−A0 을 따로 낸다."
+  ]
+}
