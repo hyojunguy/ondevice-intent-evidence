@@ -15,10 +15,10 @@ FILTER = "converge"
 
 
 def run_gate() -> int:
-    r = run(["cargo", "test", "--release", "-p", "plataid-fl-server", "--", "--nocapture", FILTER])
+    r = run(["cargo", "test", "--release", "-p", "oicr-fl-server", "--", "--nocapture", FILTER])
     out = (r.stdout or "") + (r.stderr or "")
     if "no matching package" in out or "error: package ID specification" in out:
-        return report("C5 fl-round", UNMEASURED, ["plataid-fl-server 크레이트가 아직 없다"])
+        return report("C5 fl-round", UNMEASURED, ["oicr-fl-server 크레이트가 아직 없다"])
 
     # 전 타깃 합계로 본다 — 한 타깃이 0이어도 다른 타깃이 돌았으면 측정된 것이다.
     ran = sum(int(n) for n in re.findall(r"^running (\d+) tests?$", out, re.M))

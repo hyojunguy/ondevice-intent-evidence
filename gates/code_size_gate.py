@@ -36,7 +36,7 @@ EMPTY_MAIN = "fn main() { std::hint::black_box(0u8); }\n"
 
 # sdk-core 의 실사용 경로를 태운다. 한 줄만 부르면 링커가 나머지를 버려 과소평가된다.
 CORE_MAIN = r"""
-use plataid_sdk_core as core;
+use oicr_sdk_core as core;
 use std::hint::black_box;
 
 fn main() {
@@ -219,7 +219,7 @@ def _cargo(cmd: list[str], cwd: Path, env: dict[str, str], label: str):
 def build(tmp: Path, name: str, main_src: str, with_core: bool, target: str) -> int:
     d = tmp / name
     (d / "src").mkdir(parents=True)
-    deps = f'[dependencies]\nplataid-sdk-core = {{ path = "{CORE}" }}\n' if with_core else "[dependencies]\n"
+    deps = f'[dependencies]\noicr-sdk-core = {{ path = "{CORE}" }}\n' if with_core else "[dependencies]\n"
     (d / "Cargo.toml").write_text(CARGO.format(name=name, deps=deps), encoding="utf-8")
     (d / "src/main.rs").write_text(main_src, encoding="utf-8")
     if with_core:
@@ -268,7 +268,7 @@ def _proxy_component_bytes(tmp: Path, name: str, main_src: str, with_core: bool,
 
     d = tmp / name
     (d / "src").mkdir(parents=True)
-    deps = f'[dependencies]\nplataid-sdk-core = {{ path = "{CORE}" }}\n' if with_core else "[dependencies]\n"
+    deps = f'[dependencies]\noicr-sdk-core = {{ path = "{CORE}" }}\n' if with_core else "[dependencies]\n"
     (d / "Cargo.toml").write_text(CARGO_STATICLIB.format(name=name, deps=deps), encoding="utf-8")
     lib_src = main_src.replace(
         "fn main()", '#[unsafe(no_mangle)]\npub extern "C" fn probe()'
@@ -343,7 +343,7 @@ def run_gate(targets: list[str] | None = None) -> int:
             rows.append(f"⬜ {t}: 타깃 미설치 — `rustup target add --toolchain {_toolchain()} {t}`")
             continue
         try:
-            with tempfile.TemporaryDirectory(prefix="plataid-l2-") as td:
+            with tempfile.TemporaryDirectory(prefix="OICR-l2-") as td:
                 tmp = Path(td)
                 empty = build(tmp, "probe_empty", EMPTY_MAIN, False, t)
                 withc = build(tmp, "probe_core", CORE_MAIN, True, t)
@@ -358,7 +358,7 @@ def run_gate(targets: list[str] | None = None) -> int:
         rows.append(f"{d:>10,}  {t}   (빈 {empty:,} -> +core {withc:,})")
 
         try:
-            with tempfile.TemporaryDirectory(prefix="plataid-l2-proxy-") as td2:
+            with tempfile.TemporaryDirectory(prefix="OICR-l2-proxy-") as td2:
                 pd = proxy_diff(Path(td2), t)
             proxy_error_pct[t] = (pd - d) / d * 100 if d else float("nan")
             rows.append(f"{'':>10}  ↳ 같은 대리방법({PROXY_METHOD}) {pd:,} B "
@@ -385,7 +385,7 @@ def run_gate(targets: list[str] | None = None) -> int:
         # — 크래시 금지([[mcp-graceful-degradation]] Path A/B 와 동형).
         real_bytes: int | None = None
         try:
-            with tempfile.TemporaryDirectory(prefix="plataid-l2-real-") as tdr:
+            with tempfile.TemporaryDirectory(prefix="OICR-l2-real-") as tdr:
                 tmpr = Path(tdr)
                 empty_r = build(tmpr, "probe_empty", EMPTY_MAIN, False, ut)
                 withc_r = build(tmpr, "probe_core", CORE_MAIN, True, ut)
@@ -408,7 +408,7 @@ def run_gate(targets: list[str] | None = None) -> int:
             worst = max(worst, real_bytes)
             rows.append(f"{real_bytes:>10,}  {ut}   (실측, NDK 링커 승격 — 예전엔 proxy 였다)")
             try:
-                with tempfile.TemporaryDirectory(prefix="plataid-l2-proxy-") as td3:
+                with tempfile.TemporaryDirectory(prefix="OICR-l2-proxy-") as td3:
                     pd = proxy_diff(Path(td3), ut)
                 err = (pd - real_bytes) / real_bytes * 100 if real_bytes else float("nan")
                 rows.append(f"{'':>10}  ↳ 예전 대리치 {pd:,} B 와 대조 — 실측 대비 {err:+.1f}%"
@@ -424,7 +424,7 @@ def run_gate(targets: list[str] | None = None) -> int:
 
         rows.append(f"⬜ {u}")
         try:
-            with tempfile.TemporaryDirectory(prefix="plataid-l2-proxy-") as td3:
+            with tempfile.TemporaryDirectory(prefix="OICR-l2-proxy-") as td3:
                 pd = proxy_diff(Path(td3), ut)
         except Exception as exc:  # noqa: BLE001 — 대리치 실패는 UNMEASURED 유지, 크래시 아님
             rows.append(f"{'':>10}  ↳ 대리치 계산 실패: {exc}")
@@ -503,7 +503,7 @@ def main() -> int:
         from _common import BUDGETS
         out = {}
         for t in (a.targets or BUDGETS["code"]["targets"]):
-            with tempfile.TemporaryDirectory(prefix="plataid-l2-") as td:
+            with tempfile.TemporaryDirectory(prefix="OICR-l2-") as td:
                 tmp = Path(td)
                 out[t] = (build(tmp, "probe_core", CORE_MAIN, True, t)
                           - build(tmp, "probe_empty", EMPTY_MAIN, False, t)

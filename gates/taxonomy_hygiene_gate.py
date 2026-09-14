@@ -38,7 +38,7 @@ def main() -> int:
     names, l1s, l2_list, l1_of, l2_of = leaf_repr.flatten(TAXONOMY)
     l2_of = np.asarray(l2_of)
     payload = "".join(f"{c}\t0\n" for _, _, c in names)
-    r = subprocess.run(["cargo", "run", "--quiet", "--release", "-p", "plataid-sdk-core",
+    r = subprocess.run(["cargo", "run", "--quiet", "--release", "-p", "oicr-sdk-core",
                         "--example", "sweep_lexical", "--", "--topk", "4"],
                        cwd=ROOT, input=payload, capture_output=True, text=True)
     if r.returncode != 0:

@@ -89,7 +89,7 @@ def main() -> int:
         if a.only and a.only not in dname:
             continue
         payload = "".join(f"{q.replace(chr(9),' ')}\t{g}\n" for q, g in rows)
-        r = subprocess.run(["cargo", "run", "--quiet", "--release", "-p", "plataid-sdk-core",
+        r = subprocess.run(["cargo", "run", "--quiet", "--release", "-p", "oicr-sdk-core",
                             "--example", "sweep_lexical", "--", "--topk", str(TOPK)],
                            cwd=ROOT, input=payload, capture_output=True, text=True)
         if r.returncode != 0:

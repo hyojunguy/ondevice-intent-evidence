@@ -70,7 +70,7 @@ def _measure_real_rss() -> tuple[list[str], dict[str, int] | None]:
     """실측 RSS 섹션 rows 를 만든다. 프로브 빌드/실행에 실패하면 그 사실을 rows 에
     명시하고 (None) 을 돌려준다 — 조용히 생략하지 않는다."""
     build = run(
-        ["cargo", "build", "--release", "--example", "rss_probe", "-p", "plataid-sdk-core"],
+        ["cargo", "build", "--release", "--example", "rss_probe", "-p", "oicr-sdk-core"],
         timeout=300,
     )
     if build.returncode != 0 or not PROBE_BIN.exists():
@@ -110,14 +110,14 @@ def _measure_real_rss() -> tuple[list[str], dict[str, int] | None]:
 #
 # `crates/sdk-core/examples/rss_probe.rs` 를 그대로 크로스컴파일하지 않는 이유: 그 파일의
 # `artifacts_dir()` 이 `env!("CARGO_MANIFEST_DIR")` 를 **컴파일 시점**에 굽는다 — 이 macOS
-# 경로(`/Users/.../plataid-ondevice-slm/crates/sdk-core`)를 에뮬레이터에 그대로 재현하려면
+# 경로(`/home/user/oicr-sdk/crates/sdk-core`)를 에뮬레이터에 그대로 재현하려면
 # `/` 를 쓰기 가능하게 remount 해야 하는데, dm-verity 파티션이라 `adb remount` 가 거부한다
 # (`Read-only file system`, 실측). 그래서 여기서는 **별도의 작은 프로브**를 만든다 — 아티팩트
 # 디렉터리를 argv 로 받고(baked path 없음), peak RSS 는 외부 `/usr/bin/time` 대신 Android/Linux
 # 가 프로세스 안에서 직접 노출하는 `/proc/self/status` 의 `VmHWM`(peak resident set) 으로 잰다.
 # `crates/**` 는 건드리지 않는다 — sdk-core 의 공개 API(`EmbeddingTable::from_bytes`)만 쓴다.
 _ANDROID_PROBE_MAIN = r"""
-use plataid_sdk_core::EmbeddingTable;
+use oicr_sdk_core::EmbeddingTable;
 use std::io::Read as _;
 
 fn vmhwm_kb() -> u64 {
@@ -158,7 +158,7 @@ name = "android_rss_probe"
 path = "src/main.rs"
 
 [dependencies]
-plataid-sdk-core = {{ path = "{core}" }}
+oicr-sdk-core = {{ path = "{core}" }}
 
 [profile.release]
 opt-level = 2
@@ -166,7 +166,7 @@ strip = true
 """
 
 ANDROID_TARGET = "aarch64-linux-android"
-ANDROID_ARTIFACT_REMOTE = "/data/local/tmp/plataid-rss-probe"
+ANDROID_ARTIFACT_REMOTE = "/data/local/tmp/oicr-rss-probe"
 
 
 def _toolchain() -> str:
@@ -230,7 +230,7 @@ def _measure_android_emulator_rss(rows: list[str]) -> dict | None:
         return None
 
     try:
-        with tempfile.TemporaryDirectory(prefix="plataid-rss-android-") as td:
+        with tempfile.TemporaryDirectory(prefix="oicr-rss-android-") as td:
             d = Path(td) / "android_rss_probe"
             (d / "src").mkdir(parents=True)
             core = ROOT / "crates/sdk-core"

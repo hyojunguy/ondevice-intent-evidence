@@ -58,7 +58,7 @@ def run_gate() -> int:
 
     out = ROOT / "experiments" / "event-intent" / "product_path_results.json"
     p = run(
-        ["cargo", "run", "--release", "-q", "-p", "plataid-sdk-core",
+        ["cargo", "run", "--release", "-q", "-p", "oicr-sdk-core",
          "--example", "behavior_eval", "--", str(data), str(out)],
         timeout=1800,
     )
@@ -196,7 +196,7 @@ def run_gate() -> int:
     if ref.exists():
         ref_out = ROOT / "experiments" / "event-intent" / "product_path_results.json"
         rp = run(
-            ["cargo", "run", "--release", "-q", "-p", "plataid-sdk-core",
+            ["cargo", "run", "--release", "-q", "-p", "oicr-sdk-core",
              "--example", "behavior_eval", "--", str(ref), str(ref_out)],
             timeout=1800,
         )
@@ -320,7 +320,7 @@ def run_gate() -> int:
     ab_path = ROOT / "experiments/user-vector-gap/combiner_ab.json"
     if not ab_path.exists():
         lines.append(
-            "⬜ A/B 미측정 — `cargo run --release -p plataid-fl-client --example "
+            "⬜ A/B 미측정 — `cargo run --release -p oicr-fl-client --example "
             "user_vector_gap` 후 `experiments/user-vector-gap/combiner_ab.py`"
         )
     else:
@@ -356,7 +356,7 @@ def run_gate() -> int:
     # 못 보는 구멍이 실재함을 사보타주가 증명했기 때문이다(2026-08-31 perception E2E).
     # 프로브 자신의 검사 목록은 gates/fixtures/image_fold_probe.cjs 헤더가 정본.
     probe = ROOT / "gates" / "fixtures" / "image_fold_probe.cjs"
-    node_binding = ROOT / "gates" / "fixtures" / "wasm-node" / "plataid_sdk_wasm.js"
+    node_binding = ROOT / "gates" / "fixtures" / "wasm-node" / "oicr_sdk_wasm.js"
     if not node_binding.exists():
         lines.append("⬜ 이미지 접기 프로브: wasm(node) 바인딩 없음 — dev.sh 가 만든다")
     else:

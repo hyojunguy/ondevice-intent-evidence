@@ -18,7 +18,7 @@ CANARIES = ["아이폰", "케이스", "iphone", "divorce", "임신", "salary", "
 def run_gate() -> int:
     dump = ROOT / "artifacts" / "egress_sample.json"
     if not dump.exists():
-        r = run(["cargo", "run", "--quiet", "--release", "-p", "plataid-fl-client",
+        r = run(["cargo", "run", "--quiet", "--release", "-p", "oicr-fl-client",
                  "--example", "dump_upload"])
         if r.returncode != 0 or not dump.exists():
             return report("C3 egress", UNMEASURED, [
@@ -70,7 +70,7 @@ def check_purchase_suppression() -> tuple[int, list[str]]:
     노트 → 시계전진 복귀 → 동의 게이트 → 철회 cascade) 사다리를 판정한다.
     검사 목록의 정본은 gates/fixtures/purchase_suppress_probe.cjs 헤더."""
     probe = ROOT / "gates" / "fixtures" / "purchase_suppress_probe.cjs"
-    binding = ROOT / "gates" / "fixtures" / "wasm-node" / "plataid_sdk_wasm.js"
+    binding = ROOT / "gates" / "fixtures" / "wasm-node" / "oicr_sdk_wasm.js"
     if not binding.exists():
         return UNMEASURED, ["⬜ 구매 억제 프로브: wasm(node) 바인딩 없음 — dev.sh 가 만든다"]
     r = run(["node", str(probe)])
@@ -98,7 +98,7 @@ def check_bid_request() -> tuple[int, list[str]]:
         return UNMEASURED, ["OpenRTB: budgets.json 에 rtb 블록 없음"]
     dump = ROOT / "artifacts" / "egress_bid_request.json"
     if not dump.exists():
-        r = run(["cargo", "run", "--quiet", "--release", "-p", "plataid-ad-rtb",
+        r = run(["cargo", "run", "--quiet", "--release", "-p", "OICR-ad-rtb",
                  "--example", "dump_bid_request"])
         if r.returncode != 0 or not dump.exists():
             tail = (r.stderr or "").strip().splitlines()
@@ -131,11 +131,11 @@ def check_bid_request() -> tuple[int, list[str]]:
     if leaked:
         code = FAIL
         lines.append(f"⛔ OpenRTB 요청에 원문 카나리아: {leaked}")
-    intent = req.get("user", {}).get("ext", {}).get("plataid", {}).get("intent", [])
+    intent = req.get("user", {}).get("ext", {}).get("OICR", {}).get("intent", [])
     if len(intent) > rtb["max_intent_k"]:
         code = FAIL
         lines.append(f"⛔ OpenRTB intent {len(intent)}개 > max_intent_k {rtb['max_intent_k']}")
-    if not intent and not req.get("user", {}).get("ext", {}).get("plataid", {}).get("floor_hit"):
+    if not intent and not req.get("user", {}).get("ext", {}).get("OICR", {}).get("floor_hit"):
         code = FAIL
         lines.append("⛔ OpenRTB 표본에 intent 가 없다 — 검사할 라벨이 없는 표본은 표본이 아니다")
     if req.get("device", {}).get("lmt") != 1:

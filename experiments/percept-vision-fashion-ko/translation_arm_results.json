@@ -1,7 +1,7 @@
 {
  "_what": "영문 패션 제목을 Qwen 한국어 번역 후 같은 InfoNCE 투영 파이프라인 재실행 — 언어축/도메인축 분리 (사용자 제안 2026-08-31)",
  "_date": "2026-08-31",
- "_scored_by": "plataid_sdk_core::Taxonomy::scores (배포 함수, tax_agreement.rs)",
+ "_scored_by": "oicr_sdk_core::Taxonomy::scores (배포 함수, tax_agreement.rs)",
  "translation": {
   "n": 12000,
   "engine": "local-27b-instruct",

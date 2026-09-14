@@ -37,7 +37,7 @@
   },
   "embedding": {
     "os_dense": {"api": "macOS Vision VNGenerateImageFeaturePrintRequest", "dim": 768, "revision": 2, "n": 12000, "failed": 0, "elapsed_s": 50.2},
-    "title": {"encoder": "배포 인코더(plataid-fl-client embed_titles)", "dim": 128, "n": 12000, "empty": 0}
+    "title": {"encoder": "배포 인코더(oicr-fl-client embed_titles)", "dim": 128, "n": 12000, "empty": 0}
   },
   "projection": {
     "recipe": "InfoNCE (bidirectional, in-batch negatives) — 릿지/MSE 는 붕괴함이 이미 확인됨(§19 문서)",
@@ -46,7 +46,7 @@
     "retrieval_1000way_top1": 0.3505,
     "retrieval_1000way_top10": 0.7330
   },
-  "scored_by": "plataid_sdk_core::Taxonomy::scores (기기가 부르는 그 함수, tax_agreement.rs — 파이썬 재구현 아님)",
+  "scored_by": "oicr_sdk_core::Taxonomy::scores (기기가 부르는 그 함수, tax_agreement.rs — 파이썬 재구현 아님)",
   "comparison": {
     "_columns": ["metric", "fashion_ko_translation_arm (baseline, n=3600)", "mv_multivertical (이번 판, n=3600)", "delta"],
     "leaf_agree_top1": [0.10528, 0.07417, -0.03111],
@@ -70,12 +70,12 @@
     "reads_as": "레시피(InfoNCE 직사각 투영 + 한국어 번역)는 패션에 국한된 우연이 아니라 전 커머스에서도 '붕괴 없이 작동'한다. 다만 '잘 작동'과 '천장에 근접'은 다르다 — 폭이 넓어질수록 제목 팔 자체의 상한(article_purity_title 0.516→0.394)이 낮아지고, 이미지 채널은 그 낮아진 상한을 이전과 비슷하거나 약간 더 잘 따라간다(비율 기준). 배포 게이트(런타임 wasm 배선)를 통과시키기엔 절대 수치가 여전히 낮다 — §19 문서의 남은 블로커(사용자 실측 재현·리비전 태그)는 그대로 유효."
   },
   "reproduce": {
-    "export": "~/.venvs/plataid-export/bin/python experiments/percept-vision/export_images_abo.py --dir experiments/percept-vision-mv --limit 12000 --cap-per-article 200 --workers 32",
-    "translate": "~/.venvs/plataid-export/bin/python experiments/percept-vision/translate_titles.py --src experiments/percept-vision-mv/labels_en.jsonl --dir experiments/percept-vision-mv --domain ecommerce --max-seconds 5400",
+    "export": "~/.venvs/OICR-export/bin/python experiments/percept-vision/export_images_abo.py --dir experiments/percept-vision-mv --limit 12000 --cap-per-article 200 --workers 32",
+    "translate": "~/.venvs/OICR-export/bin/python experiments/percept-vision/translate_titles.py --src experiments/percept-vision-mv/labels_en.jsonl --dir experiments/percept-vision-mv --domain ecommerce --max-seconds 5400",
     "embed_os": "swiftc -O experiments/percept-vision/featureprint.swift -o /tmp/fp-mv && (cd experiments/percept-vision-mv && python3 -c \"import json,pathlib;pathlib.Path('list.txt').write_text('\\n'.join(json.loads(l)['file'] for l in open('labels.jsonl')))\" && /tmp/fp-mv images list.txt featureprints.bin)",
-    "embed_title": "cargo run --release -q -p plataid-fl-client --example embed_titles -- experiments/percept-vision-mv/labels.jsonl experiments/percept-vision-mv/title_vectors.bin",
-    "train_projection": "PERCEPT_DIR=experiments/percept-vision-mv ~/.venvs/plataid-export/bin/python experiments/percept-vision/train_projection_contrastive.py",
-    "score": "PERCEPT_DIR=experiments/percept-vision-mv cargo run --release -q -p plataid-fl-client --example tax_agreement"
+    "embed_title": "cargo run --release -q -p oicr-fl-client --example embed_titles -- experiments/percept-vision-mv/labels.jsonl experiments/percept-vision-mv/title_vectors.bin",
+    "train_projection": "PERCEPT_DIR=experiments/percept-vision-mv ~/.venvs/OICR-export/bin/python experiments/percept-vision/train_projection_contrastive.py",
+    "score": "PERCEPT_DIR=experiments/percept-vision-mv cargo run --release -q -p oicr-fl-client --example tax_agreement"
   },
   "code_changes": {
     "new_file": "experiments/percept-vision/export_images_abo.py (신규 — ABO 다버티컬 조인·캡·샘플 전용, percept-vision/-ko/-fashion-ko 산출물 무변경)",

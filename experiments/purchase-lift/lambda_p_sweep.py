@@ -111,7 +111,7 @@ def build_rows(cats: dict, cross: bool = False, lambdas: list[float] | None = No
 def run_sweep(rows: list[dict]) -> list[dict]:
     payload = "\n".join(json.dumps(r, ensure_ascii=False) for r in rows) + "\n"
     proc = subprocess.run(
-        ["cargo", "run", "--quiet", "--release", "-p", "plataid-sdk-core", "--example", "purchase_rank_sweep"],
+        ["cargo", "run", "--quiet", "--release", "-p", "oicr-sdk-core", "--example", "purchase_rank_sweep"],
         cwd=ROOT, input=payload, capture_output=True, text=True, timeout=300,
     )
     if proc.returncode != 0:

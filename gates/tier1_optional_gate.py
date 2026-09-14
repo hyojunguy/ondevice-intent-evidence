@@ -25,7 +25,7 @@ Tier 1 없는 기기에서는 그 칸이 0 으로 들어간다. 그러면:
 
 # 무엇을 판정하나
 
-1. **채널 선언 트립와이어.** `plataid_sdk_core::TIER1_RANKING_CHANNEL` 을 소스에서 읽는다.
+1. **채널 선언 트립와이어.** `oicr_sdk_core::TIER1_RANKING_CHANNEL` 을 소스에서 읽는다.
    `false` 면 랭킹 입력에 Tier 1 이 없다는 뜻이라 "없이도 도나"는 자명하게 참이다 —
    구조 검사(2·3)만 하고 통과한다. `true` 인데 두 팔 측정 결과가 없으면 **FAIL** 이다.
    ⛔ UNMEASURED 가 아니라 FAIL 인 이유: 채널이 있는데 검증이 없는 상태는 채널이 없는

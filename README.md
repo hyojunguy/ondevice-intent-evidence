@@ -2,7 +2,28 @@
 
 This repository holds the measurement artifacts and verification gates cited by the paper, so
 that every number in it can be traced to the file that produced it. It is an evidence bundle,
-not the product: the SDK crates, the category taxonomy and the model weights are not here.
+not the product and not the data: the SDK crates, the category taxonomy, the model weights and
+**every dataset** are absent.
+
+**No dataset here is redistributable, including our own.** The AI-Hub corpora are built under
+projects of Korea's National Information Society Agency, whose terms permit releasing trained
+models and weights but not data extracted or re-processed from the originals. Our own material is
+no freer: the Korean query set is a machine translation of Amazon ESCI queries, the taxonomy was
+harvested from commercial category trees, and the synthetic utterances were generated conditioned
+on both. So there are no corpus rows, no translated queries, no utterance lists, no leaf
+inventories and no quoted text anywhere in this repository. Where an analysis would have printed
+a list of terms, it reports a count.
+
+**What you can and cannot do with this.** You can audit every figure in the paper against its
+ledger entry and the sha256 in `artifacts/MANIFEST.json`, and read the exact code that produced
+it. You cannot regenerate those figures from this bundle alone — `run_all.py` reports
+`UNMEASURED` wherever an artifact is absent rather than inventing a verdict. Regenerating them
+means obtaining the sources independently, which for the AI-Hub figures means your own approved
+access.
+
+**Identifiers are neutralized.** Crate and namespace names in this published copy are rewritten
+to a vendor-neutral `oicr-*` by `sanitize_evidence_export.py`, and local absolute paths are
+replaced. The working tree uses internal names; nothing about the measurements changes.
 
 ## What is here
 
@@ -14,6 +35,7 @@ not the product: the SDK crates, the category taxonomy and the model weights are
 | `artifacts/ui-facts.json` | The generated fact sheet the demo UI reads, so screen and paper cannot drift apart. |
 | `experiments/distill-ko/` | Product-surface accuracy and the promotion-gate decision for the shipped build. |
 | `experiments/purchase-lift/` | The purchase-probability track: the degenerate-evaluation diagnosis, the second harness, the ablation, temporal generalization, the LightGBM comparison, and the λ_p sweep. |
+| `experiments/real-ko-commerce/` | The product surface measured against real Korean commerce text (AI-Hub datasets 71603, 102, 98): the category mapping we wrote, the harnesses, and aggregate results. Each accuracy sits beside a permutation baseline under the identical mapping, because a broad mapping makes a top-5 hit easy. Dataset 98 carries no per-utterance category, so it appears as lexical coverage only. |
 | `experiments/percept-vision*/`, `experiments/user-*/`, `experiments/real-ko-bench/`, `experiments/esci-ko/` | The remaining measured axes cited in the paper, including the negative results. |
 
 ## Reading the purchase-probability files in order

@@ -27,26 +27,26 @@ def load(lines: str, who: str):
 
 
 def run_gate() -> int:
-    native = run(["cargo", "run", "--quiet", "--release", "-p", "plataid-sdk-core",
+    native = run(["cargo", "run", "--quiet", "--release", "-p", "oicr-sdk-core",
                   "--example", "vectors"])
     if native.returncode != 0:
         return report("I1 parity", UNMEASURED,
                       ["네이티브 덤프 실패"] + (native.stderr or "").strip().splitlines()[-3:])
 
     js = ROOT / "gates" / "fixtures" / "dump_wasm_vectors.cjs"
-    if not (ROOT / "gates" / "fixtures" / "wasm-node" / "plataid_sdk_wasm.js").exists():
+    if not (ROOT / "gates" / "fixtures" / "wasm-node" / "oicr_sdk_wasm.js").exists():
         return report("I1 parity", UNMEASURED,
                       ["wasm(node) 바인딩이 없다",
                        "wasm-bindgen --target nodejs --out-dir gates/fixtures/wasm-node <wasm> 로 생성"])
     # ⛔ 낡은 node 바인딩은 "덤프 실패"라는 같은 증상으로 나타나므로 먼저 갈라 준다.
     #    바인딩이 wasm 바이너리보다 오래됐으면 그건 코어 버그가 아니라 빌드 누락이다.
-    binary = ROOT / "target/wasm32-unknown-unknown/release/plataid_sdk_wasm.wasm"
-    binding = ROOT / "gates/fixtures/wasm-node/plataid_sdk_wasm_bg.wasm"
+    binary = ROOT / "target/wasm32-unknown-unknown/release/oicr_sdk_wasm.wasm"
+    binding = ROOT / "gates/fixtures/wasm-node/oicr_sdk_wasm_bg.wasm"
     if binary.exists() and binding.exists() and binding.stat().st_mtime < binary.stat().st_mtime:
         return report("I1 parity", UNMEASURED,
                       ["node 바인딩이 wasm 바이너리보다 낡았다",
                        "wasm-bindgen --target nodejs --out-dir gates/fixtures/wasm-node "
-                       "target/wasm32-unknown-unknown/release/plataid_sdk_wasm.wasm"])
+                       "target/wasm32-unknown-unknown/release/oicr_sdk_wasm.wasm"])
     wasm = run(["node", str(js)])
     if wasm.returncode != 0:
         return report("I1 parity", UNMEASURED,

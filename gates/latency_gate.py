@@ -37,7 +37,7 @@ MATRIX_CACHE = ROOT / "artifacts" / "latency-matrix.json"
 
 def run_gate() -> int:
     cfg = BUDGETS["latency"]
-    r = run(["cargo", "run", "--quiet", "--release", "-p", "plataid-sdk-core",
+    r = run(["cargo", "run", "--quiet", "--release", "-p", "oicr-sdk-core",
              "--example", "latency", "--",
              "--chars", str(cfg["input_chars"]),
              "--catalog", str(cfg["catalog_size"]),
@@ -147,13 +147,13 @@ def build_matrix(dims: tuple[int, ...] = MATRIX_DIMS,
     cells: list[dict] = []
     for dim in dims:
         with _dim_override(dim):
-            b = run(["cargo", "build", "--quiet", "--release", "-p", "plataid-sdk-core",
+            b = run(["cargo", "build", "--quiet", "--release", "-p", "oicr-sdk-core",
                      "--example", "latency_matrix"])
             if b.returncode != 0:
                 cells.append({"dim": dim, "error": "빌드 실패: " + (b.stderr or "")[-800:]})
                 continue
             for bits in bits_list:
-                r = run(["cargo", "run", "--quiet", "--release", "-p", "plataid-sdk-core",
+                r = run(["cargo", "run", "--quiet", "--release", "-p", "oicr-sdk-core",
                          "--example", "latency_matrix", "--", "--bits", str(bits)])
                 if r.returncode != 0:
                     cells.append({"dim": dim, "bits": bits,
