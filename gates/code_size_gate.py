@@ -477,6 +477,12 @@ def run_gate(targets: list[str] | None = None) -> int:
     # ⛔ 캐시가 없으면 화면은 UNMEASURED 를 보여야 한다 — 0 이 아니다.
     (ROOT / "artifacts" / "code-size.json").write_text(
         json.dumps({"measuredBytes": measured, "worstBytes": worst,
+                    # ⛔ 타깃별 배포 페이로드 합계를 **코드가** 계산해 남긴다. 논문이
+                    #    L1+L2 를 본문에서 손으로 더하면 그 합계는 어느 원장에도 없고,
+                    #    cite_audit 이 "원장에서 못 찾은 수치" 로 잡는다(2026-09-15 실측).
+                    #    유도값이라도 인용될 값이면 원장에 있어야 한다.
+                    "payloadBytes": {t: l1 + b for t, b in sorted(measured.items())},
+                    "l1GzipBytes": l1, "payloadLimitBytes": total_limit,
                     "limitBytes": limit, "unmeasured": cfg.get("_unmeasured", []),
                     "unmeasuredProxy": unmeasured_proxy,
                     "promotedReal": promoted_real,

@@ -1,0 +1,204 @@
+{
+  "_measured_at": "2026-09-15T11:21:51",
+  "_protocol": "지연은 gates/latency_gate.py 와 동일한 Rust 함수(latency_probe::run), 같은 입력 길이(512자)·반복수(200)·워밍업. 검증 8종은 앱의 VerificationChecks 를 사람이 누르는 것과 같은 경로로 실행한다. 차이는 기기뿐이다.",
+  "budget_p95_ms": 20.0,
+  "devices": [
+    {
+      "_measured_at": "2026-09-15T11:21:51",
+      "grade": "citable",
+      "device": {
+        "udid": "00008101-000B59C622E0001E",
+        "name": null,
+        "os": null,
+        "hw_machine": "iPhone13,3",
+        "os_reported": "iOS 26.4.2",
+        "thermal_state": "0",
+        "low_power_mode": false
+      },
+      "latency": {
+        "p50_ms": 4.1536,
+        "p95_ms": 4.4307,
+        "p99_ms": 4.6336,
+        "max_ms": 4.6593,
+        "iterations": 200,
+        "input_chars": 512,
+        "catalog_size": 6020,
+        "taxonomy_leaves": 6020,
+        "device": "iPhone13,3",
+        "os": "iOS 26.4.2",
+        "thermal": "0",
+        "lowPower": false,
+        "p95_ms_min": 4.2144,
+        "p95_ms_max": 4.5215,
+        "p95_ms_all": [
+          4.2144,
+          4.2191,
+          4.2265,
+          4.4261,
+          4.4307,
+          4.4337,
+          4.4604,
+          4.5048,
+          4.5215
+        ],
+        "repeats": 9
+      },
+      "budget_p95_ms": 20.0,
+      "checks": [
+        {
+          "index": 0,
+          "title": "아티팩트 로드 (bin 크기 · dim)",
+          "passed": true,
+          "detail": "OICR_dim()=128 · 번들 아티팩트 11/11"
+        },
+        {
+          "index": 1,
+          "title": "임베딩 골든 패리티",
+          "passed": true,
+          "detail": "query=\"hello\" · max|Δ|=6.71e-08 (tolerance 0.0001, dim=128)"
+        },
+        {
+          "index": 2,
+          "title": "이미지 투영 골든 패리티",
+          "passed": true,
+          "detail": "probes=3 · 전체 max|Δ|=8.94e-08 (tolerance 1e-05)"
+        },
+        {
+          "index": 3,
+          "title": "임베딩 지연 벤치 (50회)",
+          "passed": true,
+          "detail": "n=50 · p50=0.02ms (예산 50ms 대비 0%) · p95=0.02ms"
+        },
+        {
+          "index": 4,
+          "title": "텍스트 → L2 top-5",
+          "passed": true,
+          "detail": "질의: \"무선 이어폰 추천해줘\""
+        },
+        {
+          "index": 5,
+          "title": "샘플 이미지 → Vision → 투영 → top-5",
+          "passed": true,
+          "detail": "1) Vision featureprint: revision=2 · elements=768 · 71.8ms"
+        },
+        {
+          "index": 6,
+          "title": "OpenRTB 2.6 요청 구조 (I4)",
+          "passed": true,
+          "detail": "요청 1503 B · 순위 5건 → 요청 생성 (전송 안 함)"
+        },
+        {
+          "index": 7,
+          "title": "구매 채널 동의 사다리 (v2)",
+          "passed": true,
+          "detail": "대상 리프: 무선이어폰 (cat-2438)"
+        }
+      ],
+      "checks_passed": 8,
+      "checks_total": 8,
+      "problems": [],
+      "verdict": "PASS",
+      "used_pct": 22.2
+    },
+    {
+      "_measured_at": "2026-09-15T11:20:42",
+      "grade": "citable",
+      "device": {
+        "udid": "00008120-001431311A78C01E",
+        "name": null,
+        "os": null,
+        "hw_machine": "iPhone15,3",
+        "os_reported": "iOS 26.6.2",
+        "thermal_state": "0",
+        "low_power_mode": false
+      },
+      "latency": {
+        "p50_ms": 3.579,
+        "p95_ms": 3.6699,
+        "p99_ms": 3.7817,
+        "max_ms": 4.0378,
+        "iterations": 200,
+        "input_chars": 512,
+        "catalog_size": 6020,
+        "taxonomy_leaves": 6020,
+        "device": "iPhone15,3",
+        "os": "iOS 26.6.2",
+        "thermal": "0",
+        "lowPower": false,
+        "p95_ms_min": 3.6226,
+        "p95_ms_max": 3.78,
+        "p95_ms_all": [
+          3.6226,
+          3.6344,
+          3.651,
+          3.6659,
+          3.6699,
+          3.6733,
+          3.6745,
+          3.6786,
+          3.78
+        ],
+        "repeats": 9
+      },
+      "budget_p95_ms": 20.0,
+      "checks": [
+        {
+          "index": 0,
+          "title": "아티팩트 로드 (bin 크기 · dim)",
+          "passed": true,
+          "detail": "OICR_dim()=128 · 번들 아티팩트 11/11"
+        },
+        {
+          "index": 1,
+          "title": "임베딩 골든 패리티",
+          "passed": true,
+          "detail": "query=\"hello\" · max|Δ|=6.71e-08 (tolerance 0.0001, dim=128)"
+        },
+        {
+          "index": 2,
+          "title": "이미지 투영 골든 패리티",
+          "passed": true,
+          "detail": "probes=3 · 전체 max|Δ|=8.94e-08 (tolerance 1e-05)"
+        },
+        {
+          "index": 3,
+          "title": "임베딩 지연 벤치 (50회)",
+          "passed": true,
+          "detail": "n=50 · p50=0.03ms (예산 50ms 대비 0%) · p95=0.07ms"
+        },
+        {
+          "index": 4,
+          "title": "텍스트 → L2 top-5",
+          "passed": true,
+          "detail": "질의: \"무선 이어폰 추천해줘\""
+        },
+        {
+          "index": 5,
+          "title": "샘플 이미지 → Vision → 투영 → top-5",
+          "passed": true,
+          "detail": "1) Vision featureprint: revision=2 · elements=768 · 84.3ms"
+        },
+        {
+          "index": 6,
+          "title": "OpenRTB 2.6 요청 구조 (I4)",
+          "passed": true,
+          "detail": "요청 1503 B · 순위 5건 → 요청 생성 (전송 안 함)"
+        },
+        {
+          "index": 7,
+          "title": "구매 채널 동의 사다리 (v2)",
+          "passed": true,
+          "detail": "대상 리프: 무선이어폰 (cat-2438)"
+        }
+      ],
+      "checks_passed": 8,
+      "checks_total": 8,
+      "problems": [],
+      "verdict": "PASS",
+      "used_pct": 18.3
+    }
+  ],
+  "devices_measured": 2,
+  "devices_total": 2,
+  "verdict": "PASS"
+}
