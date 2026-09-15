@@ -3,7 +3,8 @@
 
 ⛔ Tier 0 만 잰다. OS LLM(Tier 1)은 수백 ms 라 상시 경로가 아니고, 같이 재면 게이트가
    거짓말을 하게 된다(docs/spec/02-budgets.md).
-⛔ 여기서 재는 기기는 CI 기준선(개발 맥)이다. 보급형 Android 하한은 별도 실측이 필요하고,
+⛔ 여기서 재는 기기는 CI 기준선(개발 맥)이다. 실기기 수치는 scripts/ios/run_all.sh 가
+   artifacts/ios-suite.json 에 따로 남긴다. 저사양 모바일은 평가 대상이 아니고,
    그 전까지 "모바일에서 50ms"라고 인용하지 않는다.
 
 # (dim × bits) 참고 매트릭스 — PASS/FAIL 과 분리 (2026-08-28)
@@ -68,7 +69,8 @@ def run_gate() -> int:
         f" · 택소노미 리프 {m.get('taxonomy_leaves', '?')} · {m['iterations']}회",
         f"p50 {m['p50_ms']:.3f}ms · p95 {p95:.3f}ms · max {m.get('max_ms', float('nan')):.3f}ms",
         f"예산 {budget}ms · 사용률 {p95 / budget * 100:.1f}%",
-        "⚠️ 개발 맥 기준선이다. 보급형 Android 하한은 아직 미측정.",
+        "⚠️ 개발 맥 기준선이다. 실기기는 artifacts/ios-suite.json (iPhone 12 Pro · 14 Pro Max).",
+        "⚠️ 저사양 모바일은 평가하지 않았다 — 이 PASS 를 그 하드웨어 계층으로 외삽하지 마라.",
         "⚠️ 판정은 이 한 조합(현재 컴파일된 DIM · int8)에만 적용된다 — 아래 참고 매트릭스는",
         "   PASS/FAIL 과 무관하다.",
     ]
