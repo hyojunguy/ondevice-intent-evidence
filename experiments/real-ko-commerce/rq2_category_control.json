@@ -1,0 +1,330 @@
+{
+  "_what": "d = 1[teacher correct] - 1[dense-only correct], per query",
+  "_why": "헤드라인 상호작용에 §5.4 와 동일한 출처 카테고리 통제를 건다",
+  "n": 1174,
+  "n_categories": 20,
+  "teacher_top5": 0.7751,
+  "dense_top5": 0.73,
+  "gap_overall_pp": 4.51,
+  "gap_anchor_present_pp": 0.11,
+  "gap_anchor_absent_pp": 20.08,
+  "n_anchor_present": 915,
+  "n_anchor_absent": 259,
+  "ols": {
+    "no_fe": {
+      "anchor_pp": -19.97,
+      "p": 5.925e-08,
+      "ci_pp": [
+        -27.19,
+        -12.75
+      ],
+      "r2": 0.0352
+    },
+    "category_fe": {
+      "anchor_pp": -7.06,
+      "p_hc1": 0.1055,
+      "t_hc1": -1.619,
+      "t_cluster": -0.964,
+      "p_cluster_asym": 0.335,
+      "ci_cluster_pp": [
+        -21.42,
+        7.3
+      ],
+      "r2": 0.1244
+    },
+    "_note": "HC1 은 클러스터 20개에서 낙관적이다 — 아래 두 검정이 판정을 진다"
+  },
+  "stratified_permutation": {
+    "estimator": "category-size-weighted within-category difference in d",
+    "observed_pp": -8.57,
+    "categories_used": 20,
+    "categories_total": 20,
+    "null_mean_pp": -0.02,
+    "null_ci_pp": [
+      -8.75,
+      9.61
+    ],
+    "p_two_sided": 0.07,
+    "draws": 2000
+  },
+  "wild_cluster_bootstrap": {
+    "clusters": 20,
+    "weights": "Rademacher",
+    "imposed": "H0: anchor = 0",
+    "t_observed": -0.964,
+    "p_two_sided": 0.364,
+    "draws": 2000,
+    "_note": "클러스터 20개 — CGM(2008) 권고대로 H0 를 부과한 wild bootstrap"
+  },
+  "per_category": [
+    {
+      "cat": "생활/세제/세정/탈취제",
+      "n": 244,
+      "anchor_absent": 16,
+      "d_pp": 2.9
+    },
+    {
+      "cat": "패션/패션슈즈",
+      "n": 156,
+      "anchor_absent": 4,
+      "d_pp": -9.6
+    },
+    {
+      "cat": "패션/여성의류",
+      "n": 149,
+      "anchor_absent": 19,
+      "d_pp": -4.0
+    },
+    {
+      "cat": "IT기기/휴대폰/주변기기",
+      "n": 60,
+      "anchor_absent": 17,
+      "d_pp": 1.7
+    },
+    {
+      "cat": "패션/잡화",
+      "n": 60,
+      "anchor_absent": 8,
+      "d_pp": 5.0
+    },
+    {
+      "cat": "가전/계절가전",
+      "n": 59,
+      "anchor_absent": 52,
+      "d_pp": 59.3
+    },
+    {
+      "cat": "생활/청소/세탁용품",
+      "n": 51,
+      "anchor_absent": 3,
+      "d_pp": 13.7
+    },
+    {
+      "cat": "생활/위생용품",
+      "n": 47,
+      "anchor_absent": 1,
+      "d_pp": 4.3
+    },
+    {
+      "cat": "IT기기/자동차기기",
+      "n": 45,
+      "anchor_absent": 14,
+      "d_pp": -8.9
+    },
+    {
+      "cat": "가전/주방가전",
+      "n": 44,
+      "anchor_absent": 26,
+      "d_pp": 27.3
+    },
+    {
+      "cat": "생활/주방용품",
+      "n": 39,
+      "anchor_absent": 8,
+      "d_pp": 5.1
+    },
+    {
+      "cat": "IT기기/카메라/게임기/태블릿",
+      "n": 34,
+      "anchor_absent": 7,
+      "d_pp": 0.0
+    },
+    {
+      "cat": "가전/생활/미용/욕실가전",
+      "n": 29,
+      "anchor_absent": 14,
+      "d_pp": 27.6
+    },
+    {
+      "cat": "가전/영상/음향가전",
+      "n": 28,
+      "anchor_absent": 15,
+      "d_pp": 3.6
+    },
+    {
+      "cat": "패션/남성의류",
+      "n": 26,
+      "anchor_absent": 22,
+      "d_pp": 0.0
+    },
+    {
+      "cat": "화장품/헤어/바디케어",
+      "n": 25,
+      "anchor_absent": 5,
+      "d_pp": -4.0
+    },
+    {
+      "cat": "화장품/스킨케어",
+      "n": 24,
+      "anchor_absent": 8,
+      "d_pp": 0.0
+    },
+    {
+      "cat": "IT기기/컴퓨터/주변기기",
+      "n": 19,
+      "anchor_absent": 9,
+      "d_pp": 10.5
+    },
+    {
+      "cat": "화장품/남성화장품",
+      "n": 18,
+      "anchor_absent": 6,
+      "d_pp": 0.0
+    },
+    {
+      "cat": "화장품/메이크업/뷰티소품",
+      "n": 17,
+      "anchor_absent": 5,
+      "d_pp": -5.9
+    }
+  ],
+  "_power_note": "anchor-absent 총 259건이 20개 카테고리에 흩어진다 — 카테고리당 중앙값 9건. FE 추정은 이 안쪽 변이만 쓴다.",
+  "within_category_signs": {
+    "_what": "카테고리 안에서 d(anchor 있음) - d(anchor 없음). 음수 = anchor 없을 때 교사 이득이 더 큼",
+    "categories_with_5_each_side": 16,
+    "negative": 9,
+    "rows": [
+      {
+        "cat": "가전/계절가전",
+        "n_present": 7,
+        "n_absent": 52,
+        "within_diff_pp": -51.1
+      },
+      {
+        "cat": "패션/여성의류",
+        "n_present": 130,
+        "n_absent": 19,
+        "within_diff_pp": -40.8
+      },
+      {
+        "cat": "생활/주방용품",
+        "n_present": 31,
+        "n_absent": 8,
+        "within_diff_pp": -40.7
+      },
+      {
+        "cat": "생활/세제/세정/탈취제",
+        "n_present": 228,
+        "n_absent": 16,
+        "within_diff_pp": -30.4
+      },
+      {
+        "cat": "화장품/헤어/바디케어",
+        "n_present": 20,
+        "n_absent": 5,
+        "within_diff_pp": -30.0
+      },
+      {
+        "cat": "IT기기/컴퓨터/주변기기",
+        "n_present": 10,
+        "n_absent": 9,
+        "within_diff_pp": -22.2
+      },
+      {
+        "cat": "화장품/스킨케어",
+        "n_present": 16,
+        "n_absent": 8,
+        "within_diff_pp": -18.8
+      },
+      {
+        "cat": "화장품/메이크업/뷰티소품",
+        "n_present": 12,
+        "n_absent": 5,
+        "within_diff_pp": -8.3
+      },
+      {
+        "cat": "가전/생활/미용/욕실가전",
+        "n_present": 15,
+        "n_absent": 14,
+        "within_diff_pp": -1.9
+      },
+      {
+        "cat": "IT기기/카메라/게임기/태블릿",
+        "n_present": 27,
+        "n_absent": 7,
+        "within_diff_pp": 0.0
+      },
+      {
+        "cat": "화장품/남성화장품",
+        "n_present": 12,
+        "n_absent": 6,
+        "within_diff_pp": 0.0
+      },
+      {
+        "cat": "IT기기/자동차기기",
+        "n_present": 31,
+        "n_absent": 14,
+        "within_diff_pp": 18.2
+      },
+      {
+        "cat": "IT기기/휴대폰/주변기기",
+        "n_present": 43,
+        "n_absent": 17,
+        "within_diff_pp": 18.7
+      },
+      {
+        "cat": "가전/주방가전",
+        "n_present": 18,
+        "n_absent": 26,
+        "within_diff_pp": 19.7
+      },
+      {
+        "cat": "패션/잡화",
+        "n_present": 52,
+        "n_absent": 8,
+        "within_diff_pp": 20.2
+      },
+      {
+        "cat": "가전/영상/음향가전",
+        "n_present": 13,
+        "n_absent": 15,
+        "within_diff_pp": 22.1
+      }
+    ]
+  },
+  "by_domain_pool": {
+    "가전": {
+      "n": 160,
+      "n_anchor_present": 53,
+      "n_anchor_absent": 107,
+      "teacher_gain_present_pp": 26.42,
+      "teacher_gain_absent_pp": 39.25,
+      "raw_diff_pp": -12.84,
+      "within_category_diff_pp": -9.92,
+      "p_stratified_perm": 0.3105
+    },
+    "패션·화장품": {
+      "n": 475,
+      "n_anchor_present": 398,
+      "n_anchor_absent": 77,
+      "teacher_gain_present_pp": -6.53,
+      "teacher_gain_absent_pp": 7.79,
+      "raw_diff_pp": -14.32,
+      "within_category_diff_pp": -7.89,
+      "p_stratified_perm": 0.2315
+    },
+    "생활": {
+      "n": 381,
+      "n_anchor_present": 353,
+      "n_anchor_absent": 28,
+      "teacher_gain_present_pp": 3.12,
+      "teacher_gain_absent_pp": 25.0,
+      "raw_diff_pp": -21.88,
+      "within_category_diff_pp": -16.39,
+      "p_stratified_perm": 0.1225
+    },
+    "IT기기": {
+      "n": 158,
+      "n_anchor_present": 111,
+      "n_anchor_absent": 47,
+      "teacher_gain_present_pp": 1.8,
+      "teacher_gain_absent_pp": -6.38,
+      "raw_diff_pp": 8.18,
+      "within_category_diff_pp": 9.63,
+      "p_stratified_perm": 0.1905
+    }
+  },
+  "_wcb_caveat": "anchor 는 클러스터 수준 변수에 가깝다(계절가전 52/59 없음 · 패션슈즈 4/156 없음). MacKinnon & Webb (2018): 회귀변수가 클러스터 안에서 거의 안 변하면 wild cluster bootstrap 은 심하게 과소기각한다. p=0.36 은 판정 근거로 약하다.",
+  "_verdict": "ATTENUATED, NOT DISSOLVED — within-category estimate -8.57pp (p=0.07) keeps the sign at ~35% of the raw size; model code in §5.4 went to +0.20pp. Category and anchor coincide because appliance names lack category nouns, so category FE partly removes the mechanism, not only a confound.",
+  "_verdict_flag": "perm>=0.05 · wcb>=0.05"
+}

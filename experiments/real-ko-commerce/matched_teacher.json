@@ -1,0 +1,77 @@
+{
+  "_what": "teacher fine-tuned on the student's (utterance, leaf) contrastive pairs, same AI-Hub eval",
+  "_model": "jhgan/ko-sroberta-multitask",
+  "_device": "mps",
+  "n": 1174,
+  "matched": {
+    "epochs": 3,
+    "batch": 128,
+    "lr": 2e-05,
+    "temp": 0.05,
+    "max_len": 64,
+    "warmup": 0.1,
+    "seed": 20260829,
+    "pairs": 45859,
+    "loss_per_epoch": [
+      1.5284,
+      1.0178,
+      0.8519
+    ],
+    "seconds": 535.1,
+    "_deviations_from_student": "lr 2e-5 (vs 0.01 static table) · batch 128 (vs 1024) · epochs 3 (vs 10) · no Matryoshka"
+  },
+  "generic_teacher_top5": 0.7751,
+  "matched_teacher_top5": 0.8586,
+  "ci": [
+    0.8382,
+    0.8773
+  ],
+  "anchor_present": 0.9224,
+  "anchor_absent": 0.6332,
+  "paired_matched_minus_dense": {
+    "overall": {
+      "delta_pp": 12.86,
+      "ci_pp": [
+        10.65,
+        14.99
+      ]
+    },
+    "anchor_present": {
+      "delta_pp": 10.6,
+      "ci_pp": [
+        8.52,
+        12.9
+      ]
+    },
+    "anchor_absent": {
+      "delta_pp": 20.85,
+      "ci_pp": [
+        14.67,
+        26.65
+      ]
+    }
+  },
+  "paired_matched_minus_generic": {
+    "overall": {
+      "delta_pp": 8.35,
+      "ci_pp": [
+        6.22,
+        10.39
+      ]
+    },
+    "anchor_present": {
+      "delta_pp": 10.49,
+      "ci_pp": [
+        8.31,
+        12.68
+      ]
+    },
+    "anchor_absent": {
+      "delta_pp": 0.77,
+      "ci_pp": [
+        -5.02,
+        6.56
+      ]
+    }
+  }
+}

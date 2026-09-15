@@ -1,12 +1,14 @@
 {
   "measuredBytes": {
     "aarch64-apple-ios": 49603,
-    "aarch64-apple-darwin": 49979
+    "aarch64-apple-darwin": 49979,
+    "aarch64-linux-android": 65827
   },
-  "worstBytes": 49979,
+  "worstBytes": 65827,
   "payloadBytes": {
     "aarch64-apple-darwin": 2926804,
-    "aarch64-apple-ios": 2926428
+    "aarch64-apple-ios": 2926428,
+    "aarch64-linux-android": 2942652
   },
   "l1GzipBytes": 2876825,
   "payloadLimitBytes": 3145728,
@@ -15,7 +17,11 @@
     "aarch64-linux-android — 2026-08-28 NDK 설치 완료(brew cask android-ndk r29, ~/.cargo/config.toml 에 aarch64-linux-android24-clang 링커). 이 머신에서는 code_size_gate.py 가 실측(실제 링크)에 성공해 measuredBytes 로 자동 승격된다(실측 60,315B, 대리치 56,633B 대비 -6.1%). NDK 가 없는 다른 머신에서는 여전히 이 문자열이 UNMEASURED 로 표시되고 proxy 로 조용히 강등된다 — 그건 버그가 아니라 그 머신의 실제 측정 가능 범위다. 이 목록에서 지우지 마라: 승격 로직이 자동 재시도하는 자리다."
   ],
   "unmeasuredProxy": {},
-  "promotedReal": {},
+  "promotedReal": {
+    "aarch64-linux-android": {
+      "bytes": 65827
+    }
+  },
   "timedOut": {},
   "buildTimeoutSeconds": 180,
   "note": "링커가 남긴 네이티브 코드. FFI·플랫폼 훅·런타임 미포함 하한선. unmeasuredProxy 는 링크 안 된 대리치 — measuredBytes/worstBytes 와 다른 종류의 숫자이니 절대 같은 필드에 섞지 마라. promotedReal 은 이 실행에서 NDK 등으로 실측에 성공해 measuredBytes 로 승격된 타깃(이전엔 proxy 뿐이었음) — 다른 머신(NDK 없음)에서 재실행하면 다시 unmeasuredProxy 로 강등될 수 있다. 이는 버그가 아니라 그 머신의 실제 측정 가능 범위다."

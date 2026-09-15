@@ -1,0 +1,52 @@
+{
+  "_what": "Android 실기기 Tier-0 지연 실측 (sdk-core latency example, 같은 코드)",
+  "devices": [
+    {
+      "_measured_at": "2026-09-16T07:48:43",
+      "grade": "citable",
+      "device": {
+        "serial": "R9TWC0F48MA",
+        "manufacturer": "samsung",
+        "model": "SM-X210",
+        "android": "15",
+        "api": 35,
+        "soc": "SM6375",
+        "hardware": "qcom",
+        "abi": "arm64-v8a"
+      },
+      "latency": {
+        "p50_ms": 4.9907,
+        "p95_ms": 5.0799,
+        "p99_ms": 5.1359,
+        "max_ms": 5.2579,
+        "iterations": 200,
+        "input_chars": 512,
+        "catalog_size": 6020,
+        "taxonomy_leaves": 6020,
+        "catalog_requested": 6020,
+        "p95_ms_min": 5.0511,
+        "p95_ms_max": 5.658,
+        "p95_ms_all": [
+          5.0511,
+          5.0559,
+          5.0594,
+          5.0607,
+          5.0799,
+          5.0935,
+          5.1006,
+          5.1276,
+          5.658
+        ],
+        "repeats": 9
+      },
+      "budget_p95_ms": 20.0,
+      "checks": [],
+      "checks_passed": 0,
+      "checks_total": 0,
+      "_checks_note": "검증 8종은 verify-android APK 몫 — 이 레코드는 지연 축만 판정한다",
+      "problems": [],
+      "verdict": "PASS",
+      "used_pct": 25.4
+    }
+  ]
+}

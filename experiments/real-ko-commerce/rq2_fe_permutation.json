@@ -1,0 +1,15 @@
+{
+  "_what": "stratified permutation of the category-FE anchor coefficient (FWL)",
+  "n": 1174,
+  "categories": 20,
+  "draws": 100000,
+  "seed": 2027,
+  "beta_fe_pp": -7.06,
+  "p_two_sided": 0.0542,
+  "mc_se": 0.0007,
+  "null_pp_ci95": [
+    -7.06,
+    7.65
+  ],
+  "_pairs_with": "rq2_category_control.json ols.category_fe.anchor_pp (must match beta_fe_pp)"
+}
